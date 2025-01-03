@@ -8,5 +8,9 @@ namespace Dominio
 {
     public class Imagenes
     {
+        public int Id_Imagen {  get; set; }
+        public string Nombre { get; set; }
+        public bool Estado { get; set; }
+
     }
 }

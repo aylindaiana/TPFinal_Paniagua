@@ -11,7 +11,7 @@ namespace TPFinal_Paniagua
 {
 
 
-    public partial class _Default
+    public partial class Inicio
     {
     }
 }

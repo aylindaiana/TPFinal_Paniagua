@@ -1,0 +1,9 @@
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\bin\Debug\Manager.dll
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\bin\Debug\Manager.pdb
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\bin\Debug\Dominio.dll
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\bin\Debug\Dominio.pdb
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\obj\Debug\Manager.csproj.AssemblyReference.cache
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\obj\Debug\Manager.csproj.CoreCompileInputs.cache
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\obj\Debug\Manager.csproj.Up2Date
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\obj\Debug\Manager.dll
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Manager\obj\Debug\Manager.pdb

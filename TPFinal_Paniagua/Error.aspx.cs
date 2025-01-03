@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TPFinal_Paniagua
 {
-    public partial class _Default : Page
+    public partial class Error : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

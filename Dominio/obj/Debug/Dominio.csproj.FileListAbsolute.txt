@@ -1,0 +1,6 @@
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Dominio\bin\Debug\Dominio.dll
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Dominio\bin\Debug\Dominio.pdb
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Dominio\obj\Debug\Dominio.csproj.AssemblyReference.cache
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Dominio\obj\Debug\Dominio.csproj.CoreCompileInputs.cache
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Dominio\obj\Debug\Dominio.dll
+C:\Users\aapan\Downloads\TPFinal_Paniagua\Dominio\obj\Debug\Dominio.pdb
