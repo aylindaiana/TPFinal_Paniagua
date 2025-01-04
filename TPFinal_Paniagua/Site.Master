@@ -29,14 +29,51 @@
             background-color: #ff7f50;
         }
 
-        .navbar .navbar-brand,
+        .navbar .navbar-brand img {
+            border-radius: 50%;
+            background-color: #ffe4c4;
+        }
+
         .navbar .nav-link {
+            font-size: 1.1rem;
             color: white !important;
             font-weight: bold;
         }
 
         .navbar .nav-link:hover {
             color: #ffe4c4 !important;
+            text-decoration: underline;
+        }
+
+        .navbar .dropdown-menu {
+            background-color: #ffdab9;
+            border: none;
+        }
+
+        .navbar .dropdown-item {
+            color: #000 !important;
+        }
+
+        .navbar .dropdown-item:hover {
+            background-color: #ffe4c4;
+        }
+
+        .form-control {
+            border: 2px solid #ffe4c4;
+            background-color: #fff;
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-outline-light {
+            border: 2px solid white;
+            color: white;
+            background-color: transparent;
+        }
+
+        .btn-outline-light:hover {
+            background-color: white;
+            color: #ff7f50;
         }
 
         footer {
@@ -45,27 +82,71 @@
             text-align: center;
             padding: 1rem;
             font-size: 0.9rem;
+            font-family: 'Comic Sans MS', sans-serif;
         }
     </style>
 </head>
 <body>
     <form runat="server">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
+        <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/Inicio">Rose Vibes</a>
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Administrador/Navegacion">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Ingreso">Ingresar</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Registro">Registrarme</a></li>
+        
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Inicio">Inicio</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Productos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="productosDropdown">
+                                <li class="dropdown-item dropdown">
+                                    <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown">Categoría 1</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Tipo 1.1</a></li>
+                                        <li><a class="dropdown-item" href="#">Tipo 1.2</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-item dropdown">
+                                    <a class="dropdown-toggle" href="#" data-bs-toggle="dropdown">Categoría 2</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Tipo 2.1</a></li>
+                                        <li><a class="dropdown-item" href="#">Tipo 2.2</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Informacion">Sobre Nosotros</a>
+                        </li>
+                    </ul>
+
+                    <div class="navbar-brand mx-auto">
+                        <img src="ruta-del-logo.png" alt="Logo" style="height: 50px; width: auto;" />
+                    </div>
+
+                    <form class="d-flex align-items-center">
+                        <input class="form-control rounded-pill me-2" type="search" placeholder="¿Qué buscas?" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+
+
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Perfil"><i class="fas fa-user"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Carrito"><i class="fas fa-shopping-cart"></i></a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
+
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
