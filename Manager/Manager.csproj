@@ -43,6 +43,12 @@
   <ItemGroup>
     <Compile Include="AccesoDatos.cs" />
     <Compile Include="ArticuloManager.cs" />
+    <Compile Include="CarritoManager.cs" />
+    <Compile Include="CategoriaManager.cs" />
+    <Compile Include="DetalleManager.cs" />
+    <Compile Include="EmailService.cs" />
+    <Compile Include="RolesManager.cs" />
+    <Compile Include="TipoManager.cs" />
     <Compile Include="UsuarioManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

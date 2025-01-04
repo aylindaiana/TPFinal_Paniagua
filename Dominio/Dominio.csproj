@@ -47,6 +47,8 @@
     <Compile Include="DetalleCompra.cs" />
     <Compile Include="Imagenes.cs" />
     <Compile Include="Marca.cs" />
+    <Compile Include="Roles.cs" />
+    <Compile Include="Tipo.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

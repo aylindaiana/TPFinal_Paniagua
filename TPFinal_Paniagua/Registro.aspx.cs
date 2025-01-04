@@ -13,5 +13,8 @@ namespace TPFinal_Paniagua
         {
 
         }
+        protected void btnRegistrar_Click(object sender, EventArgs e)
+        {
+        }
     }
 }

@@ -1,10 +1,11 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="TPFinal_Paniagua.SiteMaster" %>
 
+
 <!DOCTYPE html>
 
 <html lang="es">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - Mi aplicación ASP.NET</title>
@@ -16,25 +17,51 @@
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
+    <style>
+        body {
+            background-color: #fefae0;
+            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none"><path fill="%23e4e2dc" d="M0 0h40v40H0z"/></svg>');
+            background-size: 40px 40px;
+            font-family: 'Comic Sans MS', sans-serif;
+        }
+
+        .navbar {
+            background-color: #ff7f50;
+        }
+
+        .navbar .navbar-brand,
+        .navbar .nav-link {
+            color: white !important;
+            font-weight: bold;
+        }
+
+        .navbar .nav-link:hover {
+            color: #ffe4c4 !important;
+        }
+
+        footer {
+            background-color: #ff7f50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
     <form runat="server">
-
-
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark"> <!--mi default-->
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
             <div class="container">
-
                 <a class="navbar-brand" runat="server" href="~/Inicio">Rose Vibes</a>
-
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Administrador/Navegacion">Inicio</a></li> <!--mi default-->
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Ingreso">Acerca de</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Registro">Contacto</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Administrador/Navegacion">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Ingreso">Ingresar</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Registro">Registrarme</a></li>
                     </ul>
                 </div>
             </div>
@@ -44,7 +71,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Rose Vibes </p>
+                <p>&copy; CopyRigth <%: DateTime.Now.Year %> - Rose Vibes</p>
             </footer>
         </div>
     </form>
