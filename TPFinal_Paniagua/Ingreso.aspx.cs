@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TPFinal_Paniagua
 {
-    public partial class About : Page
+    public partial class Ingreso : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,7 +24,7 @@ namespace TPFinal_Paniagua
                 lblSuccess.Visible = true;
                 lblSuccess.Text = "Iniciaste session correctamente!";
 
-                Response.Redirect("~/Inicio.aspx");
+                Response.Redirect("/Inicio.aspx");
             }
             else
             {

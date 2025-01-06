@@ -1,6 +1,5 @@
-﻿<%@ Page Title="About" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Ingreso.aspx.cs" Inherits="TPFinal_Paniagua.About" %>
-
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Ingreso.aspx.cs" Inherits="TPFinal_Paniagua.Ingreso" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <style>
         body {

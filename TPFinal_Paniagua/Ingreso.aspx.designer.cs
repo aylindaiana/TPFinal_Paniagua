@@ -11,7 +11,7 @@ namespace TPFinal_Paniagua
 {
 
 
-    public partial class About
+    public partial class Ingreso
     {
 
         /// <summary>

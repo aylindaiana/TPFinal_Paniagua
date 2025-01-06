@@ -10,7 +10,7 @@ namespace Dominio
     {
         public int Id_Tipo { get; set; }
         public string Nombre { get; set; }
-     //   public int Categoria_Id { get; set; }
+        public int Categoria_Id { get; set; }
         public Categoria Categoria { get; set; }
         public bool Estado { get; set; }
     }

@@ -15,7 +15,7 @@
     </asp:PlaceHolder>
 
     <webopt:bundlereference runat="server" path="~/Content/css" />
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/faviconRose.ico" rel="shortcut icon" type="image/x-icon" />
 
     <style>
         body {
@@ -123,15 +123,15 @@
                     </ul>
 
                     <div class="navbar-brand mx-auto">
-                        <img src="ruta-del-logo.png" alt="Logo" style="height: 50px; width: auto;" />
+                        <img src="/Img/LogoRoseVibes.JPEG" alt="Logo" style="height: 80px; width: auto;" />
                     </div>
 
-                    <form class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
                         <input class="form-control rounded-pill me-2" type="search" placeholder="¿Qué buscas?" aria-label="Search">
                         <button class="btn btn-outline-light" type="submit">
                             <i class="fas fa-search"></i>
                         </button>
-                    </form>
+                    </div>
 
 
                     <ul class="navbar-nav ms-3">
