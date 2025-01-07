@@ -7,20 +7,20 @@ GO
 
 CREATE TABLE Acceso (
   Id_Acceso INT IDENTITY(1,1) PRIMARY KEY,
-  Nombre VARCHAR(50) NOT NULL
+  Nombre VARCHAR(100) NOT NULL
 );
 GO
 
 CREATE TABLE Usuarios (
   Id_Usuario INT IDENTITY(1,1) PRIMARY KEY,
-  Nombre VARCHAR(50) NOT NULL,
-  Apellido VARCHAR(50) NOT NULL,
+  Nombre VARCHAR(100) NOT NULL,
+  Apellido VARCHAR(100) NOT NULL,
   Email VARCHAR(50) NOT NULL UNIQUE,
-  Contra VARCHAR(50) NOT NULL,
+  Contra VARCHAR(100) NOT NULL,
   Direccion VARCHAR(200),
+  Localidad VARCHAR(200), 
   Telefono VARCHAR(25),
-  Localidad VARCHAR(100), 
-  Fecha_nacimiento DATE,
+  FechaNacimiento DATE,
   AccesoId INT,
   Estado BIT DEFAULT 1,
   FOREIGN KEY (AccesoId) REFERENCES Acceso(Id_Acceso)

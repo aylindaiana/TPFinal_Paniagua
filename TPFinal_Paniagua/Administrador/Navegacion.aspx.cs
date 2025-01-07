@@ -23,6 +23,10 @@ namespace TPFinal_Paniagua.Administrador
                 btnUsuarios.Visible = true;
                 btnInforme.Visible = true;
             }
+            if (idAcceso == 2)
+            {
+                btnInforme.Visible = true;
+            }
             */
             if (!IsPostBack)
             {
