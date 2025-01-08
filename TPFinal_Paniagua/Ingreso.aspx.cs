@@ -17,7 +17,9 @@ namespace TPFinal_Paniagua
             {
                 Session.Clear();
                 Session.Abandon();
+
                 Session.RemoveAll();
+
                 Response.Redirect("~/Ingreso.aspx");
             }
         }

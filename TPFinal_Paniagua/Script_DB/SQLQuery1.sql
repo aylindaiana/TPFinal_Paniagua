@@ -26,6 +26,8 @@ CREATE TABLE Usuarios (
   FOREIGN KEY (AccesoId) REFERENCES Acceso(Id_Acceso)
 );
 GO
+select * from Usuarios
+SELECT Id_Usuario, Email, Contra, AccesoId, Estado FROM Usuarios Where Email = @Email AND Contra = @Contra AND Estado = '1'
 
 CREATE TABLE Categorias (
     Id_Categoria INT IDENTITY(1,1) PRIMARY KEY,

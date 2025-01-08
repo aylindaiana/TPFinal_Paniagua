@@ -11,28 +11,25 @@ namespace TPFinal_Paniagua.Administrador
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            /*
-            if (Session["AccesoId"] == null)
-            {
-                Response.Redirect("Ingreso.aspx");
-            }
-            int idAcceso = (int)Session["AccesoId"];
-
-            if (idAcceso == 1)
-            {
-                btnUsuarios.Visible = true;
-                btnInforme.Visible = true;
-            }
-            if (idAcceso == 2)
-            {
-                btnInforme.Visible = true;
-            }
-            */
             if (!IsPostBack)
             {
-                bool esAdministrador = true;
-                btnUsuarios.Visible = esAdministrador;
-                btnInforme.Visible = esAdministrador;
+                bool admin = true;
+
+                if (Session["AccesoId"] == null)
+                {
+                    Response.Redirect("Ingreso.aspx");
+                }
+                int idAcceso = (int)Session["AccesoId"];
+
+                if (idAcceso == 1)
+                {
+                    btnUsuarios.Visible = admin;
+                    btnInforme.Visible = admin;
+                }
+                if (idAcceso == 2)
+                {
+                    btnInforme.Visible = admin;
+                }
             }
         }
         protected void btnUsuarios_Click(object sender, EventArgs e)
