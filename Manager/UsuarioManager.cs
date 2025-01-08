@@ -52,7 +52,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, Fecha_nacimiento, AccesoId, Estado FROM Usuarios");
+                datos.SetearConsulta("SELECT Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, FechaNacimiento, AccesoId, Estado FROM Usuarios");
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
@@ -60,7 +60,8 @@ namespace Manager
                     Usuario aux = new Usuario();
 
                     aux.Id_Usuario = (int)datos.Lector["Id_Usuario"];
-                    aux.Nombre = (string)datos.Lector["nombre"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Email = (string)datos.Lector["Email"];
                     aux.Pass = (string)datos.Lector["Contra"];
                     aux.Direccion = (string)datos.Lector["Direccion"];
@@ -74,6 +75,146 @@ namespace Manager
                 }
 
                 return list;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+        
+        public void Agregar(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("INSERT INTO Usuarios (AccesoId, Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, Fecha_nacimiento, Estado) VALUES (@IdAcceso, @Nombre, @Apellido, @Email, @Pass, @Direccion, @Telefono, @Localidad, @FechaNacimiento, 1)");
+                datos.SetearParametro("@AccesoId", usuario.IdAcceso);
+                datos.SetearParametro("@Nombre", usuario.Nombre);
+                datos.SetearParametro("@Apellido", usuario.Apellido);
+                datos.SetearParametro("@Email", usuario.Email);
+                datos.SetearParametro("@Pass", usuario.Pass);
+                datos.SetearParametro("@Direccion", usuario.Direccion);
+                datos.SetearParametro("@Telefono", usuario.Telefono);
+                datos.SetearParametro("@Localidad", usuario.Localidad);
+                datos.SetearParametro("@FechaNacimiento", usuario.FechaNacimiento);
+                datos.EjecutarLectura();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void Modificar(Usuario usuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Email = @Email, Contra = @Pass, Direccion = @Direccion, Telefono = @Telefono, Localidad = @Localidad, FechaNacimiento = @FechaNacimiento, AccesoId = @IdAcceso WHERE Id_Usuario = @Id_Usuario");
+                datos.SetearParametro("@AccesoId", usuario.IdAcceso);
+                datos.SetearParametro("@Id_Usuario", usuario.Id_Usuario);
+                datos.SetearParametro("@Nombre", usuario.Nombre);
+                datos.SetearParametro("@Apellido", usuario.Apellido);
+                datos.SetearParametro("@Email", usuario.Email);
+                datos.SetearParametro("@Contra", usuario.Pass);
+                datos.SetearParametro("@Direccion", usuario.Direccion);
+                datos.SetearParametro("@Telefono", usuario.Telefono);
+                datos.SetearParametro("@Localidad", usuario.Localidad);
+                datos.SetearParametro("@FechaNacimiento", usuario.FechaNacimiento);
+                datos.EjecutarLectura();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void Desactivar(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("UPDATE Usuarios SET Estado = 0 WHERE Id_Usuario = @Id_Usuario");
+                datos.SetearParametro("@Id_Usuario", idUsuario);
+                datos.EjecutarLectura();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void Reactivar(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("UPDATE Usuarios SET Estado = 1 WHERE Id_Usuario = @Id_Usuario");
+                datos.SetearParametro("@Id_Usuario", idUsuario);
+                datos.EjecutarLectura();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public Usuario BuscarPorId(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            Usuario aux = new Usuario();
+            try
+            {
+                datos.SetearConsulta("SELECT Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, FechaNacimiento, Estado, AccesoId FROM Usuarios WHERE Id_Usuario = @Id_Usuario");
+                datos.SetearParametro("@Id_Usuario", idUsuario);
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    aux.Id_Usuario = (int)datos.Lector["Id_Usuario"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Email = (string)datos.Lector["Email"];
+                    aux.Pass = (string)datos.Lector["Contra"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Telefono = (string)datos.Lector["Telefono"];
+                    aux.Localidad = (string)datos.Lector["Localidad"];
+                    aux.FechaNacimiento = (DateTime)datos.Lector["FechaNacimiento"];
+                    aux.Estado = (bool)datos.Lector["Estado"];
+                    aux.IdAcceso = (int)datos.Lector["AccesoId"];    
+                }
+
+                return aux;
+
             }
             catch (Exception ex)
             {
