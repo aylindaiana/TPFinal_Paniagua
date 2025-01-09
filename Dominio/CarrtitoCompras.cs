@@ -12,6 +12,6 @@ namespace Dominio
         public int Cantidad { get; set; }
         public decimal Precio_Total { get; set; }
         public DateTime FechaActual { get; set; }
-        public Usuario usuario { get; set; }
+        public int UsuarioId { get; set; }
     }
 }

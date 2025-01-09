@@ -15,10 +15,8 @@ namespace Dominio
         public List<string> ImagenURL { get; set; }
         public int Stock {  get; set; }
         public decimal Precio { get; set; }
-        public int Categoria_Id { get; set; }
-        public int Tipo_Id { get; set; }
-        public Categoria Categoria { get; set; }
-        public Tipo Tipo { get; set; }
+        public int CategoriaId { get; set; }
+        public int TipoId { get; set; }
         public bool Estado { get; set; }
     }
 }
