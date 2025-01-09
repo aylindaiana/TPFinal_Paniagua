@@ -26,8 +26,12 @@ CREATE TABLE Usuarios (
   FOREIGN KEY (AccesoId) REFERENCES Acceso(Id_Acceso)
 );
 GO
-select * from Usuarios
-SELECT Id_Usuario, Email, Contra, AccesoId, Estado FROM Usuarios Where Email = @Email AND Contra = @Contra AND Estado = '1'
+--SELECT * FROM Usuarios
+--SELECT Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, FechaNacimiento, AccesoId, Estado FROM Usuarios
+--INSERT INTO Usuarios (AccesoId, Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, Fecha_nacimiento, Estado) VALUES (@IdAcceso, @Nombre, @Apellido, @Email, @Pass, @Direccion, @Telefono, @Localidad, @FechaNacimiento, 1)
+--UPDATE Usuarios SET Nombre = @Nombre, Email = @Email, Contra = @Pass, Direccion = @Direccion, Telefono = @Telefono, Localidad = @Localidad, FechaNacimiento = @FechaNacimiento, AccesoId = @IdAcceso WHERE Id_Usuario = @Id_Usuario
+--UPDATE Usuarios SET Estado = 0 WHERE Id_Usuario = @Id_Usuario
+--SELECT Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, FechaNacimiento, Estado, AccesoId FROM Usuarios WHERE Id_Usuario = @Id_Usuario
 
 CREATE TABLE Categorias (
     Id_Categoria INT IDENTITY(1,1) PRIMARY KEY,
@@ -117,6 +121,7 @@ CREATE TABLE Detalle_x_Articulos (
 );
 GO
 
+-------------------------------- INGRESO DE DATOS -----------------------------------
 INSERT INTO Acceso (Nombre) VALUES ('Administrador'), ('Empleado'), ('Cliente');
 GO
 
@@ -211,3 +216,28 @@ VALUES
 (3, 9, 1, 160.00); -- Pedro
 GO
 
+-------------------PROCEDIMIENTOS ALMACENADOS ------------------
+
+--AREA ARTICULOS
+CREATE PROCEDURE sp_ListarArticulos            
+AS
+BEGIN
+    SELECT 
+        A.Id_Articulo,
+        A.Nombre AS NombreArticulo,
+        A.Descripcion,
+        A.Precio,
+        A.Stock,
+        C.Nombre AS NombreCategoria,
+        T.Nombre AS NombreTipo,
+        A.Estado
+    FROM 
+        Articulos A
+    INNER JOIN 
+        Categorias C ON A.CategoriaId = C.Id_Categoria
+    INNER JOIN 
+        Tipos T ON A.TipoId = T.Id_Tipo
+    ORDER BY 
+        A.Nombre
+END;
+GO
