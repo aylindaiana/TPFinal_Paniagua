@@ -23,7 +23,8 @@
 
     <style>
         body {
-            background-color: #fefae0;
+           /* background-color: #fefae0; */
+            backdrop-color: #FF7F50;
             background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none"><path fill="%23e4e2dc" d="M0 0h40v40H0z"/></svg>');
             background-size: 40px 40px;
             font-family: 'Comic Sans MS', sans-serif;
@@ -139,7 +140,7 @@
                             <a class="nav-link dropdown-toggle text-white" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Productos
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" aria-labelledby="productosDropdown">
                                 <li><a class="dropdown-item" href="#">Categoría 1</a></li>
                                 <li><a class="dropdown-item" href="#">Categoría 2</a></li>
                             </ul>
@@ -201,6 +202,7 @@
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-qgFYg6LNpdeHNHixCkDRQmQXHCl1Hgg8w4+R1K3zJp4Sk4S5JAY3A7v75w7eY45N" crossorigin="anonymous"></script>
 </body>
 
 </html>

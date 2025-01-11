@@ -3,7 +3,7 @@
 
     <style>
         body {
-            background-color: #fffdf5;
+            background-color: #FF7F50;
             background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none"><path fill="%23e4e2dc" d="M0 0h40v40H0z"/></svg>');
             background-size: 40px 40px;
         }

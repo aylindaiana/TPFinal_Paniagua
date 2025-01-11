@@ -92,12 +92,12 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("INSERT INTO Usuarios (AccesoId, Id_Usuario, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, Fecha_nacimiento, Estado) VALUES (@IdAcceso, @Nombre, @Apellido, @Email, @Pass, @Direccion, @Telefono, @Localidad, @FechaNacimiento, 1)");
+                datos.SetearConsulta("INSERT INTO Usuarios (AccesoId, Nombre, Apellido, Email, Contra, Direccion, Telefono, Localidad, FechaNacimiento, Estado) VALUES (@AccesoId, @Nombre, @Apellido, @Email, @Contra, @Direccion, @Telefono, @Localidad, @FechaNacimiento, 1)");
                 datos.SetearParametro("@AccesoId", usuario.IdAcceso);
                 datos.SetearParametro("@Nombre", usuario.Nombre);
                 datos.SetearParametro("@Apellido", usuario.Apellido);
                 datos.SetearParametro("@Email", usuario.Email);
-                datos.SetearParametro("@Pass", usuario.Pass);
+                datos.SetearParametro("@Contra", usuario.Pass);
                 datos.SetearParametro("@Direccion", usuario.Direccion);
                 datos.SetearParametro("@Telefono", usuario.Telefono);
                 datos.SetearParametro("@Localidad", usuario.Localidad);
@@ -121,7 +121,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Email = @Email, Contra = @Pass, Direccion = @Direccion, Telefono = @Telefono, Localidad = @Localidad, FechaNacimiento = @FechaNacimiento, AccesoId = @IdAcceso WHERE Id_Usuario = @Id_Usuario");
+                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Apellido= @Apellido, Email = @Email, Contra = @Contra, Direccion = @Direccion, Telefono = @Telefono, Localidad = @Localidad, FechaNacimiento = @FechaNacimiento, Estado= @Estado WHERE Id_Usuario = @Id_Usuario AND AccesoId = @AccesoId");
                 datos.SetearParametro("@AccesoId", usuario.IdAcceso);
                 datos.SetearParametro("@Id_Usuario", usuario.Id_Usuario);
                 datos.SetearParametro("@Nombre", usuario.Nombre);
@@ -132,7 +132,9 @@ namespace Manager
                 datos.SetearParametro("@Telefono", usuario.Telefono);
                 datos.SetearParametro("@Localidad", usuario.Localidad);
                 datos.SetearParametro("@FechaNacimiento", usuario.FechaNacimiento);
-                datos.EjecutarLectura();
+                datos.SetearParametro("@Estado", 1);
+
+                datos.ejecutarAccion();
 
             }
             catch (Exception ex)
@@ -229,3 +231,5 @@ namespace Manager
 
     }
 }
+
+

@@ -34,6 +34,7 @@ namespace TPFinal_Paniagua
                 usuario.Nombre = txtNombre.Text;
                 usuario.Apellido = txtApellido.Text;
                 usuario.Email = txtEmail.Text;
+                usuario.Pass = txtPassword.Text;
                 usuario.FechaNacimiento = DateTime.Parse(txtFechaNacimiento.Text);
                 usuario.Direccion = txtDireccion.Text;
                 usuario.Localidad = txtLocalidad.Text;
@@ -63,6 +64,7 @@ namespace TPFinal_Paniagua
             }
         }
 
+        //Funciones:
         private string ValidarFormulario()
         {
             StringBuilder errores = new StringBuilder();
@@ -76,14 +78,18 @@ namespace TPFinal_Paniagua
                 errores.AppendLine("El apellido es obligatorio.<br/>");
             }
             if (string.IsNullOrWhiteSpace(txtFechaNacimiento.Text) ||
-                !DateTime.TryParse(txtFechaNacimiento.Text, out DateTime fechaNacimiento) ||
-                fechaNacimiento > DateTime.Now)
+                !DateTime.TryParse(txtFechaNacimiento.Text, out DateTime FechaNacimiento) ||
+                FechaNacimiento > DateTime.Now)
             {
                 errores.AppendLine("La fecha de nacimiento no es válida o es una fecha futura.<br/>");
             }
             if (string.IsNullOrWhiteSpace(txtEmail.Text) || !txtEmail.Text.Contains("@"))
             {
                 errores.AppendLine("El email no tiene un formato válido.<br/>");
+            }
+            if(string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                errores.AppendLine("Debe agregar una contraseña.<br/>");
             }
 
             if (txtPassword.Text != txtConfirmacionPassword.Text)
