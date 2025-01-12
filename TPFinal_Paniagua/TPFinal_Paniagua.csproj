@@ -99,6 +99,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Administrador\AdminUsuarios.aspx" />
     <Content Include="Administrador\Articulos.aspx" />
     <Content Include="Administrador\Categorias.aspx" />
     <Content Include="Administrador\CompraDetallada.aspx" />
@@ -196,6 +197,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Administrador\AdminUsuarios.aspx.cs">
+      <DependentUpon>AdminUsuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\AdminUsuarios.aspx.designer.cs">
+      <DependentUpon>AdminUsuarios.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Administrador\Articulos.aspx.cs">
       <DependentUpon>Articulos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
