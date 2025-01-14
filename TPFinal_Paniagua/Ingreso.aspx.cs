@@ -67,6 +67,11 @@ namespace TPFinal_Paniagua
                 Response.Redirect("Error.aspx");
             }
         }
-
+        //other:
+        /*
+         *         <div class="login-links">
+            <a href="/RecuperarPass.aspx">¿Olvidaste la contraseña?</a> 
+        </div> <br />
+         */
     }
 }

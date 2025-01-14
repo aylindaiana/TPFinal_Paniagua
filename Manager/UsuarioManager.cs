@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Manager
@@ -86,7 +87,7 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
-        
+
         public void Agregar(Usuario usuario)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -190,7 +191,7 @@ namespace Manager
             }
         }
 
-        public Usuario BuscarPorId(int idUsuario)
+        public Usuario ObtenerUsuarioPorId(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
             Usuario aux = new Usuario();
@@ -216,6 +217,61 @@ namespace Manager
                 }
 
                 return aux;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public bool VerificarEmail(string mail )
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) FROM Usuarios WHERE Email = @Email AND Estado = 1");
+                datos.SetearParametro("@Email", mail);
+                datos.ejecutarEscalar();
+
+                while(datos.Lector.Read())
+                {
+                    int aux = (int)datos.Lector[0];
+                    return aux > 0;
+                }
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public string RecuperarContra(string mail)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT Contra FROM Usuarios WHERE Email = @Email AND Estado = 1");
+                datos.SetearParametro("@Email", mail);
+                datos.ejecutarEscalar();
+
+                while (datos.Lector.Read())
+                {
+                    return datos.Lector["Contra"].ToString();
+                }
+                return null;
 
             }
             catch (Exception ex)

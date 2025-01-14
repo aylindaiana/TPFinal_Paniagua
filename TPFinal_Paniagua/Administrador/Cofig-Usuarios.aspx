@@ -81,12 +81,11 @@
                 <asp:TextBox runat="server" ID="txtApellido" CssClass="form-control" placeholder="Apellido" />
             </div>
             <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtCorreo" CssClass="form-control" placeholder="Correo" />
+                <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" placeholder="Correo" />
             </div>
             <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtClave" CssClass="form-control" placeholder="Clave" TextMode="Password" />
+                <asp:TextBox runat="server" ID="txtPassword" CssClass="form-control" placeholder="Contraseña" />            </div>
             </div>
-        </div>
         <div class="row">
             <div class="col-md-6 mb-3">
                 <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" placeholder="Teléfono" />
@@ -114,6 +113,6 @@
             <asp:Button Text="Deshabilitar" ID="btnDeshabilitar" CssClass="btn btn-custom" OnClick="btnDeshabilitar_Click" runat="server" />
         </div>
 
-        <asp:Label ID="lblMenjsaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+        <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
     </div>
 </asp:Content>

@@ -45,7 +45,7 @@ namespace TPFinal_Paniagua.Administrador
         }
         protected void btnVolver_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/Administrador/Navegacion.aspx");
+            Response.Redirect("~/Inicio.aspx");
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
