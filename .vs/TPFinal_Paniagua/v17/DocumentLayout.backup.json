@@ -3,23 +3,31 @@
   "WorkspaceRootPath": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|c:\\users\\aapan\\downloads\\tpfinal_paniagua\\tpfinal_paniagua\\administrador\\usuariosgeneral.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\administrador\\usuariosgeneral.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|c:\\users\\aapan\\downloads\\tpfinal_paniagua\\tpfinal_paniagua\\administrador\\usuariosgeneral.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\administrador\\usuariosgeneral.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|c:\\users\\aapan\\downloads\\tpfinal_paniagua\\tpfinal_paniagua\\administrador\\usuariosgeneral.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\administrador\\usuariosgeneral.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|c:\\users\\aapan\\downloads\\tpfinal_paniagua\\tpfinal_paniagua\\administrador\\cofig-usuarios.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\administrador\\cofig-usuarios.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|c:\\users\\aapan\\downloads\\tpfinal_paniagua\\tpfinal_paniagua\\administrador\\navegacion.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\administrador\\navegacion.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|c:\\users\\aapan\\downloads\\tpfinal_paniagua\\tpfinal_paniagua\\administrador\\cofig-usuarios.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\administrador\\cofig-usuarios.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B5F0926D-CE1D-43CF-B549-C793DBA5606A}|Manager\\Manager.csproj|C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\manager\\usuariomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B5F0926D-CE1D-43CF-B549-C793DBA5606A}|Manager\\Manager.csproj|solutionrelative:manager\\usuariomanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\tpfinal_paniagua\\perfil.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\perfil.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|c:\\users\\aapan\\downloads\\tpfinal_paniagua\\tpfinal_paniagua\\perfil.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "AbsoluteMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\tpfinal_paniagua\\perfil.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{22540166-87DC-4233-B6DC-647CD633CA38}|TPFinal_Paniagua\\TPFinal_Paniagua.csproj|solutionrelative:tpfinal_paniagua\\perfil.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
@@ -34,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,59 +50,85 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "UsuariosGeneral.aspx",
               "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx",
               "RelativeDocumentMoniker": "TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx",
-              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx*",
-              "RelativeToolTip": "TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx*",
+              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx",
+              "RelativeToolTip": "TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-01-12T02:06:40.766Z",
+              "WhenOpened": "2025-01-14T01:24:30.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UsuariosGeneral.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
+              "RelativeDocumentMoniker": "TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
+              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
+              "RelativeToolTip": "TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwDQAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-14T01:24:36.669Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Perfil.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Perfil.aspx.cs",
-              "RelativeDocumentMoniker": "TPFinal_Paniagua\\Perfil.aspx.cs",
-              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Perfil.aspx.cs",
-              "RelativeToolTip": "TPFinal_Paniagua\\Perfil.aspx.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAADgvz0AAAAAAAAAAAAAAA==",
+              "Title": "Navegacion.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\Navegacion.aspx.cs",
+              "RelativeDocumentMoniker": "TPFinal_Paniagua\\Administrador\\Navegacion.aspx.cs",
+              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\Navegacion.aspx.cs",
+              "RelativeToolTip": "TPFinal_Paniagua\\Administrador\\Navegacion.aspx.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACQAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-10T23:24:12.832Z",
+              "WhenOpened": "2025-01-14T00:17:45.016Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Cofig-Usuarios.aspx",
+              "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx",
+              "RelativeDocumentMoniker": "TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx",
+              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx",
+              "RelativeToolTip": "TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-01-13T00:58:18.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "UsuarioManager.cs",
               "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\Manager\\UsuarioManager.cs",
               "RelativeDocumentMoniker": "Manager\\UsuarioManager.cs",
               "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\Manager\\UsuarioManager.cs",
               "RelativeToolTip": "Manager\\UsuarioManager.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAADwv+sAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAUwJsAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-10T22:07:53.674Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UsuariosGeneral.aspx.cs",
-              "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
-              "RelativeDocumentMoniker": "TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
-              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
-              "RelativeToolTip": "TPFinal_Paniagua\\Administrador\\UsuariosGeneral.aspx.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAArAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Cofig-Usuarios.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx.cs",
+              "RelativeDocumentMoniker": "TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx.cs",
+              "ToolTip": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx.cs",
+              "RelativeToolTip": "TPFinal_Paniagua\\Administrador\\Cofig-Usuarios.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-12T02:10:30.6Z",
+              "WhenOpened": "2025-01-13T19:11:23.426Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Perfil.aspx",
               "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Perfil.aspx",
               "RelativeDocumentMoniker": "TPFinal_Paniagua\\Perfil.aspx",
@@ -102,12 +136,11 @@
               "RelativeToolTip": "TPFinal_Paniagua\\Perfil.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-01-10T23:05:26.098Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-10T23:05:26.098Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Ingreso.aspx",
               "DocumentMoniker": "C:\\Users\\aapan\\Downloads\\TPFinal_Paniagua\\TPFinal_Paniagua\\Ingreso.aspx",
               "RelativeDocumentMoniker": "TPFinal_Paniagua\\Ingreso.aspx",

@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using Manager;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,34 +19,38 @@ namespace TPFinal_Paniagua.Administrador
         {
             if (!IsPostBack)
             {
-                CargarUsuarios();
+                // CargarUsuarios();
+                UsuarioManager manager = new UsuarioManager();
+                Session.Add("listarUsuarios", manager.Listar());
+                dgvUsuarios.DataSource = Session["listarUsuarios"];
+                dgvUsuarios.DataBind();
             }
         }
-        protected void txtBuscar_TextChanged(object sender, EventArgs e)
+        protected void btnBuscarTodos_Click(object sender, EventArgs e)
         {
-            string filtro = txtBuscar.Text;
-            List<Usuario> lista = manager.Listar();
-            lista = lista.Where(u => u.Nombre.Contains(filtro) || u.Email.Contains(filtro)).ToList();
-            dgvUsuarios.DataSource = lista;
+            
+            List<Usuario> listar = (List<Usuario>)Session["listarUsuarios"];
+            List<Usuario> buscarlist = listar.FindAll(x => x.Nombre.ToUpper().Contains(txtBuscar.Text.ToUpper()) || x.Apellido.ToUpper().Contains(txtBuscar.Text.ToUpper()) );
+            dgvUsuarios.DataSource = buscarlist;
             dgvUsuarios.DataBind();
-
+            txtBuscar.Text = string.Empty;
         }
 
         protected void dgvUsuarios_SelectedIndexChanged(object sender, EventArgs e)
         {
             string id = dgvUsuarios.SelectedDataKey.Value.ToString();
 
-            Response.Redirect("/AdminUsuarios.aspx?id=" + id);
+            Response.Redirect("~/Administrador/Cofig-Usuarios.aspx?id=" + id);
 
         }
         protected void btnVolver_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/AdministracionGeneral.aspx");
+            Response.Redirect("~/Administrador/Navegacion.aspx");
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/AdminUsuarios.aspx");
+            Response.Redirect("~/Administrador/Cofig-Usuarios.aspx");
         }
 
         //Funciones:

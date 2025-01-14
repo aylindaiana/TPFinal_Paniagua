@@ -104,7 +104,8 @@
     <h1>ADMINISTRAR USUARIOS</h1>
 
     <div class="search-box">
-        <asp:TextBox ID="txtBuscar" CssClass="form-control" runat="server" placeholder="Buscador"  AutoPostBack="true" OnTextChanged="txtBuscar_TextChanged"></asp:TextBox>
+        <asp:TextBox ID="txtBuscar" CssClass="form-control" runat="server" placeholder="Buscador"  ></asp:TextBox>
+        <asp:Button ID="btnBuscarTodos" CssClass="btn btn-custom" runat="server" Text="Buscar" OnClick="btnBuscarTodos_Click" />
     </div>
 
     <asp:UpdatePanel runat="server">
