@@ -132,6 +132,7 @@
     <Content Include="Ingreso.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="Perfil.aspx" />
+    <Content Include="Productos.aspx" />
     <Content Include="RecuperarPass.aspx" />
     <Content Include="Registro.aspx" />
     <Content Include="Salida.aspx" />
@@ -299,6 +300,13 @@
     </Compile>
     <Compile Include="Perfil.aspx.designer.cs">
       <DependentUpon>Perfil.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Productos.aspx.cs">
+      <DependentUpon>Productos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Productos.aspx.designer.cs">
+      <DependentUpon>Productos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecuperarPass.aspx.cs">
