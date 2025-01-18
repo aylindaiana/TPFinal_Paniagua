@@ -136,15 +136,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/Inicio">Inicio</a>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Productos
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                                <li><a class="dropdown-item" href="#">Categoría 1</a></li>
-                                <li><a class="dropdown-item" href="#">Categoría 2</a></li>
+                                <li><a class="dropdown-item" href="/Productos.aspx">Categorias</a></li>
+                                <li><a class="dropdown-item" href="/DetalleProducto">Tipos</a></li>
                             </ul>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-white" href="/RecuperarPass">Cambiar Contraseña</a>
                         </li>
@@ -203,6 +205,9 @@
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-qgFYg6LNpdeHNHixCkDRQmQXHCl1Hgg8w4+R1K3zJp4Sk4S5JAY3A7v75w7eY45N" crossorigin="anonymous"></script>
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

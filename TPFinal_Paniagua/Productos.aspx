@@ -146,28 +146,34 @@
         <div class="products">
             <div class="products-grid">
                 <!-- Producto ejemplo -->
-                <div class="product-card">
-                    <img src="ruta-imagen1.jpg" alt="Conjunto Kira" class="product-image" />
-                    <div class="product-details">
-                        <div class="product-name">Conjunto Kira</div>
-                        <div class="product-price">$37,500.00</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <img src="ruta-imagen2.jpg" alt="Vestido Lisboa" class="product-image" />
-                    <div class="product-details">
-                        <div class="product-name">Vestido Lisboa</div>
-                        <div class="product-price">$22,500.00</div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <img src="ruta-imagen3.jpg" alt="Catsuit Briana" class="product-image" />
-                    <div class="product-details">
-                        <div class="product-name">Catsuit Briana</div>
-                        <div class="product-price">$23,800.00</div>
-                    </div>
-                </div>
+                <asp:Repeater ID="repRepetidor" runat="server">
+                    <ItemTemplate>
+                        <div class="product-card">
+                            <asp:Image
+                                ID="imgArticulo"
+                                runat="server"
+                                CssClass="product-image"
+                                ImageUrl='<%# string.IsNullOrWhiteSpace(Eval("ImagenURL") as string) ? "https://via.placeholder.com/200" : Eval("ImagenURL") %>'
+                                AlternateText='<%# Eval("Nombre") %>' />
+                            <div class="product-details">
+                                <div class="product-name"><%# Eval("Nombre") %></div>
+                                <div class="product-price">$ <%# Eval("Precio") %></div>
+                                <asp:LinkButton
+                                    ID="btnVerDetalle"
+                                    runat="server"
+                                    CssClass="btn btn-primary"
+                                    CommandArgument='<%# Eval("Id_Articulo") %>'
+                                    OnClick="btnVerDetalle_Click">
+                                    Ver Detalle
+                                </asp:LinkButton>
+                            </div>
+                        </div>
+
+                    </ItemTemplate>
+                </asp:Repeater>
             </div>
         </div>
+
     </div>
+
 </asp:Content>

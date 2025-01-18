@@ -54,7 +54,7 @@ namespace Manager
                     Categoria aux = new Categoria();
 
                     aux.Id_Categoria = (int)datos.Lector["Id_Categoria"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Nombre = (string)datos.Lector["NombreCategoria"];
                     aux.Estado = (bool)datos.Lector["Estado"];
 
                     list.Add(aux);

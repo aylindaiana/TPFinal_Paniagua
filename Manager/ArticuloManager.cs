@@ -178,5 +178,40 @@ namespace Manager
             }
         }
 
+        public List<Articulo> ListarArticulosPorCategoria( int idCategoria)
+        {
+            List<Articulo> list = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ListarArticulosPorCategoria @CategoriaId");
+                datos.SetearParametro("@CategoriaId", idCategoria);
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Articulo aux = new Articulo();
+
+                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
+                    aux.Nombre = (string)datos.Lector["NombreArticulo"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+                    aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
+
+                    list.Add(aux);
+                }
+                return list;
+            }
+            catch (Exception EX)
+            {
+
+                throw EX;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
     }
 }

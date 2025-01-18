@@ -21,6 +21,28 @@ namespace TPFinal_Paniagua
             if (!IsPostBack)
             {
                 CargarCategorias();
+                CargarProductos();
+
+            }
+
+        }
+        protected void btnVerDetalle_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                LinkButton btnVerDetalle = (LinkButton)sender;
+                string idArticulo = btnVerDetalle.CommandArgument;
+
+
+                Session.Add("ArticuloId", idArticulo);
+
+                Response.Redirect("DetalleProducto.aspx");
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
 
         }
@@ -31,17 +53,17 @@ namespace TPFinal_Paniagua
 
             ArticuloManager articulo = new ArticuloManager();
 
-            if (idCategoria == 0) // Mostrar todos
+            if (idCategoria == 0) 
             {
                 listaArticulos = articulo.ListarArticulosActivos(); // Método para obtener todos los productos
             }
             else
             {
-            //    listaArticulos = articuloNegocio.listarPorCategoria(idCategoria); // Filtrar por categoría
+                listaArticulos = articulo.ListarArticulosPorCategoria(idCategoria); // Filtrar por categoría
             }
 
-         //   repRepetidor.DataSource = listaArticulos;
-           // repRepetidor.DataBind();
+            repRepetidor.DataSource = listaArticulos;
+            repRepetidor.DataBind();
         }
 
         //Funciones:
@@ -51,6 +73,13 @@ namespace TPFinal_Paniagua
             listaCategorias = categoriaNegocio.ListarActivos();
             repCategorias.DataSource = listaCategorias;
             repCategorias.DataBind();
+        }
+        private void CargarProductos()
+        {
+            ArticuloManager articulo = new ArticuloManager();
+            listaArticulos = articulo.ListarArticulosActivos(); // Método para obtener productos
+            repRepetidor.DataSource = listaArticulos;
+            repRepetidor.DataBind();
         }
 
     }
