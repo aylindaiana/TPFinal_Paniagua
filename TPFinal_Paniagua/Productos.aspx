@@ -31,7 +31,7 @@
         }
 
         .sidebar {
-            flex: 0 0 30%; /* Categorías ocupan el 30% */
+            flex: 0 0 30%; 
             max-width: 30%;
         }
 
@@ -69,7 +69,7 @@
         }
 
         .products {
-            flex: 1; /* Ocupa el resto del espacio */
+            flex: 1; 
         }
 
         .products-grid {
@@ -116,26 +116,29 @@
         }
     </style>
 
-    <!-- Breadcrumb -->
     <div class="breadcrumb">
         <a href="Inicio.aspx">Inicio</a> . Productos
     </div>
 
-    <!-- Contenedor Principal -->
+
     <div class="content-container">
         <!-- Categorías -->
         <div class="sidebar">
             <div class="categories">
                 <h3>Categorías</h3>
-                <ul>
-                    <li><a href="#">Catsuit</a></li>
-                    <li><a href="#">Vestidos</a></li>
-                    <li><a href="#">Camisetas y Tops</a></li>
-                    <li><a href="#">Polleras</a></li>
-                    <li><a href="#">Camperas y Buzos</a></li>
-                    <li><a href="#">Pantalones</a></li>
-                    <li><a href="#">Conjuntos</a></li>
-                </ul>
+                        <ul class="list-group list-group-flush">
+                            <asp:Repeater ID="repCategorias" runat="server">
+                                <ItemTemplate>
+                                    <li class="list-group-item">
+                                        <asp:LinkButton ID="lnkCategoria" runat="server" CssClass="text-decoration-none text-dark fw-semibold"
+                                            CommandArgument='<%# Eval("Id_Categoria") %>'
+                                            OnClick="filtrarPorCategoria_Click">
+                                <%# Eval("Nombre") %>
+                                        </asp:LinkButton>
+                                    </li>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </ul>
             </div>
         </div>
 

@@ -25,22 +25,22 @@ namespace Manager
                     Articulo aux = new Articulo();
 
                     aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Nombre = (string)datos.Lector["NombreArticulo"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     aux.Stock = (int)datos.Lector["Stock"];
-                    aux.CategoriaId = (int)datos.Lector["CategoriaId"];
-                    aux.TipoId = (int)datos.Lector["TipoId"];
+                    aux.CategoriaId = (string)datos.Lector["NombreCategoria"];
+                    aux.TipoId = (string)datos.Lector["NombreTipo"];
                     aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
 
                     list.Add(aux);
                 }
                 return list;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
 
-                throw EX;
+                throw ex;
             } 
             finally
             {
@@ -66,8 +66,8 @@ namespace Manager
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     aux.Stock = (int)datos.Lector["Stock"];
-                    aux.CategoriaId = (int)datos.Lector["CategoriaId"];
-                    aux.TipoId = (int)datos.Lector["TipoId"];
+                    aux.CategoriaId = (string)datos.Lector["CategoriaId"];
+                    aux.TipoId = (string)datos.Lector["TipoId"];
                     aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
                     aux.Estado = (bool)datos.Lector["Estado"];
 
