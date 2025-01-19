@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Productos.aspx.cs" Inherits="TPFinal_Paniagua.Productos" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProductosTipo.aspx.cs" Inherits="TPFinal_Paniagua.ProductosTipo" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
+        <style>
         body {
             background-color: #fffdf5;
             font-family: 'Comic Sans MS', sans-serif;
@@ -117,22 +117,22 @@
     </style>
 
     <div class="breadcrumb">
-        <a href="Inicio.aspx">Inicio </a> // <a href="Productos.aspx"> Productos</a>
+        <a href="Inicio.aspx">Inicio</a> // <a href="Productos.aspx"> Productos</a>
     </div>
 
 
     <div class="content-container">
         <div class="sidebar">
             <div class="categories">
-                <h3>Categorías</h3>
+                <h3>Tipos</h3>
                         <ul class="list-group list-group-flush">
-                            <asp:Repeater ID="repCategorias" runat="server">
+                            <asp:Repeater ID="repTipos" runat="server">
                                 <ItemTemplate>
                                     <li class="list-group-item">
-                                        <asp:LinkButton ID="lnkCategoria" runat="server" CssClass="text-decoration-none text-dark fw-semibold"
-                                            CommandArgument='<%# Eval("Id_Categoria") %>'
-                                            OnClick="filtrarPorCategoria_Click">
-                                             <%# Eval("Nombre") %>
+                                        <asp:LinkButton ID="lnkTipo" runat="server" CssClass="text-decoration-none text-dark fw-semibold"
+                                            CommandArgument='<%# Eval("Id_Tipo") %>'
+                                            OnClick="filtrarPorTipo_Click">
+                                <%# Eval("Nombre") %>
                                         </asp:LinkButton>
                                     </li>
                                 </ItemTemplate>
@@ -172,5 +172,4 @@
         </div>
 
     </div>
-
 </asp:Content>

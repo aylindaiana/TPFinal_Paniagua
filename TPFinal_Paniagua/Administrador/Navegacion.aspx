@@ -11,7 +11,7 @@
             border: 2px dashed #ffd700;
             border-radius: 20px;
             padding: 40px;
-            min-width: 600px; /* Ancho mínimo */
+            min-width: 600px; 
             max-width: 800px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
@@ -33,7 +33,7 @@
             border-radius: 20px;
             padding: 10px 20px;
             transition: background-color 0.3s ease, transform 0.2s ease-in-out;
-            width: 350px; /* Ancho fijo de los botones */
+            width: 350px;
             margin: 0 auto;
         }
 

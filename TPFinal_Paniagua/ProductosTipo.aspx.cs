@@ -9,10 +9,10 @@ using System.Web.UI.WebControls;
 
 namespace TPFinal_Paniagua
 {
-    public partial class Productos : System.Web.UI.Page
+    public partial class ProductosTipo : System.Web.UI.Page
     {
         public List<Articulo> listaArticulos { get; set; }
-        public List<Categoria> listaCategorias { get; set; }
+        public List<Tipo> listaTipos { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             ArticuloManager manager = new ArticuloManager();
@@ -37,7 +37,7 @@ namespace TPFinal_Paniagua
 
                 Session.Add("ArticuloId", idArticulo);
 
-                Response.Redirect("/Compra/DetalleCompra.aspx");
+                Response.Redirect("DetalleProducto.aspx");
             }
             catch (Exception ex)
             {
@@ -46,20 +46,20 @@ namespace TPFinal_Paniagua
             }
 
         }
-        protected void filtrarPorCategoria_Click(object sender, EventArgs e)
+        protected void filtrarPorTipo_Click(object sender, EventArgs e)
         {
-            LinkButton btnCategoria = (LinkButton)sender;
-            int idCategoria = int.Parse(btnCategoria.CommandArgument);
+            LinkButton btnTipo = (LinkButton)sender;
+            int idTipo = int.Parse(btnTipo.CommandArgument);
 
             ArticuloManager articulo = new ArticuloManager();
 
-            if (idCategoria == 0) 
+            if (idTipo == 0)
             {
-                listaArticulos = articulo.ListarArticulosActivos(); 
+                listaArticulos = articulo.ListarArticulosActivos();
             }
             else
             {
-                listaArticulos = articulo.ListarArticulosPorCategoria(idCategoria); 
+                listaArticulos = articulo.ListarArticulosPorTipo(idTipo);
             }
 
             repRepetidor.DataSource = listaArticulos;
@@ -69,15 +69,15 @@ namespace TPFinal_Paniagua
         //Funciones:
         private void CargarCategorias()
         {
-            CategoriaManager categoria = new CategoriaManager();
-            listaCategorias = categoria.ListarActivos();
-            repCategorias.DataSource = listaCategorias;
-            repCategorias.DataBind();
+            TipoManager tipo = new TipoManager();
+            listaTipos = tipo.ListarActivos();
+            repTipos.DataSource = listaTipos;
+            repTipos.DataBind();
         }
         private void CargarProductos()
         {
             ArticuloManager articulo = new ArticuloManager();
-            listaArticulos = articulo.ListarArticulosActivos(); // Método para obtener productos
+            listaArticulos = articulo.ListarArticulosActivos(); 
             repRepetidor.DataSource = listaArticulos;
             repRepetidor.DataBind();
         }
