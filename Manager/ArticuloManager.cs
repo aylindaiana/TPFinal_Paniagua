@@ -124,6 +124,8 @@ namespace Manager
             }
         }
 
+
+
         public void Agregar(Articulo articulo)
         {
             AccesoDatos datos = new AccesoDatos();
