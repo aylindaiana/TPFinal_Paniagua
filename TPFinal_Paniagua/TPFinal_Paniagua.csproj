@@ -101,8 +101,11 @@
   <ItemGroup>
     <Content Include="Administrador\Articulos.aspx" />
     <Content Include="Administrador\Categorias.aspx" />
-    <Content Include="Administrador\Cofig-Usuarios.aspx" />
     <Content Include="Administrador\CompraDetallada.aspx" />
+    <Content Include="Administrador\Config-Articulos.aspx" />
+    <Content Include="Administrador\Config-Categoria.aspx" />
+    <Content Include="Administrador\Config-Tipo.aspx" />
+    <Content Include="Administrador\Config-Usuarios.aspx" />
     <Content Include="Administrador\Informe.aspx" />
     <Content Include="Administrador\Navegacion.aspx" />
     <Content Include="Administrador\Tipos.aspx" />
@@ -213,19 +216,40 @@
     <Compile Include="Administrador\Categorias.aspx.designer.cs">
       <DependentUpon>Categorias.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Administrador\Cofig-Usuarios.aspx.cs">
-      <DependentUpon>Cofig-Usuarios.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Administrador\Cofig-Usuarios.aspx.designer.cs">
-      <DependentUpon>Cofig-Usuarios.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Administrador\CompraDetallada.aspx.cs">
       <DependentUpon>CompraDetallada.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Administrador\CompraDetallada.aspx.designer.cs">
       <DependentUpon>CompraDetallada.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\Config-Articulos.aspx.cs">
+      <DependentUpon>Config-Articulos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\Config-Articulos.aspx.designer.cs">
+      <DependentUpon>Config-Articulos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\Config-Categoria.aspx.cs">
+      <DependentUpon>Config-Categoria.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\Config-Categoria.aspx.designer.cs">
+      <DependentUpon>Config-Categoria.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\Config-Tipo.aspx.cs">
+      <DependentUpon>Config-Tipo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\Config-Tipo.aspx.designer.cs">
+      <DependentUpon>Config-Tipo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\Config-Usuarios.aspx.cs">
+      <DependentUpon>Config-Usuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\Config-Usuarios.aspx.designer.cs">
+      <DependentUpon>Config-Usuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="Administrador\Informe.aspx.cs">
       <DependentUpon>Informe.aspx</DependentUpon>

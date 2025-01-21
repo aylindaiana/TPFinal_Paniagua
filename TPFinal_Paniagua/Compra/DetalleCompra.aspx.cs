@@ -2,6 +2,7 @@
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -26,6 +27,7 @@ namespace TPFinal_Paniagua.Compra
                 {
                     Response.Write("Hubo un problema para encontrar el producto.");
                 }
+                ChequearStock();
             }
         }
 
@@ -59,6 +61,32 @@ namespace TPFinal_Paniagua.Compra
             lblCategoria.Text = articulo.CategoriaId.ToString();
             lblTipo.Text = articulo.TipoId.ToString();
 
+        }
+        public void ChequearStock()
+        {
+            try
+            {
+                ArticuloManager manager = new ArticuloManager();
+                int stock = manager.ObtenerStock(int.Parse(lblId.Text));
+                if (stock == 0)
+                {
+                    btnAgregarCarrito.Enabled = false;
+                    btnAgregarCarrito.Text = "Artículo sin stock.";
+                    btnAgregarCarrito.CssClass = "btn btn-warning";
+                }
+                else
+                {
+                    btnAgregarCarrito.Enabled = true;
+                    btnAgregarCarrito.Text = "Agregar al carrito";
+                    btnAgregarCarrito.CssClass = "btn btn-primary";
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace TPFinal_Paniagua.Administrador
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            chequearUsuarios();
             if (!IsPostBack)
             {
                 // CargarUsuarios();
@@ -40,7 +41,7 @@ namespace TPFinal_Paniagua.Administrador
         {
             string id = dgvUsuarios.SelectedDataKey.Value.ToString();
 
-            Response.Redirect("~/Administrador/Cofig-Usuarios.aspx?id=" + id);
+            Response.Redirect("~/Administrador/Config-Usuarios.aspx?id=" + id);
 
         }
         protected void btnVolver_Click(object sender, EventArgs e)
@@ -50,7 +51,7 @@ namespace TPFinal_Paniagua.Administrador
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/Administrador/Cofig-Usuarios.aspx");
+            Response.Redirect("~/Administrador/Config-Usuarios.aspx");
         }
 
         //Funciones:
@@ -63,6 +64,24 @@ namespace TPFinal_Paniagua.Administrador
             dgvUsuarios.DataSource = lista;
             dgvUsuarios.DataBind();
 
-        }       
+        }
+
+        public void chequearUsuarios()
+        {
+            if (Session["idRol"] == null)
+            {
+                Response.Redirect("/Ingreso.aspx");
+            }
+            else
+            {
+                int idRol = Convert.ToInt32(Session["idRol"]);
+
+                if (idRol != 1 && idRol != 2)
+                {
+                    Response.Redirect("/Error.aspx");
+                    return;
+                }
+            }
+        }
     }
 }

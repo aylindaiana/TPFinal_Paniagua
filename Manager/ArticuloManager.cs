@@ -124,7 +124,56 @@ namespace Manager
             }
         }
 
+        public int ObtenerStock(int idArticulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT Stock FROM Articulos WHERE Id_Articulo = @Id_Articulo");
+                datos.SetearParametro("@Id_Articulo", idArticulo);
+                datos.EjecutarLectura();
 
+                if (datos.Lector.Read())
+                {
+                    return (int)datos.Lector["Stock"];
+                }
+                else
+                {
+                    throw new InvalidOperationException($"No se encontró el artículo con ID: {idArticulo}.");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void ActualizarStock(int idArticulo, int cantidadVendida)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ActualizarStock");
+                datos.SetearParametro("@idArticulo", idArticulo);
+                datos.SetearParametro("@cantidadVendida", cantidadVendida);
+                datos.ejecutarAccion();
+                int stockActualizado = ObtenerStock(idArticulo);
+                if (stockActualizado < 0)
+                {
+                    throw new InvalidOperationException($"No se pudo actualizar el stock para el artículo con ID: {idArticulo}. Verifica que haya suficiente stock disponible.");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
 
         public void Agregar(Articulo articulo)
         {

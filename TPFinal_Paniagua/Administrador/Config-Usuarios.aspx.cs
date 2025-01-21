@@ -10,13 +10,13 @@ using System.Web.UI.WebControls;
 
 namespace TPFinal_Paniagua.Administrador
 {
-    public partial class Cofig_Usuarios : System.Web.UI.Page
+    public partial class Config_Usuarios : System.Web.UI.Page
     {
         UsuarioManager manager = new UsuarioManager();
         protected void Page_Load(object sender, EventArgs e)
         {
             txtId_Usuario.Enabled = false;
-
+            chequearUsuarios();
             if (!IsPostBack)
             {
                 AccesoManager manager = new AccesoManager();
@@ -178,5 +178,22 @@ namespace TPFinal_Paniagua.Administrador
 
         }
 
+        public void chequearUsuarios()
+        {
+            if (Session["idRol"] == null)
+            {
+                Response.Redirect("/Ingreso.aspx");
+            }
+            else
+            {
+                int idRol = Convert.ToInt32(Session["idRol"]);
+
+                if (idRol != 1 && idRol != 2)
+                {
+                    Response.Redirect("/Error.aspx");
+                    return;
+                }
+            }
+        }
     }
 }

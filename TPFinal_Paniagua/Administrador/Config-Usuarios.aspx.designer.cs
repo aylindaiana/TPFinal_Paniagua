@@ -11,7 +11,7 @@ namespace TPFinal_Paniagua.Administrador
 {
 
 
-    public partial class Cofig_Usuarios
+    public partial class Config_Usuarios
     {
 
         /// <summary>

@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Cofig-Usuarios.aspx.cs" Inherits="TPFinal_Paniagua.Administrador.Cofig_Usuarios" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Config-Usuarios.aspx.cs" Inherits="TPFinal_Paniagua.Administrador.Config_Usuarios" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
+        <style>
         body {
             background-color: #fffdf5;
             font-family: 'Comic Sans MS', sans-serif;
@@ -84,8 +84,10 @@
                 <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" placeholder="Correo" />
             </div>
             <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtPassword" CssClass="form-control" placeholder="Contraseña" />            </div>
+                <asp:TextBox runat="server" ID="txtPassword" CssClass="form-control" placeholder="Contraseña" />           
+
             </div>
+        </div>
         <div class="row">
             <div class="col-md-6 mb-3">
                 <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" placeholder="Teléfono" />
