@@ -54,6 +54,7 @@ namespace TPFinal_Paniagua.Compra
         {
             ArticuloManager manager = new ArticuloManager();
             Articulo articulo = manager.ListarArticulosActivos().Find(x => x.Id_Articulo == Convert.ToInt32(id));
+            lblId.Text = articulo.Id_Articulo.ToString();
             lblNombre.Text = articulo.Nombre;
             lblDescripcion.Text = articulo.Descripcion;
             lblPrecio.Text = articulo.Precio.ToString();
@@ -85,7 +86,7 @@ namespace TPFinal_Paniagua.Compra
             catch (Exception ex)
             {
 
-                throw ex;
+                Console.WriteLine("Error de conversión: " + ex.Message);
             }
         }
     }

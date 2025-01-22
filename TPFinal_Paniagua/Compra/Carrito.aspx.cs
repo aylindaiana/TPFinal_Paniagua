@@ -43,7 +43,7 @@ namespace TPFinal_Paniagua.Compra
             }
         }
 
-        protected void repCarrito_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void dgvCarrito_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             int idArticulo = Convert.ToInt32(e.CommandArgument); 
 
@@ -66,7 +66,7 @@ namespace TPFinal_Paniagua.Compra
         }
 
         //Funciones:
-        public void CargarArticulos(string id)
+        public void CargarArticulos(string idArticulo)
         {
             try
             {
@@ -85,7 +85,8 @@ namespace TPFinal_Paniagua.Compra
                 Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
 
                 ArticuloManager manager = new ArticuloManager();
-                Articulo articulo = new Articulo();
+                Articulo articulo = manager.ListarArticulosTodos().Find(x => x.Id_Articulo == Convert.ToInt32(idArticulo));
+
                 if (articulo != null)
                 {
                     int cantidad = Convert.ToInt32(Session["CantidadSeleccionada"]);
@@ -132,19 +133,19 @@ namespace TPFinal_Paniagua.Compra
                     decimal subtotalGeneral = carrito.Sum(item => item.Subtotal);
                     Session["Subtotal"] = subtotalGeneral;
 
-                    repCarrito.DataSource = carrito;
-                    repCarrito.DataBind();
+                    dgvCarrito.DataSource = carrito;
+                    dgvCarrito.DataBind();
                 }
                 else
                 {
-                    repCarrito.DataSource = null;
-                    repCarrito.DataBind();
+                    dgvCarrito.DataSource = null;
+                    dgvCarrito.DataBind();
                 }
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                lblError.Text = "Error al cargar el carrito: " + ex.Message;
+                lblError.Visible = true;
             }
         }
 

@@ -68,15 +68,15 @@ namespace TPFinal_Paniagua.Administrador
 
         public void chequearUsuarios()
         {
-            if (Session["idRol"] == null)
+            if (Session["AccesoId"] == null)
             {
                 Response.Redirect("/Ingreso.aspx");
             }
             else
             {
-                int idRol = Convert.ToInt32(Session["idRol"]);
+                int idAcceso = Convert.ToInt32(Session["AccesoId"]);
 
-                if (idRol != 1 && idRol != 2)
+                if (idAcceso != 1 && idAcceso != 2)
                 {
                     Response.Redirect("/Error.aspx");
                     return;

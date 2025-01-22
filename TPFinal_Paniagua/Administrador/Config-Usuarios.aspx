@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Config-Usuarios.aspx.cs" Inherits="TPFinal_Paniagua.Administrador.Config_Usuarios" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-        <style>
+    <style>
         body {
             background-color: #fffdf5;
             font-family: 'Comic Sans MS', sans-serif;

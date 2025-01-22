@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Carrito.aspx.cs" Inherits="TPFinal_Paniagua.Compra.Carrito" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-        <style>
+    <style>
         body {
             background-color: #fffdf5;
             font-family: 'Comic Sans MS', sans-serif;
@@ -23,24 +23,25 @@
             margin-bottom: 20px;
         }
 
-        table {
+        .gridview-container {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
 
-        table thead {
+        .gridview-container th {
             background-color: #ff7f50;
             color: white;
+            padding: 10px;
         }
 
-        table th, table td {
+        .gridview-container td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: center;
         }
 
-        table td.red {
+        .red {
             color: #ff4500;
             font-weight: bold;
         }
@@ -118,49 +119,48 @@
             background-color: #218838;
         }
     </style>
-
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="carrito-container">
         <h1>Carrito de Compras</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>Cantidad Seleccionada</th>
-                    <th>Cantidad Disponible</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <asp:Repeater ID="repCarrito" runat="server" OnItemCommand="repCarrito_ItemCommand">
+        <asp:UpdatePanel runat="server">
+            <ContentTemplate>
+        <asp:GridView ID="dgvCarrito" runat="server" CssClass="gridview-container" AutoGenerateColumns="False" OnRowCommand="dgvCarrito_RowCommand">
+            <Columns>
+                <asp:BoundField DataField="Id_Articulo" HeaderText="ID" ReadOnly="True" SortExpression="Id"  />
+                <asp:BoundField DataField="Nombre" HeaderText="Nombre" SortExpression="Nombre" />
+                <asp:BoundField DataField="Precio" HeaderText="Precio" DataFormatString="{0:C}" />
+                <asp:TemplateField HeaderText="Cantidad Seleccionada">
                     <ItemTemplate>
-                        <tr>
-                            <td><%# Eval("Id_Articulo") %></td>
-                            <td><%# Eval("Nombre") %></td>
-                            <td>$ <%# Eval("Precio", "{0:N2}") %></td>
-                            <td>
-                                <asp:TextBox ID="txtCantidad" runat="server" CssClass="quantity-input" Text='<%# Eval("Cantidad") %>' Width="30px" />
-                            </td>
-                            <td class="red"><%# Eval("CantidadDisponible") %></td>
-                            <td>$ <%# Eval("Subtotal", "{0:N2}") %></td>
-                            <td>
-                                <asp:Button ID="btnAdd" runat="server" Text="+" CssClass="btn-action btn-add" CommandArgument='<%# Eval("Id") %>'  />
-                                <asp:Button ID="btnRemove" runat="server" Text="-" CssClass="btn-action btn-remove" CommandArgument='<%# Eval("Id") %>'  />
-                                <asp:Button ID="btnDelete" runat="server" Text="Eliminar" CssClass="btn-action btn-delete" CommandArgument='<%# Eval("Id") %>'  />
-                            </td>
-                        </tr>
+                        <asp:Label ID="lblCantidad" runat="server" CssClass="quantity-input" Text='<%# Eval("Cantidad") %>' Width="40px" > </asp:Label>
                     </ItemTemplate>
-                </asp:Repeater>
-            </tbody>
-        </table>
+                </asp:TemplateField>
+                <asp:BoundField DataField="StockMaximo" HeaderText="Cantidad Disponible" ItemStyle-CssClass="red" />
+                <asp:TemplateField HeaderText="Subtotal">
+                    <ItemTemplate>
+                        <asp:Label ID="lblSubtotal" runat="server" Text='<%# Eval("Subtotal", "{0:C}") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+                <asp:TemplateField HeaderText="Acciones">
+                    <ItemTemplate>
+                        <asp:Button ID="btnAdd" runat="server" Text="+" CssClass="btn-action btn-add" CommandName="Aumentar" CommandArgument='<%# Eval("Id_Articulo") %>' />
+                        <asp:Button ID="btnRemove" runat="server" Text="-" CssClass="btn-action btn-remove" CommandName="Disminuir" CommandArgument='<%# Eval("Id_Articulo") %>' />
+                        <asp:Button ID="btnDelete" runat="server" Text="Eliminar" CssClass="btn-action btn-delete" CommandName="Eliminar" CommandArgument='<%# Eval("Id_Articulo") %>' />
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+        </asp:GridView>
+
         <div class="total">
-            Total: $<asp:Label ID="lblTotal" runat="server" Text="0.00"></asp:Label>
+             <asp:Label ID="lblTotal" runat="server"></asp:Label>
         </div>
+          <asp:Label ID="lblError" runat="server" ForeColor="Red" Visible="false"></asp:Label>
+
         <div class="btn-container">
             <a href="/Productos.aspx" class="btn-back">Seguir Comprando</a>
             <asp:LinkButton ID="btnPay" runat="server" CssClass="btn-pay" OnClick="btnPay_Click">Pagar</asp:LinkButton>
         </div>
+          </ContentTemplate>
+        </asp:UpdatePanel>
     </div>
 </asp:Content>
