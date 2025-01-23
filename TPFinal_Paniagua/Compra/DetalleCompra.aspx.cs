@@ -59,8 +59,16 @@ namespace TPFinal_Paniagua.Compra
             lblDescripcion.Text = articulo.Descripcion;
             lblPrecio.Text = articulo.Precio.ToString();
             imgArticulo.ImageUrl = articulo.ImagenURL;
-            lblCategoria.Text = articulo.CategoriaId.ToString();
-            lblTipo.Text = articulo.TipoId.ToString();
+
+            CategoriaManager categoriaManager = new CategoriaManager();
+            Categoria categoria = categoriaManager.ListarTodos().Find(c => c.Id_Categoria == articulo.CategoriaId);
+            lblCategoria.Text = categoria != null ? categoria.Nombre : "Categoría no encontrada";
+
+            TipoManager tipoManager = new TipoManager();
+            Tipo tipo = tipoManager.ListarTodos().Find(t => t.Id_Tipo == articulo.TipoId);
+            lblTipo.Text = tipo != null ? tipo.Nombre : "Tipo no encontrado";
+
+
 
         }
         public void ChequearStock()

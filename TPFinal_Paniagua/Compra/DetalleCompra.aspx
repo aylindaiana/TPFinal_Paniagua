@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="DetalleCompra.aspx.cs" Inherits="TPFinal_Paniagua.Compra.DetalleCompra" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-        <style>
+    <style>
         body {
             background-color: #fffdf5;
             font-family: 'Comic Sans MS', sans-serif;
@@ -60,9 +60,10 @@
 
         .main-image {
             width: 100%;
-            max-width: 500px;
+            max-width: 600px; /* Aumentamos el tamaño de la imagen */
             border: 2px solid #ffd700;
             border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Añadimos sombra para resaltar la imagen */
         }
 
         .product-details {
@@ -83,7 +84,28 @@
             color: #ff7f50;
             font-weight: bold;
             text-align: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ffd700; /* Línea más gruesa debajo del precio */
+        }
+
+        .product-price span {
+            font-size: 2rem;
+            color: #ff7f50;
+            font-weight: bold;
+        }
+
+        .product-category, .product-type {
+            font-size: 1.2rem;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .product-category-label, .product-type-label {
+            font-weight: bold;
+            margin-right: 5px;
+            color: #ff7f50;
         }
 
         .discount-price {
@@ -91,34 +113,6 @@
             text-decoration: line-through;
             color: #aaa;
             margin-left: 10px;
-        }
-
-        .discount-badge {
-            font-size: 0.9rem;
-            background-color: #ff4500;
-            color: #fff;
-            padding: 2px 5px;
-            border-radius: 5px;
-            margin-left: 10px;
-        }
-
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .quantity-selector button {
-            background-color: #ffd700;
-            border: none;
-            font-size: 1rem;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .quantity-selector button:hover {
-            background-color: #ffeb3b;
         }
 
         .btn-container {
@@ -153,6 +147,7 @@
         .btn-back:hover {
             color: #ff4500;
         }
+
     </style>
 
     <div class="breadcrumb">
@@ -174,7 +169,6 @@
             </asp:Repeater>
         </div>
 
-
         <div class="main-image-container">
             <asp:Image
                 ID="imgArticulo"
@@ -189,19 +183,21 @@
 
             <asp:Label ID="lblNombre" runat="server" CssClass="product-title" > <%# Eval("Nombre") %></asp:Label>
 
-            <div>
-                <asp:Label ID="lblPrecio" runat="server" CssClass="product-price" Text='<%# "Precio: $" + Eval("Precio") %>'></asp:Label>
-                <asp:Label ID="lblCategoria" runat="server" CssClass="discount-badge" ><%# Eval("CategoriaId") %></asp:Label>
-                <asp:Label ID="lblTipo" runat="server" CssClass="discount-badge" ><%# Eval("TiposId") %></asp:Label>
+            <div class="product-price">
+                <span>$</span<asp:Label ID="lblPrecio" runat="server" CssClass="product-price" Text='<%# "Precio: $ " + Eval("Precio") %>'></asp:Label>
+            </div>
+
+            <div class="product-category">
+                <span class="product-category-label">Categoría:</span>
+                <asp:Label ID="lblCategoria" runat="server" CssClass="discount-badge" Text='<%# Eval("CategoriaId") %>'></asp:Label>
+            </div>
+
+            <div class="product-type">
+                <span class="product-type-label">Tipo:</span>
+                <asp:Label ID="lblTipo" runat="server" CssClass="discount-badge" Text='<%# Eval("TiposId") %>'></asp:Label>
             </div>
 
             <asp:Label ID="lblDescripcion" runat="server" CssClass="product-description" ><%# Eval("Descripcion") %></asp:Label>
-
-            <div class="quantity-selector">
-                <button type="button" onclick="decreaseQuantity()">-</button>
-                <asp:TextBox ID="txtCantidad" runat="server" Text="1" CssClass="quantity-input" Width="30" />
-                <button type="button" onclick="increaseQuantity()">+</button>
-            </div>
 
             <div class="btn-container">
                 <asp:Button ID="btnAgregarCarrito" runat="server" CssClass="btn-add" Text="Agregar al carrito" OnClick="btnAgregarCarrito_Click" />

@@ -29,8 +29,8 @@ namespace Manager
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     aux.Stock = (int)datos.Lector["Stock"];
-                    aux.CategoriaId = (string)datos.Lector["NombreCategoria"];
-                    aux.TipoId = (string)datos.Lector["NombreTipo"];
+                    aux.CategoriaId = (int)datos.Lector["CategoriaId"];
+                    aux.TipoId = (int)datos.Lector["TipoId"];
                     aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
 
                     list.Add(aux);
@@ -104,8 +104,8 @@ namespace Manager
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     aux.Stock = (int)datos.Lector["Stock"];
-                    aux.CategoriaId = (string)datos.Lector["NombreCategoria"];
-                    aux.TipoId = (string)datos.Lector["NombreTipo"];
+                    aux.CategoriaId = (int)datos.Lector["CategoriaId"];
+                    aux.TipoId = (int)datos.Lector["TipoId"];
                     aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
                     aux.Estado = (bool)datos.Lector["Estado"];
 

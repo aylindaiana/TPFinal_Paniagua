@@ -66,44 +66,50 @@
             text-align: center;
         }
     </style>
-
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <h1>Editar Articulo</h1>
 
-    <div class="form-container">
-        <div class="row">
-            <div class="mb-4">
-                <asp:TextBox runat="server" ID="txtId_Articulo" CssClass="form-control" placeholder="ID" ReadOnly="true" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" placeholder="Nombre" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtDescripcion" CssClass="form-control" placeholder="Descripcion" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtPrecio" CssClass="form-control" placeholder="Precio" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtStock" CssClass="form-control" placeholder="Stock" />           
-
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtCategoriaId" CssClass="form-control" placeholder="Categoria ID" />
-            </div>
-            <div class="col-md-6 mb-3">
-                <asp:TextBox runat="server" ID="txtTipoId" CssClass="form-control" placeholder="Tipo ID" />
-            </div>
-
-        </div>        
-          
-        <div class="btn-container">
-            <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-custom" OnClick="btnAceptar_Click" runat="server" />
-            <asp:Button Text="Cancelar" ID="btnCancelar" CssClass="btn btn-custom" OnClick="btnCancelar_Click" runat="server" />
-            <asp:Button Text="Deshabilitar" ID="btnDeshabilitar" CssClass="btn btn-custom" OnClick="btnDeshabilitar_Click" runat="server" />
+<div class="form-container">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <asp:TextBox runat="server" ID="txtId_Articulo" CssClass="form-control" placeholder="ID" ReadOnly="true" />
+            <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" placeholder="Nombre" />
+            <asp:TextBox runat="server" ID="txtDescripcion" CssClass="form-control" placeholder="Descripcion" />
+            <asp:TextBox runat="server" ID="txtPrecio" CssClass="form-control" placeholder="Precio" />
         </div>
 
+        <div class="col-md-6 mb-3">
+            <asp:TextBox runat="server" ID="txtStock" CssClass="form-control" placeholder="Stock" />
+            <label for="ddlCategoria" class="form-label">Categoria: </label>
+            <asp:DropDownList ID="ddlCategoria" CssClass="form-control" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlCategoria_SelectedIndexChanged"></asp:DropDownList>
+            <label for="ddlCategoria" class="form-label">Tipo: </label>
+            <asp:DropDownList ID="ddlTipo" CssClass="form-control" runat="server"></asp:DropDownList>
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <div class="mb-3">
+                        <label for="txtImagenURL" class="form-label">Url de Imagen</label>
+                        <asp:TextBox runat="server" ID="txtImagenURL" CssClass="form-control"
+                            AutoPostBack="true" OnTextChanged="txtImagenUrl_TextChanged" />
+                    </div>
+                    <asp:Image ImageUrl="https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png"
+                        runat="server" ID="imgArticulo" Width="100%" />
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
         <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
     </div>
+
+    <div class="btn-container">
+        <asp:Button Text="Aceptar" ID="btnAceptar" CssClass="btn btn-custom" OnClick="btnAceptar_Click" runat="server" />
+        <asp:Button Text="Cancelar" ID="btnCancelar" CssClass="btn btn-custom" OnClick="btnCancelar_Click" runat="server" />
+        <asp:Button Text="Deshabilitar" ID="btnDeshabilitar" CssClass="btn btn-custom" OnClick="btnDeshabilitar_Click" runat="server" />
+    </div>
+
+    
+</div>
+
 </asp:Content>

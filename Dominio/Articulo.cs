@@ -15,8 +15,8 @@ namespace Dominio
         public string ImagenURL { get; set; }
         public int Stock {  get; set; }
         public decimal Precio { get; set; }
-        public string CategoriaId { get; set; }
-        public string TipoId { get; set; }
+        public int CategoriaId { get; set; }
+        public int TipoId { get; set; }
         public bool Estado { get; set; }
     }
 }

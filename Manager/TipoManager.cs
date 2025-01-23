@@ -71,5 +71,37 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+        public List<Tipo> ObtenerTiposPorCategoria(int categoriaId)
+        {
+            List<Tipo> tipos = new List<Tipo>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC ObtenerTiposPorCategoria @CategoriaId");
+                datos.SetearParametro("@CategoriaId", categoriaId);
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Tipo tipo = new Tipo
+                    {
+                        Id_Tipo = (int)datos.Lector["Id_Tipo"],
+                        Nombre = (string)datos.Lector["Nombre"]
+                    };
+
+                    tipos.Add(tipo);
+                }
+
+                return tipos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
     }
 }
