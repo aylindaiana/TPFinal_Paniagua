@@ -102,7 +102,7 @@ namespace TPFinal_Paniagua.Administrador
                     manager.Agregar(articulo);
                 }
 
-                Response.Redirect("/AdministrarArticulos.aspx");
+                Response.Redirect("~/Administrador/Articulos.aspx");
             }
             catch (Exception ex)
             {
@@ -136,14 +136,14 @@ namespace TPFinal_Paniagua.Administrador
                 if (btnDeshabilitar.Text == "Reactivar")
                 {
                     manager.Reactivar(int.Parse(txtId_Articulo.Text));
-                    Response.Redirect("~/Articulos.aspx");
+                    Response.Redirect("~/Administrador/Articulos.aspx");
                 }
                 else
 
                 {
                     manager.Desactivar(int.Parse(txtId_Articulo.Text));
                 }
-                Response.Redirect("~/Articulos.aspx");
+                Response.Redirect("~/Administrador/Articulos.aspx");
 
             }
             catch (Exception ex)
@@ -156,7 +156,7 @@ namespace TPFinal_Paniagua.Administrador
 
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/Articulos.aspx");
+            Response.Redirect("~/Administrador/Articulos.aspx");
         }
         protected void txtImagenUrl_TextChanged(object sender, EventArgs e)
         {

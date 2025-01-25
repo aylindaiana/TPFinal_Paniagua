@@ -12,16 +12,48 @@ namespace TPFinal_Paniagua
 {
     public partial class Perfil : System.Web.UI.Page
     {
+        UsuarioManager manager = new UsuarioManager();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                txtAcceso.Visible = false;
+                txtId.Visible = false;
+
                 if (Session["usuario"] == null)
                 {
                     Response.Redirect("Ingreso.aspx");
                 }
+                
+                try
+                {
+                    Precargar();
+                   /*
+                    string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
+                    if (!string.IsNullOrEmpty(id) && !IsPostBack)
+                    {
+                        Usuario usuario = manager.Listar().Find(x => x.Id_Usuario == int.Parse(id));
 
-                Precargar();
+                        if (usuario != null)
+                        {
+                            txtId.Text = usuario.Id_Usuario.ToString();
+                            txtAcceso.Text = usuario.IdAcceso.ToString();
+                            txtNombre.Text = usuario.Nombre ?? string.Empty;
+                            txtApellido.Text = usuario.Apellido ?? string.Empty;
+                            txtEmail.Text = usuario.Email ?? string.Empty;
+                            txtDireccion.Text = usuario.Direccion ?? string.Empty;
+                            txtPassword.Text = usuario.Pass;
+                            txtLocalidad.Text = usuario.Localidad ?? string.Empty;
+                            txtTelefono.Text = usuario.Telefono ?? string.Empty;
+
+                        }
+                    }*/
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("Hubo un problema:" + ex);
+                    Response.Redirect("/Error.aspx");
+                }
             }
         }
 
@@ -119,27 +151,18 @@ namespace TPFinal_Paniagua
         private void Precargar()
         {
             Usuario usuarioActual = (Usuario)Session["usuario"];
-            Usuario use = new Usuario();
+
             if (usuarioActual != null)
             {
-                System.Diagnostics.Debug.WriteLine("Usuario en sesión:");
-                System.Diagnostics.Debug.WriteLine($"Nombre: {usuarioActual.Nombre}");
-                System.Diagnostics.Debug.WriteLine($"Apellido: {usuarioActual.Apellido}");
-                System.Diagnostics.Debug.WriteLine($"Email: {usuarioActual.Email}");
-                System.Diagnostics.Debug.WriteLine($"FechaNacimiento: {usuarioActual.FechaNacimiento}");
-                System.Diagnostics.Debug.WriteLine($"Dirección: {usuarioActual.Direccion}");
-                System.Diagnostics.Debug.WriteLine($"Localidad: {usuarioActual.Localidad}");
-                System.Diagnostics.Debug.WriteLine($"Teléfono: {usuarioActual.Telefono}");
-
-                use.Id_Usuario = usuarioActual.Id_Usuario;
-                txtNombre.Text = use.Nombre ?? string.Empty;
-                txtApellido.Text = use.Apellido ?? string.Empty;
+                txtId.Text = usuarioActual.Id_Usuario.ToString();
+                txtNombre.Text = usuarioActual.Nombre ?? string.Empty;
+                txtApellido.Text = usuarioActual.Apellido ?? string.Empty;
                 txtEmail.Text = usuarioActual.Email ?? string.Empty;
                 txtDireccion.Text = usuarioActual.Direccion ?? string.Empty;
                 txtPassword.Text = usuarioActual.Pass;
                 txtLocalidad.Text = usuarioActual.Localidad ?? string.Empty;
                 txtTelefono.Text = usuarioActual.Telefono ?? string.Empty;
-                use.IdAcceso = usuarioActual.IdAcceso;
+                txtAcceso.Text = usuarioActual.IdAcceso.ToString();
 
                 if (usuarioActual.FechaNacimiento != DateTime.MinValue)
                 {
@@ -151,6 +174,7 @@ namespace TPFinal_Paniagua
                 }
             }
         }
+
 
     }
 }

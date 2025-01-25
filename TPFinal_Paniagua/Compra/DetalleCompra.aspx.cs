@@ -14,6 +14,7 @@ namespace TPFinal_Paniagua.Compra
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            lblId.Enabled = true;
             if (!IsPostBack)
             {
                 string idProduct = Session["ArticuloId"] as string;

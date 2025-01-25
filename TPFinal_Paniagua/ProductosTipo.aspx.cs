@@ -37,7 +37,7 @@ namespace TPFinal_Paniagua
 
                 Session.Add("ArticuloId", idArticulo);
 
-                Response.Redirect("DetalleProducto.aspx");
+                Response.Redirect("/Compra/DetalleCompra.aspx");
             }
             catch (Exception ex)
             {

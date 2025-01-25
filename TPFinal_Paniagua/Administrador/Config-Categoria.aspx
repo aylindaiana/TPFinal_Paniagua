@@ -68,7 +68,7 @@
         }
     </style>
     <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <h1>Editar Categoria</h1>
+    <h1>Editar en Categoria</h1>
 
 <div class="form-container">
     <div class="row">

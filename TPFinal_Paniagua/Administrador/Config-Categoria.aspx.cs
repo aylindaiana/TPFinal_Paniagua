@@ -68,7 +68,7 @@ namespace TPFinal_Paniagua.Administrador
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("/Categorias.aspx");
+            Response.Redirect("~/Administrador/Categorias.aspx");
         }
         protected void btnDeshabilitar_Click(object sender, EventArgs e)
         {

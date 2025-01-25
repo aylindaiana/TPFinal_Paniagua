@@ -78,6 +78,9 @@
                 <div class="card shadow-lg" style="border: 2px dashed #ffd700;">
                     <div class="card-body" style="background-color: #fffdf5;">
                         <div class="mb-3 position-relative" >
+                            <asp:TextBox ID="txtId" CssClass="form-control" runat="server" placeholder="Id" ReadOnly="true"></asp:TextBox>
+                            <asp:TextBox ID="txtAcceso" CssClass="form-control" runat="server" placeholder="Acceso"></asp:TextBox>
+
                             <asp:TextBox ID="txtNombre" CssClass="form-control" runat="server" placeholder="Nombre"></asp:TextBox>
                             <asp:Label ID="lblMensaje" CssClass="text-success position-absolute" runat="server" Text="" style="top: 0; right: 0; width: 260px;"></asp:Label>
 
