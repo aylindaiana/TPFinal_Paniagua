@@ -180,14 +180,15 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_AgregarArticulo");
+                datos.SetearConsulta("EXEC sp_AgregarArticulo @Nombre, @Descripcion, @Precio, @Stock, @CategoriaId, @TipoId, @ImagenesURL");
                 datos.SetearParametro("@Nombre", articulo.Nombre);
                 datos.SetearParametro("@Descripcion", articulo.Descripcion);
                 datos.SetearParametro("@Precio", articulo.Precio);
                 datos.SetearParametro("Stock", articulo.Stock);
-                datos.SetearParametro("@Categoria", articulo.CategoriaId);
-                datos.SetearParametro("@Tipo", articulo.TipoId);
-                datos.SetearParametro("@ImagenURL", articulo.ImagenURL);
+                datos.SetearParametro("@CategoriaId", articulo.CategoriaId);
+                datos.SetearParametro("@TipoId", articulo.TipoId);
+                datos.SetearParametro("@ImagenesURL", articulo.ImagenURL);
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
@@ -205,15 +206,16 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ModificarArticulo");
+                datos.SetearConsulta("EXEC sp_ModificarArticulo @Id_Articulo, @Nombre, @Descripcion, @Precio, @Stock, @CategoriaId, @TipoId,1, @ImagenesURL");
                 datos.SetearParametro("@Id_Articulo", articulo.Id_Articulo);
                 datos.SetearParametro("@Nombre", articulo.Nombre);
                 datos.SetearParametro("@Descripcion", articulo.Descripcion);
                 datos.SetearParametro("@Precio", articulo.Precio);
                 datos.SetearParametro("Stock", articulo.Stock);
-                datos.SetearParametro("@Categoria", articulo.CategoriaId);
-                datos.SetearParametro("@Tipo", articulo.TipoId);
-                datos.SetearParametro("@ImagenURL", articulo.ImagenURL);
+                datos.SetearParametro("@CategoriaId", articulo.CategoriaId);
+                datos.SetearParametro("@TipoId", articulo.TipoId);
+                datos.SetearParametro("@ImagenesURL", articulo.ImagenURL);
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
@@ -231,8 +233,8 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_DesactivarArticulo");
-                datos.SetearParametro("@ArticuloId", idArticulo);
+                datos.SetearConsulta("EXEC sp_DesactivarArticulo @Id_Articulo");
+                datos.SetearParametro("@Id_Articulo", idArticulo);
 
                 datos.ejecutarAccion();
             }
@@ -252,8 +254,8 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ReactivarArticulo");
-                datos.SetearParametro("@ArticuloId", idArticulo);
+                datos.SetearConsulta("EXEC sp_ReactivarArticulo @Id_Articulo");
+                datos.SetearParametro("@Id_Articulo", idArticulo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

@@ -23,7 +23,10 @@ namespace TPFinal_Paniagua.Administrador
                 dgvArticulos.DataBind();
             }
         }
-
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Administrador/Config-Articulos.aspx");
+        }
         protected void btnBuscarTodos_Click(object sender, EventArgs e)
         {
 
@@ -46,10 +49,7 @@ namespace TPFinal_Paniagua.Administrador
             Response.Redirect("~/Administrador/Navegacion.aspx");
         }
 
-        protected void btnAgregar_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("~/Administrador/Config-Articulos.aspx");
-        }
+
 
         //Funciones:
 

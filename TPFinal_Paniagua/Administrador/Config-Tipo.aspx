@@ -80,7 +80,11 @@
                 <label for="txtNombre" class="form-label">Nombre: </label>
                 <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" placeholder="Nombre" />
             </div>
+            <div class="col-md-6 mb-3">
+                <label for="ddlCategoria" class="form-label">Categoria: </label>
+                <asp:DropDownList ID="ddlCategoria" CssClass="form-control" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlCategoria_SelectedIndexChanged"></asp:DropDownList>
 
+            </div>
 
 
             <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>

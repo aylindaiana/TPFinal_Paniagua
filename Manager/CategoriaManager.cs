@@ -77,7 +77,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_AgregarCategoria");
+                datos.SetearConsulta("EXEC sp_AgregarCategoria @Nombre");
                 datos.SetearParametro("@Nombre", categoria.Nombre);
 
                 datos.ejecutarAccion();
@@ -99,8 +99,8 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ModificarCategoria");
-                datos.SetearParametro("@Id_Categoria", categoria.Id_Categoria);
+                datos.SetearConsulta("EXEC sp_ModificarCategoria @IdCategoria, @Nombre");
+                datos.SetearParametro("@IdCategoria", categoria.Id_Categoria);
                 datos.SetearParametro("@Nombre", categoria.Nombre);
                 datos.ejecutarAccion();
             }
@@ -119,8 +119,8 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_DesactivarCategoria");
-                datos.SetearParametro("@Id_Categoria", idCategoria);
+                datos.SetearConsulta("EXEC sp_DesactivarCategoria @IdCategoria");
+                datos.SetearParametro("@IdCategoria", idCategoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -138,8 +138,8 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ReactivarCategoria");
-                datos.SetearParametro("@Id_Categoria", idCategoria);
+                datos.SetearConsulta("EXEC sp_ReactivarCategoria @IdCategoria");
+                datos.SetearParametro("@IdCategoria", idCategoria);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

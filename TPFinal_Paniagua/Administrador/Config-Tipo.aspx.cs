@@ -16,9 +16,18 @@ namespace TPFinal_Paniagua.Administrador
         protected void Page_Load(object sender, EventArgs e)
         {
             txtId_Tipo.Enabled = false;
-            //chequearUsuarios()
+            chequearUsuarios();
             try
             {
+                if (!IsPostBack)
+                {
+                    CategoriaManager categoria = new CategoriaManager();
+                    List<Categoria> list = categoria.ListarTodos();
+                    ddlCategoria.DataSource = list;
+                    ddlCategoria.DataTextField = "Nombre";
+                    ddlCategoria.DataValueField = "Id_Categoria";
+                    ddlCategoria.DataBind();
+                }
 
                 string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
                 if (!string.IsNullOrEmpty(id) && !IsPostBack)
@@ -54,10 +63,31 @@ namespace TPFinal_Paniagua.Administrador
                 lblMensaje.Visible = true;
                 return;
             }
-            Categoria categoria = new Categoria();
+            Tipo tipo = new Tipo();
             try
             {
+                tipo.Nombre = txtNombre.Text.Trim();
 
+                if (Request.QueryString["id"] != null)
+                {
+                    tipo.Id_Tipo = int.Parse(txtId_Tipo.Text);
+
+                    manager.Modificar(tipo);
+                    lblMensaje.Text = "Su mofificacion se realizó exitosamente.";
+                    lblMensaje.CssClass = "text-success";
+                    lblMensaje.Visible = true;
+
+                    Response.Redirect("~/Administrador/Tipos.aspx");
+
+                }
+                else
+                {
+                    manager.Agregar(tipo);
+                    lblMensaje.Text = "Su usuario se agregó exitosamente.";
+                    lblMensaje.CssClass = "text-success";
+                    lblMensaje.Visible = true;
+                    Response.Redirect("~/Administrador/Tipos.aspx");
+                }
             }
             catch (Exception ex)
             {
@@ -68,11 +98,50 @@ namespace TPFinal_Paniagua.Administrador
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("~/Administrador/Categorias.aspx");
+            Response.Redirect("~/Administrador/Tipos.aspx");
         }
         protected void btnDeshabilitar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                TipoManager manager = new TipoManager();    
 
+                if (btnDeshabilitar.Text == "Reactivar")
+                {
+                    manager.Reactivar(int.Parse(txtId_Tipo.Text));
+                    Response.Redirect("~/Administrador/Tipos.aspx");
+                }
+                else
+
+                {
+                    manager.Desactivar(int.Parse(txtId_Tipo.Text));
+                }
+                Response.Redirect("~/Administrador/Tipos.aspx");
+
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+
+                throw;
+            }
+        }
+
+        protected void ddlCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            /*
+            int categoriaId = int.Parse(ddlCategoria.SelectedValue);
+
+            TipoManager tipoManager = new TipoManager();
+            List<Tipo> tipos = tipoManager.ObtenerTiposPorCategoria(categoriaId);
+
+            ddlCategoria.DataSource = tipos;
+            ddlCategoria.DataTextField = "Nombre";
+            ddlCategoria.DataValueField = "Id_Categoria";
+            ddlCategoria.DataBind();
+
+            ddlCategoria.Items.Insert(0, new ListItem("Selecciona un tipo", "0"));
+            */
         }
 
         //Funciones:

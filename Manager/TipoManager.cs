@@ -109,7 +109,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_AgregarTipo");
+                datos.SetearConsulta("EXEC sp_AgregarTipo @Nombre, @CategoriaId");
                 datos.SetearParametro("@Nombre", tipo.Nombre);
                 datos.SetearParametro("@CategoriaId", tipo.CategoriaId);
                 datos.ejecutarAccion();
@@ -131,8 +131,8 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ModificarTipo");
-                datos.SetearParametro("@Id_Tipo", tipo.Id_Tipo);
+                datos.SetearConsulta("EXEC sp_ModificarTipo @IdTipo, @Nombre, @CategoriaId");
+                datos.SetearParametro("@IdTipo", tipo.Id_Tipo);
                 datos.SetearParametro("@Nombre", tipo.Nombre);
                 datos.SetearParametro("@CategoriaId", tipo.CategoriaId);
                 datos.ejecutarAccion();
@@ -152,8 +152,8 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_DesactivarTipo");
-                datos.SetearParametro("@Id_Tipo", idTipo);
+                datos.SetearConsulta("EXEC sp_DesactivarTipo @IdTipo");
+                datos.SetearParametro("@IdTipo", idTipo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -171,7 +171,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ReactivarTipo");
+                datos.SetearConsulta("EXEC sp_ReactivarTipo @IdTipo");
                 datos.SetearParametro("@Id_Tipo", idTipo);
                 datos.ejecutarAccion();
             }

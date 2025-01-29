@@ -17,8 +17,7 @@ namespace TPFinal_Paniagua.Administrador
         {
             txtId_Categoria.Enabled = false;
             chequearUsuarios();
-            try
-            {
+
 
                 string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
                 if (!string.IsNullOrEmpty(id) && !IsPostBack)
@@ -37,12 +36,7 @@ namespace TPFinal_Paniagua.Administrador
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("Hubo un problema:" + ex);
-                Response.Redirect("/Error.aspx");
-            }
+
         }
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -57,25 +51,35 @@ namespace TPFinal_Paniagua.Administrador
             Categoria categoria = new Categoria();
             try
             {
-                categoria.Nombre = txtNombre.Text;
+                categoria.Nombre = txtNombre.Text.Trim();
+
                 if (Request.QueryString["id"] != null)
                 {
                     categoria.Id_Categoria = int.Parse(txtId_Categoria.Text);
+
                     manager.Modificar(categoria);
+                    lblMensaje.Text = "Su mofificacion se realizó exitosamente.";
+                    lblMensaje.CssClass = "text-success";
+                    lblMensaje.Visible = true;
+
+                    Response.Redirect("~/Administrador/Categorias.aspx");
 
                 }
                 else
                 {
                     manager.Agregar(categoria);
+                    lblMensaje.Text = "Su usuario se agregó exitosamente.";
+                    lblMensaje.CssClass = "text-success";
+                    lblMensaje.Visible = true;
+                    Response.Redirect("~/Administrador/Categorias.aspx");
                 }
 
-                Response.Redirect("~/Administrador/Categorias.aspx");
+                
             }
             catch (Exception ex)
             {
 
                 Response.Write("Hubo un problema:" + ex);
-                Response.Redirect("/Error.aspx");
             }
         }
         protected void btnCancelar_Click(object sender, EventArgs e)

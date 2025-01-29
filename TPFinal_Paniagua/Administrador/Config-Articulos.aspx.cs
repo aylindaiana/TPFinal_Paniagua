@@ -17,9 +17,7 @@ namespace TPFinal_Paniagua.Administrador
         {
             txtId_Articulo.Enabled = false;
             chequearUsuarios();
-            
-            try
-            {
+
                 if (!IsPostBack)
                 {
                     CategoriaManager categoria = new CategoriaManager();
@@ -60,13 +58,6 @@ namespace TPFinal_Paniagua.Administrador
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-
-                Response.Write("Hubo un problema:" + ex);
-                Response.Redirect("/Error.aspx");
-            }
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
@@ -96,13 +87,22 @@ namespace TPFinal_Paniagua.Administrador
                     articulo.Id_Articulo = int.Parse(txtId_Articulo.Text);
                     manager.Modificar(articulo);
 
+                    lblMensaje.Text = "Su mofificacion se realizó exitosamente.";
+                    lblMensaje.CssClass = "text-success";
+                    lblMensaje.Visible = true;
+
+                    Response.Redirect("~/Administrador/Articulos.aspx");
                 }
                 else
                 {
                     manager.Agregar(articulo);
+                    lblMensaje.Text = "Su usuario se agregó exitosamente.";
+                    lblMensaje.CssClass = "text-success";
+                    lblMensaje.Visible = true;
+                    Response.Redirect("~/Administrador/Articulos.aspx");
                 }
 
-                Response.Redirect("~/Administrador/Articulos.aspx");
+                
             }
             catch (Exception ex)
             {
