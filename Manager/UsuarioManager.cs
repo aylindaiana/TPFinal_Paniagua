@@ -103,7 +103,7 @@ namespace Manager
                 datos.SetearParametro("@Telefono", usuario.Telefono);
                 datos.SetearParametro("@Localidad", usuario.Localidad);
                 datos.SetearParametro("@FechaNacimiento", usuario.FechaNacimiento);
-                datos.EjecutarLectura();
+                datos.ejecutarAccion();
 
             }
             catch (Exception ex)
@@ -156,7 +156,7 @@ namespace Manager
             {
                 datos.SetearConsulta("UPDATE Usuarios SET Estado = 0 WHERE Id_Usuario = @Id_Usuario");
                 datos.SetearParametro("@Id_Usuario", idUsuario);
-                datos.EjecutarLectura();
+                datos.ejecutarAccion();
 
             }
             catch (Exception ex)
@@ -177,7 +177,7 @@ namespace Manager
             {
                 datos.SetearConsulta("UPDATE Usuarios SET Estado = 1 WHERE Id_Usuario = @Id_Usuario");
                 datos.SetearParametro("@Id_Usuario", idUsuario);
-                datos.EjecutarLectura();
+                datos.ejecutarAccion();
 
             }
             catch (Exception ex)
@@ -284,6 +284,8 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
+
 
     }
 }

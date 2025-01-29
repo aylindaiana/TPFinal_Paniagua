@@ -57,7 +57,19 @@ namespace TPFinal_Paniagua.Administrador
             Categoria categoria = new Categoria();
             try
             {
+                categoria.Nombre = txtNombre.Text;
+                if (Request.QueryString["id"] != null)
+                {
+                    categoria.Id_Categoria = int.Parse(txtId_Categoria.Text);
+                    manager.Modificar(categoria);
 
+                }
+                else
+                {
+                    manager.Agregar(categoria);
+                }
+
+                Response.Redirect("~/Administrador/Categorias.aspx");
             }
             catch (Exception ex)
             {
@@ -72,6 +84,30 @@ namespace TPFinal_Paniagua.Administrador
         }
         protected void btnDeshabilitar_Click(object sender, EventArgs e)
         {
+            try
+            {
+
+                CategoriaManager manager = new CategoriaManager();
+
+                if (btnDeshabilitar.Text == "Reactivar")
+                {
+                    manager.Reactivar(int.Parse(txtId_Categoria.Text));
+                    Response.Redirect("~/Administrador/Categorias.aspx");
+                }
+                else
+
+                {
+                    manager.Desactivar(int.Parse(txtId_Categoria.Text));
+                }
+                Response.Redirect("~/Administrador/Categorias.aspx");
+
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+
+                throw;
+            }
         }
         //Funciones:
         public void chequearUsuarios()

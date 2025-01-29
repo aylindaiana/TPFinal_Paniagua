@@ -2,6 +2,7 @@
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -19,35 +20,46 @@ namespace TPFinal_Paniagua
             {
                 txtAcceso.Visible = false;
                 txtId.Visible = false;
-
                 if (Session["usuario"] == null)
                 {
                     Response.Redirect("Ingreso.aspx");
                 }
-                
                 try
                 {
                     Precargar();
-                   /*
-                    string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
-                    if (!string.IsNullOrEmpty(id) && !IsPostBack)
+                    Usuario usuarioActual = (Usuario)Session["usuario"];
+                    if (usuarioActual != null)
                     {
-                        Usuario usuario = manager.Listar().Find(x => x.Id_Usuario == int.Parse(id));
+                        Debug.WriteLine("Usuario actual:");
+                        Debug.WriteLine($"Nombre: {usuarioActual.Nombre}");
+                        Debug.WriteLine($"Apellido: {usuarioActual.Apellido}");
+                        Debug.WriteLine($"Email: {usuarioActual.Email}");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("El usuario no está en la sesión.");
+                    }
 
-                        if (usuario != null)
-                        {
-                            txtId.Text = usuario.Id_Usuario.ToString();
-                            txtAcceso.Text = usuario.IdAcceso.ToString();
-                            txtNombre.Text = usuario.Nombre ?? string.Empty;
-                            txtApellido.Text = usuario.Apellido ?? string.Empty;
-                            txtEmail.Text = usuario.Email ?? string.Empty;
-                            txtDireccion.Text = usuario.Direccion ?? string.Empty;
-                            txtPassword.Text = usuario.Pass;
-                            txtLocalidad.Text = usuario.Localidad ?? string.Empty;
-                            txtTelefono.Text = usuario.Telefono ?? string.Empty;
+                    /*
+                     string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
+                     if (!string.IsNullOrEmpty(id) && !IsPostBack)
+                     {
+                         Usuario usuario = manager.Listar().Find(x => x.Id_Usuario == int.Parse(id));
 
-                        }
-                    }*/
+                         if (usuario != null)
+                         {
+                             txtId.Text = usuario.Id_Usuario.ToString();
+                             txtAcceso.Text = usuario.IdAcceso.ToString();
+                             txtNombre.Text = usuario.Nombre ?? string.Empty;
+                             txtApellido.Text = usuario.Apellido ?? string.Empty;
+                             txtEmail.Text = usuario.Email ?? string.Empty;
+                             txtDireccion.Text = usuario.Direccion ?? string.Empty;
+                             txtPassword.Text = usuario.Pass;
+                             txtLocalidad.Text = usuario.Localidad ?? string.Empty;
+                             txtTelefono.Text = usuario.Telefono ?? string.Empty;
+
+                         }
+                     }*/
                 }
                 catch (Exception ex)
                 {
@@ -160,6 +172,7 @@ namespace TPFinal_Paniagua
                 txtEmail.Text = usuarioActual.Email ?? string.Empty;
                 txtDireccion.Text = usuarioActual.Direccion ?? string.Empty;
                 txtPassword.Text = usuarioActual.Pass;
+                txtConfirmacionPassword.Text = usuarioActual.Pass;
                 txtLocalidad.Text = usuarioActual.Localidad ?? string.Empty;
                 txtTelefono.Text = usuarioActual.Telefono ?? string.Empty;
                 txtAcceso.Text = usuarioActual.IdAcceso.ToString();

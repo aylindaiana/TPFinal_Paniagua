@@ -111,6 +111,7 @@
     <Content Include="Administrador\UsuariosGeneral.aspx" />
     <Content Include="Compra\Carrito.aspx" />
     <Content Include="Compra\DetalleCompra.aspx" />
+    <Content Include="Compra\MiCompra.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -285,6 +286,13 @@
     </Compile>
     <Compile Include="Compra\DetalleCompra.aspx.designer.cs">
       <DependentUpon>DetalleCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Compra\MiCompra.aspx.cs">
+      <DependentUpon>MiCompra.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Compra\MiCompra.aspx.designer.cs">
+      <DependentUpon>MiCompra.aspx</DependentUpon>
     </Compile>
     <Compile Include="Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>

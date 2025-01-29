@@ -103,5 +103,87 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
+        public void Agregar(Tipo tipo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_AgregarTipo");
+                datos.SetearParametro("@Nombre", tipo.Nombre);
+                datos.SetearParametro("@CategoriaId", tipo.CategoriaId);
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void Modificar(Tipo tipo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ModificarTipo");
+                datos.SetearParametro("@Id_Tipo", tipo.Id_Tipo);
+                datos.SetearParametro("@Nombre", tipo.Nombre);
+                datos.SetearParametro("@CategoriaId", tipo.CategoriaId);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+        public void Desactivar(int idTipo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_DesactivarTipo");
+                datos.SetearParametro("@Id_Tipo", idTipo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+        public void Reactivar(int idTipo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ReactivarTipo");
+                datos.SetearParametro("@Id_Tipo", idTipo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
     }
 }

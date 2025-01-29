@@ -78,18 +78,20 @@
                 <div class="card shadow-lg" style="border: 2px dashed #ffd700;">
                     <div class="card-body" style="background-color: #fffdf5;">
                         <div class="mb-3 position-relative" >
-                            <asp:TextBox ID="txtId" CssClass="form-control" runat="server" placeholder="Id" ReadOnly="true"></asp:TextBox>
-                            <asp:TextBox ID="txtAcceso" CssClass="form-control" runat="server" placeholder="Acceso"></asp:TextBox>
+                            <asp:TextBox runat="server" ID="txtId" CssClass="form-control" placeholder="Id" ReadOnly="true" />
+                            <asp:TextBox runat="server" ID="txtAcceso" CssClass="form-control" placeholder="Acceso" />
 
-                            <asp:TextBox ID="txtNombre" CssClass="form-control" runat="server" placeholder="Nombre"></asp:TextBox>
-                            <asp:Label ID="lblMensaje" CssClass="text-success position-absolute" runat="server" Text="" style="top: 0; right: 0; width: 260px;"></asp:Label>
+                            <asp:Label runat="server" ID="lblMensaje" CssClass="text-success position-absolute" Text="" style="top: 0; right: 0; width: 260px;"></asp:Label>
 
                         </div>
                         <div class="mb-3">
-                            <asp:TextBox ID="txtApellido" CssClass="form-control" runat="server" placeholder="Apellido"></asp:TextBox>
+                            <asp:TextBox runat="server" ID="txtNombre" CssClass="form-control" placeholder="Nombre" />
+                            </div>
+                        <div class="mb-3">
+                            <asp:TextBox runat="server" ID="txtApellido" CssClass="form-control" placeholder="Apellido" />
                         </div>
                         <div class="mb-3 ">
-                            <asp:TextBox ID="txtEmail" CssClass="form-control" runat="server" placeholder="Correo Electrónico"></asp:TextBox>
+                            <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" placeholder="Correo Electrónico" />
                         </div>
 
                         <div class="row">
@@ -97,22 +99,22 @@
                                 <asp:TextBox runat="server" CssClass="form-control" ID="txtFechaNacimiento" TextMode="Date" ></asp:TextBox>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <asp:TextBox ID="txtLocalidad" CssClass="form-control" runat="server" placeholder="Localidad"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtLocalidad" CssClass="form-control" placeholder="Localidad" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <asp:TextBox ID="txtDireccion" CssClass="form-control" runat="server" placeholder="Dirección"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtDireccion" CssClass="form-control" placeholder="Dirección" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <asp:TextBox ID="txtTelefono" CssClass="form-control" runat="server" placeholder="Telefono"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtTelefono" CssClass="form-control" placeholder="Telefono" />
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <asp:TextBox ID="txtPassword" CssClass="form-control" runat="server" TextMode="Password" placeholder="Contraseña"></asp:TextBox>
+                                <asp:TextBox runat="server" ID="txtPassword" CssClass="form-control" type="password" placeholder="Contraseña" />
                             </div>
                              <div class="col-md-6 mb-3">
-                                <asp:TextBox runat="server" CssClass="form-control" ID="txtConfirmacionPassword" type="password" placeholder="Confirmar Contraseña"></asp:TextBox>
+                                <asp:TextBox runat="server" CssClass="form-control" ID="txtConfirmacionPassword" type="password" placeholder="Confirmar Contraseña" />
                             </div>
                         </div>
 
