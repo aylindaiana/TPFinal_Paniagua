@@ -38,6 +38,7 @@ namespace TPFinal_Paniagua.Administrador
                     {
                         txtId_Tipo.Text = tipo.Id_Tipo.ToString();
                         txtNombre.Text = tipo.Nombre;
+                        ddlCategoria.SelectedValue = tipo.CategoriaId.ToString();
 
                         if (!tipo.Estado)
                         {
@@ -67,6 +68,9 @@ namespace TPFinal_Paniagua.Administrador
             try
             {
                 tipo.Nombre = txtNombre.Text.Trim();
+                tipo.CategoriaId = int.Parse(ddlCategoria.SelectedValue);
+
+                Response.Write("<script>alert('ID Tipo: " + txtId_Tipo.Text + "\\nCategoría Seleccionada: " + tipo.CategoriaId + "');</script>");
 
                 if (Request.QueryString["id"] != null)
                 {
@@ -83,9 +87,11 @@ namespace TPFinal_Paniagua.Administrador
                 else
                 {
                     manager.Agregar(tipo);
+
                     lblMensaje.Text = "Su usuario se agregó exitosamente.";
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
+
                     Response.Redirect("~/Administrador/Tipos.aspx");
                 }
             }
@@ -93,7 +99,7 @@ namespace TPFinal_Paniagua.Administrador
             {
 
                 Response.Write("Hubo un problema:" + ex);
-                Response.Redirect("/Error.aspx");
+
             }
         }
         protected void btnCancelar_Click(object sender, EventArgs e)
@@ -121,9 +127,7 @@ namespace TPFinal_Paniagua.Administrador
             }
             catch (Exception ex)
             {
-                Session.Add("Error", ex);
-
-                throw;
+                Response.Write("Hubo un problema:" + ex);
             }
         }
 

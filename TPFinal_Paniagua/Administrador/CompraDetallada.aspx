@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Tipos.aspx.cs" Inherits="TPFinal_Paniagua.Administrador.Tipos" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CompraDetallada.aspx.cs" Inherits="TPFinal_Paniagua.Administrador.CompraDetallada" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
                     <style>
         body {
@@ -100,7 +100,7 @@
     </style>
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-    <h1>ADMINISTRAR TIPOS</h1>
+    <h1>ADMINISTRAR COMPRAS Y CANTIDADES</h1>
 
     <div class="search-box">
         <asp:TextBox ID="txtBuscar" CssClass="form-control" runat="server" placeholder="Buscador"  ></asp:TextBox>
@@ -109,12 +109,14 @@
 
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
-            <asp:GridView ID="dgvTipo" runat="server" AutoGenerateColumns="False" DataKeyNames="Id_Tipo" CssClass="table table-striped table-bordered table-hover" OnSelectedIndexChanged="dgvTipo_SelectedIndexChanged" HeaderStyle-CssClass="table-dark" GridLines="None">
+            <asp:GridView ID="dgvCompras" runat="server" AutoGenerateColumns="False" DataKeyNames="Id_Articulo" CssClass="table table-striped table-bordered table-hover" OnSelectedIndexChanged="dgvArticulos_SelectedIndexChanged" HeaderStyle-CssClass="table-dark" GridLines="None">
                 <Columns>
-                    <asp:BoundField DataField="Id_Tipo" HeaderText="Id" ReadOnly="True" SortExpression="Id" />
-                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" SortExpression="Nombre" />
-                     <asp:BoundField DataField="CategoriaId" HeaderText="CategoriaId" SortExpression="CategoriaId" />
-                    <asp:CheckBoxField HeaderText="Estado" DataField="Estado" SortExpression="Estado" />
+                    <asp:BoundField DataField="Id_DetalleCompra" HeaderText="Id" ReadOnly="True" SortExpression="Id" />
+                    <asp:BoundField DataField="UsuarioId" HeaderText="Nombre" SortExpression="Nombre" />
+                    <asp:BoundField DataField="ImporteTotal" HeaderText="Descripcion" SortExpression="Descripcion" />
+                    <asp:BoundField DataField="DirecciónEntregar" HeaderText="Precio" SortExpression="Precio" />
+                    <asp:BoundField DataField="EstadoCompraId" HeaderText="Stock" SortExpression="Stock" />
+                    <asp:BoundField DataField="FechaCompra" HeaderText="CategoriaId" SortExpression="CategoriaId" />
                     <asp:TemplateField>
                         <ItemTemplate>
 
@@ -127,7 +129,6 @@
     </asp:UpdatePanel>
 
     <div class="text-center">
-        <asp:Button ID="btnAgregar" CssClass="btn btn-custom" runat="server" Text="Agregar" OnClick="btnAgregar_Click" />
         <asp:Button ID="btnVolver" CssClass="btn btn-custom" runat="server" Text="Volver" OnClick="btnVolver_Click" />
     </div>
 </asp:Content>

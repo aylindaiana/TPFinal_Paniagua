@@ -101,6 +101,7 @@
   <ItemGroup>
     <Content Include="Administrador\Articulos.aspx" />
     <Content Include="Administrador\Categorias.aspx" />
+    <Content Include="Administrador\CompraDetallada.aspx" />
     <Content Include="Administrador\Config-Articulos.aspx" />
     <Content Include="Administrador\Config-Categoria.aspx" />
     <Content Include="Administrador\Config-Tipo.aspx" />
@@ -215,6 +216,13 @@
     </Compile>
     <Compile Include="Administrador\Categorias.aspx.designer.cs">
       <DependentUpon>Categorias.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\CompraDetallada.aspx.cs">
+      <DependentUpon>CompraDetallada.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\CompraDetallada.aspx.designer.cs">
+      <DependentUpon>CompraDetallada.aspx</DependentUpon>
     </Compile>
     <Compile Include="Administrador\Config-Articulos.aspx.cs">
       <DependentUpon>Config-Articulos.aspx</DependentUpon>

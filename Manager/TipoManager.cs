@@ -56,6 +56,7 @@ namespace Manager
                     aux.Id_Tipo = (int)datos.Lector["Id_Tipo"];
                     aux.Nombre = (string)datos.Lector["NombreTipo"];
                     aux.Estado = (bool)datos.Lector["Estado"];
+                    aux.CategoriaId = (int)datos.Lector["CategoriaId"];
 
                     list.Add(aux);
                 }
@@ -172,7 +173,7 @@ namespace Manager
             try
             {
                 datos.SetearConsulta("EXEC sp_ReactivarTipo @IdTipo");
-                datos.SetearParametro("@Id_Tipo", idTipo);
+                datos.SetearParametro("@IdTipo", idTipo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
