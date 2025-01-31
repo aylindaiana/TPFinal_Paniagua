@@ -15,5 +15,10 @@ namespace Dominio
         public string DireccionEntregar { get; set; }
         public int EstadoCompraId { get; set; }
         public DateTime Fecha_Compra { get; set; }
+
+        public string EstadoCompra { get; set; }
+        public string NombreUsuario { get; set; }
+        public string ApellidoUsuario { get; set; }
+        public string EmailUsuario { get; set; }
     }
 }
