@@ -94,7 +94,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC spObtenerDetalleCompra @Id_DetalleCompra");
+                datos.SetearConsulta("EXEC sp_CambiarEstadoCompraCiclo @Id_DetalleCompra");
                 datos.SetearParametro("@Id_DetalleCompra", idDetalle);
                 datos.ejecutarAccion();
                 return true;
@@ -114,7 +114,12 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-
+                datos.SetearConsulta("EXEC sp_CambiarEstadoCompraCiclo @UsuarioId, @CarritoCompraId, @ImporteTotal, @DireccionEntregar");
+                datos.SetearParametro("@UsuarioId", detalle.UsuarioId);
+                datos.SetearParametro("@CarritoCompraId", detalle.CarritoCompraId);
+                datos.SetearParametro("ImporteToral", detalle.ImporteTotal);
+                datos.SetearParametro("DireccionEntregar", detalle.DireccionEntregar);
+                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {

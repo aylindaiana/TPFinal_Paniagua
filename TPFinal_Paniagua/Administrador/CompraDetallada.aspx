@@ -100,7 +100,7 @@
     </style>
 
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-    <h1>ADMINISTRAR COMPRAS Y CANTIDADES</h1>
+    <h1>ADMINISTRAR PROCESO DE COMPRA</h1>
 
     <div class="search-box">
         <asp:TextBox ID="txtBuscar" CssClass="form-control" runat="server" placeholder="Buscador"  ></asp:TextBox>
@@ -109,26 +109,29 @@
 
     <asp:UpdatePanel runat="server">
         <ContentTemplate>
-            <asp:GridView ID="dgvCompras" runat="server" AutoGenerateColumns="False" DataKeyNames="Id_Articulo" CssClass="table table-striped table-bordered table-hover" OnSelectedIndexChanged="dgvArticulos_SelectedIndexChanged" HeaderStyle-CssClass="table-dark" GridLines="None">
+            <asp:GridView ID="dgvCompras" runat="server" AutoGenerateColumns="False" CssClass="table table-striped table-bordered table-hover" OnRowCommand="dgvCompras_RowCommand" HeaderStyle-CssClass="table-dark" GridLines="None">
                 <Columns>
                     <asp:BoundField DataField="Id_DetalleCompra" HeaderText="Id" ReadOnly="True" SortExpression="Id" />
-                    <asp:BoundField DataField="UsuarioId" HeaderText="Nombre" SortExpression="Nombre" />
-                    <asp:BoundField DataField="ImporteTotal" HeaderText="Descripcion" SortExpression="Descripcion" />
-                    <asp:BoundField DataField="DirecciónEntregar" HeaderText="Precio" SortExpression="Precio" />
-                    <asp:BoundField DataField="EstadoCompraId" HeaderText="Stock" SortExpression="Stock" />
-                    <asp:BoundField DataField="FechaCompra" HeaderText="CategoriaId" SortExpression="CategoriaId" />
+                    <asp:BoundField DataField="NombreUsuario" HeaderText="Nombre" SortExpression="Nombre" />
+                    <asp:BoundField DataField="ApellidoUsuario" HeaderText="Apellido" SortExpression="Apellido" />
+                    <asp:BoundField DataField="EmailUsuario" HeaderText="Email" SortExpression="Email" />
+                    <asp:BoundField DataField="ImporteTotal" HeaderText="Precio Final" SortExpression="Precio Final" DataFormatString="{0:C}" />
+                    <asp:BoundField DataField="DireccionEntregar" HeaderText="Direccion Envio" SortExpression="Direccion Envio" />
+                    <asp:BoundField DataField="EstadoCompra" HeaderText="Estado" SortExpression="Estado" />
                     <asp:TemplateField>
                         <ItemTemplate>
-
-                        <asp:ImageButton ID="btnEditar" runat="server" CssClass="command-button" ImageUrl="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/pencil.svg" CommandName="Select" />
+                        <asp:ImageButton ID="btnCambiar" runat="server" CssClass="command-button" ImageUrl="https://cdn.jsdelivr.net/npm/bootstrap-icons/icons/pencil.svg" CommandName="CambiarEstado" CommandArgument='<%# Eval("Id_DetalleCompra") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <asp:BoundField DataField="Fecha_Compra" HeaderText="Fecha de Compra" SortExpression="Fecha de Compra" DataFormatString="{0:dd/MM/yyyy}"/>
                 </Columns>
             </asp:GridView>
         </ContentTemplate>
     </asp:UpdatePanel>
 
     <div class="text-center">
+        <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+
         <asp:Button ID="btnVolver" CssClass="btn btn-custom" runat="server" Text="Volver" OnClick="btnVolver_Click" />
     </div>
 </asp:Content>

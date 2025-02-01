@@ -339,5 +339,159 @@ namespace Manager
             }
         }
 
+        public int CantidadClientesActivos()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) AS Cantidad FROM Usuarios WHERE AccesoId = 3 AND Estado= 1");
+                datos.EjecutarLectura();
+                datos.Lector.Read();
+                return (int)datos.Lector["Cantidad"];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public int CantidadEmpleadosActivos()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) AS Cantidad FROM Usuarios WHERE AccesoId = 2 AND Estado= 1");
+                datos.EjecutarLectura();
+                datos.Lector.Read();
+                return (int)datos.Lector["Cantidad"];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+        public int CantidadArticulosActivos()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(*) AS Cantidad FROM Articulos WHERE Estado= 1");
+                datos.EjecutarLectura();
+                datos.Lector.Read();
+                return (int)datos.Lector["Cantidad"];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public decimal ImportePrecioTotal()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT SUM(Stock * Precio) AS PrecioTotales FROM Articulos WHERE Estado= 1");
+                datos.EjecutarLectura();
+                datos.Lector.Read();
+                return (Decimal)datos.Lector["PrecioTotales"];
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+        public List<Articulo> ListarMenor40()
+        {
+            List<Articulo> list = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+
+                datos.SetearConsulta("SELECT a.Id_Articulo, a.Nombre, a.Stock, a.Precio from Articulos a WHERE stock < 50");
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Articulo aux = new Articulo();
+
+                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Stock = (int)datos.Lector["Stock"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+
+
+                    list.Add(aux);
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public List<Articulo> ListarMayor50()
+        {
+            List<Articulo> list = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+
+                datos.SetearConsulta("SELECT a.Id_Articulo, a.Nombre, a.Stock, a.Precio from Articulos a WHERE stock > 40");
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Articulo aux = new Articulo();
+
+                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Stock = (int)datos.Lector["Stock"];
+                    aux.Precio = (decimal)datos.Lector["Precio"];
+
+                    list.Add(aux);
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
     }
 }
