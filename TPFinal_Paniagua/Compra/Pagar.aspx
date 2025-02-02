@@ -89,6 +89,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
+
+                             <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+                               
                                 <h4>Método de Pago</h4>
                                 <div class="radio-container">
                                     <div class="form-check">
@@ -144,6 +147,7 @@
                         <div class="d-grid">
                             <asp:Button ID="btnConfirmarPago" CssClass="btn btn-custom" runat="server" Text="Confirmar Pago" OnClick="btnConfirmarPago_Click" />
                         </div>
+
                     </div>
                 </div>
             </div>

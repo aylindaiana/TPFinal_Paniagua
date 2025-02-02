@@ -20,5 +20,34 @@ namespace Dominio
         public string NombreUsuario { get; set; }
         public string ApellidoUsuario { get; set; }
         public string EmailUsuario { get; set; }
+
+        public DetalleCompra()
+        {
+            Id_DetalleCompra = 0;
+            UsuarioId = 0;
+            CarritoCompraId = 0;
+            EstadoCompraId = 0;
+            ImporteTotal = 0;
+            DireccionEntregar = "0";
+            Fecha_Compra = DateTime.Now;
+            EstadoCompra = "";
+            NombreUsuario = "";
+            ApellidoUsuario = "";
+            EmailUsuario = "";
+        }
+        public DetalleCompra(int id_DetalleCompra, int usuarioId, int carritoCompraId, decimal importeTotal, string direccionEntregar, int estadoCompraId, DateTime fecha_Compra, string estadoCompra, string nombreUsuario, string apellidoUsuario, string emailUsuario)
+        {
+            Id_DetalleCompra = id_DetalleCompra;
+            UsuarioId = usuarioId;
+            CarritoCompraId = carritoCompraId;
+            ImporteTotal = importeTotal;
+            DireccionEntregar = direccionEntregar;
+            EstadoCompraId = estadoCompraId;
+            Fecha_Compra = fecha_Compra;
+            EstadoCompra = estadoCompra;
+            NombreUsuario = nombreUsuario;
+            ApellidoUsuario = apellidoUsuario;
+            EmailUsuario = emailUsuario;
+        }
     }
 }

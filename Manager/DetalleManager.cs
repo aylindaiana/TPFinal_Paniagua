@@ -114,11 +114,12 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_CambiarEstadoCompraCiclo @UsuarioId, @CarritoCompraId, @ImporteTotal, @DireccionEntregar");
+                datos.SetearConsulta("EXEC sp_InsertarPedido @UsuarioId, @CarritoCompraId, @ImporteTotal, @DireccionEntregar, 1");
                 datos.SetearParametro("@UsuarioId", detalle.UsuarioId);
                 datos.SetearParametro("@CarritoCompraId", detalle.CarritoCompraId);
-                datos.SetearParametro("ImporteToral", detalle.ImporteTotal);
+                datos.SetearParametro("ImporteTotal", detalle.ImporteTotal);
                 datos.SetearParametro("DireccionEntregar", detalle.DireccionEntregar);
+                datos.SetearParametro("EstadoCompraId", detalle.EstadoCompraId);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -131,5 +132,6 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
     }
 }

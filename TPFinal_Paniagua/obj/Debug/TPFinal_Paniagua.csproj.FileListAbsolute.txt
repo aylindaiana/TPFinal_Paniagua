@@ -72,6 +72,8 @@ C:\Users\aapan\source\repos\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_
 C:\Users\aapan\source\repos\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_.F3C39151.Up2Date
 C:\Users\aapan\source\repos\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.dll
 C:\Users\aapan\source\repos\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.pdb
+C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.csproj.AssemblyReference.cache
+C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.csproj.CoreCompileInputs.cache
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\TPFinal_Paniagua.dll.config
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\TPFinal_Paniagua.dll
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\TPFinal_Paniagua.pdb
@@ -145,8 +147,6 @@ C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\Microsoft.AspNet.
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\es\System.Web.Optimization.resources.dll
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\es\Microsoft.AspNet.FriendlyUrls.resources.dll
-C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.csproj.AssemblyReference.cache
-C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.csproj.CoreCompileInputs.cache
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_.F3C39151.Up2Date
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.dll
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.pdb

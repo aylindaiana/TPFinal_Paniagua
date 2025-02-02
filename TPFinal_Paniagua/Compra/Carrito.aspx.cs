@@ -226,6 +226,7 @@ namespace TPFinal_Paniagua.Compra
 
                     Session["DiccionarioCantidades"] = diccionarioCantidades;
                 }
+
             }
             catch (Exception ex)
             {

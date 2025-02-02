@@ -12,6 +12,13 @@ namespace TPFinal_Paniagua.Compra
 {
     public partial class DetalleCompra : System.Web.UI.Page
     {
+        public int UsuarioId { get; internal set; }
+        public int CarritoId { get; internal set; }
+        public decimal ImporteTotal { get; internal set; }
+        public DateTime Fecha_Compra { get; internal set; }
+        public int EstadoCompraId { get; internal set; }
+        public string DireccionEntregar { get; internal set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             lblId.Enabled = true;
