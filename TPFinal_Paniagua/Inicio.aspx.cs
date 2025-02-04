@@ -43,6 +43,15 @@ namespace TPFinal_Paniagua
             // Guarda la lista en el ViewState para conservarla en PostBack
             ViewState["AllOfertas"] = allOfertas;
         }
+        protected void btnDetalle_Click(object sender, EventArgs e)
+        {
+            Button btn = (Button)sender;
+            string idArticulo = btn.CommandArgument.ToString();
+
+            Session.Add("ArticuloId", idArticulo);
+
+            Response.Redirect("/Compra/DetalleCompra.aspx");
+        }
 
         private void BindData()
         {

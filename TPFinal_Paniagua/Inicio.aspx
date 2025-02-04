@@ -133,7 +133,7 @@
                 <ItemTemplate>
                     <div class="col-3">
                         <div class="card">
-                            <span class="badge-oferta">2x1</span>
+                            <span class="badge-oferta">SALE</span>
                             
                             <img src='<%# Eval("ImagenUrl") %>' alt='<%# Eval("Nombre") %>' class="card-img-top" />
 
@@ -147,6 +147,8 @@
                                 <p class="precio-oferta">
                                     <%# String.Format("{0:C}", Eval("Precio")) %>
                                 </p>
+                                 <asp:Button ID="btnDetalle" runat="server" Text="Ver Detalle" CssClass="btn-custom" 
+                                OnClick="btnDetalle_Click" CommandArgument='<%# Eval("Id_Articulo") %>' />
                             </div>
                         </div>
                     </div>
