@@ -12,6 +12,7 @@ namespace TPFinal_Paniagua
 {
     public partial class Registro : System.Web.UI.Page
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -27,6 +28,7 @@ namespace TPFinal_Paniagua
                 return;
             }
             UsuarioManager manager = new UsuarioManager();
+            CarritoManager carritoManager = new CarritoManager();
             Usuario usuario = new Usuario();
 
             try
@@ -52,8 +54,9 @@ namespace TPFinal_Paniagua
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
 
+                    carritoManager.AgregarCarrito(usuario.Id_Usuario);
+
                     Response.Redirect("Inicio.aspx");
-                  //  carritoManager.agregarCarrito(usuario.Id);
                 }
 
             }

@@ -175,7 +175,7 @@
                             <% } else if (accesoId == 2) { %>
                                 <a href="/Administrador/Navegacion.aspx" class="btn btn-warning me-2">Tablero Empleado</a>
                             <% } else if (accesoId == 3) { %>
-                                <a href="/Compra/DetalleCompra.aspx" class="btn btn-warning me-2">Mi compra</a>
+                                <a href="/Compra/MiCompra.aspx" class="btn btn-warning me-2">Mi compra</a>
                             <% } %>
                             <a href="/Perfil.aspx" class="btn btn-outline-light me-2">Perfil</a>
 

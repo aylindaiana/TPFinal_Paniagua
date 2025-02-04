@@ -113,13 +113,17 @@ namespace Manager
         {
             AccesoDatos datos = new AccesoDatos();
             try
-            {
+            {/*
+                if (!CarritoPerteneceAlUsuario(detalle.CarritoCompraId, detalle.UsuarioId))
+                {
+                    throw new InvalidOperationException("El carrito de compra no existe o no pertenece al usuario.");
+                }*/
                 datos.SetearConsulta("EXEC sp_InsertarPedido @UsuarioId, @CarritoCompraId, @ImporteTotal, @DireccionEntregar, 1");
                 datos.SetearParametro("@UsuarioId", detalle.UsuarioId);
                 datos.SetearParametro("@CarritoCompraId", detalle.CarritoCompraId);
-                datos.SetearParametro("ImporteTotal", detalle.ImporteTotal);
-                datos.SetearParametro("DireccionEntregar", detalle.DireccionEntregar);
-                datos.SetearParametro("EstadoCompraId", detalle.EstadoCompraId);
+                datos.SetearParametro("@ImporteTotal", detalle.ImporteTotal);
+                datos.SetearParametro("@DireccionEntregar", detalle.DireccionEntregar);
+                datos.SetearParametro("@EstadoCompraId", detalle.EstadoCompraId);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -130,6 +134,22 @@ namespace Manager
             finally
             {
                 datos.CerrarConeccion();
+            }
+        }
+        private bool CarritoPerteneceAlUsuario(int carritoCompraId, int usuarioId)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT COUNT(1) FROM CarritoCompras WHERE Id_CarritoCompra = @CarritoCompraId AND UsuarioId = @UsuarioId");
+                datos.SetearParametro("@CarritoCompraId", carritoCompraId);
+                datos.SetearParametro("@UsuarioId", usuarioId);
+                int count = (int)datos.ejecutarEscalar();
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar el carrito de compra: " + ex.Message);
             }
         }
 

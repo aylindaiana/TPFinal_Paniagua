@@ -18,6 +18,7 @@ namespace Manager
                 datos.SetearParametro("@UsuarioId", idUsuario);
 
                 datos.ejecutarAccion();
+
             }
             catch (Exception ex)
             {

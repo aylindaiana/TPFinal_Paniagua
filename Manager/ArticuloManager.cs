@@ -158,7 +158,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ActualizarStock");
+                datos.SetearConsulta("EXEC sp_ActualizarStock @idArticulo, @cantidadVendida");
                 datos.SetearParametro("@idArticulo", idArticulo);
                 datos.SetearParametro("@cantidadVendida", cantidadVendida);
                 datos.ejecutarAccion();

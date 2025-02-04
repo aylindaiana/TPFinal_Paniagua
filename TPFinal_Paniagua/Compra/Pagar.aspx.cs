@@ -2,6 +2,7 @@
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -58,7 +59,7 @@ namespace TPFinal_Paniagua.Compra
 
 
             ActualizarStock();
-            Response.Redirect("Confirmacion.aspx");
+            Response.Redirect("~/Confirmacion.aspx");
         }
 
         //Funciones: 
@@ -94,7 +95,9 @@ namespace TPFinal_Paniagua.Compra
                 .Where(a => diccionarioCantidades.ContainsKey(a.Id_Articulo))
                 .Sum(a => a.Precio * diccionarioCantidades[a.Id_Articulo]);
 
-            int idCarrito = usuario.Id_Usuario; 
+           // CarritoManager carrito = new CarritoManager();
+
+            int idCarrito = usuario.Id_Usuario;
             int idUsuario = usuario.Id_Usuario;
             DateTime fecha = DateTime.Now;
 
@@ -108,6 +111,7 @@ namespace TPFinal_Paniagua.Compra
             detalle.EstadoCompraId = 1;
             detalle.DireccionEntregar = usuario.Direccion;
             detalleManager.Agregar(detalle);
+
             ArticuloManager articuloManager = new ArticuloManager();
             foreach (var articulo in listaArticulo)
             {
@@ -136,6 +140,7 @@ namespace TPFinal_Paniagua.Compra
             lblMensaje.Visible = true;
 
         }
+
 
         private string ValidarFormulario()
         {
