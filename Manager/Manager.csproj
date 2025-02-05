@@ -48,6 +48,7 @@
     <Compile Include="DetalleManager.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="AccesoManager.cs" />
+    <Compile Include="ImagenesManager.cs" />
     <Compile Include="TipoManager.cs" />
     <Compile Include="UsuarioManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
