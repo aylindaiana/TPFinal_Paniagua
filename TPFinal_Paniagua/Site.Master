@@ -151,7 +151,7 @@
                             if (acceso != 0)
                             { %>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="/RecuperarPass">Cambiar Contraseña</a>
+                            <a class="nav-link text-white" href="/CambiarPassword">Cambiar Contraseña</a>
                         </li>
                         <%} %>
                     </ul>

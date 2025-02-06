@@ -9,26 +9,29 @@ namespace Manager
 {
     public class CarritoManager
     {
-        public void AgregarCarrito(int idUsuario)
+        public int AgregarCarrito(int idUsuario)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("INSERT INTO CarritoCompras (UsuarioId, ImporteTotal, FechaCreacion) VALUES(@UsuarioId, 0, GETDATE())");
+                // Se usa OUTPUT INSERTED.Id_CarritoCompra para devolver el ID del carrito insertado
+                datos.SetearConsulta("INSERT INTO CarritoCompras (UsuarioId, ImporteTotal, FechaCreacion) OUTPUT INSERTED.Id_CarritoCompra VALUES(@UsuarioId, 0, GETDATE())");
+
                 datos.SetearParametro("@UsuarioId", idUsuario);
 
-                datos.ejecutarAccion();
+                int nuevoIdCarrito = (int)datos.ejecutarEscalar(); // ✅ CORRECTO: Usamos ejecutarEscalar()
 
+                return nuevoIdCarrito; // ✅ Retornamos el ID generado
             }
             catch (Exception ex)
             {
-
-                throw new Exception("Error: " + ex.Message); ;
+                throw new Exception("Error al agregar el carrito: " + ex.Message);
             }
             finally
             {
                 datos.CerrarConeccion();
             }
         }
+
     }
 }

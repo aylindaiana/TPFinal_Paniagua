@@ -81,6 +81,7 @@ namespace Manager
         {
             try
             {
+                comando.Connection = conexion;
                 if (conexion.State != System.Data.ConnectionState.Open)
                 {
                     conexion.Open();

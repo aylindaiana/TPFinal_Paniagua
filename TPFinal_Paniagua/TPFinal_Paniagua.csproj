@@ -104,12 +104,14 @@
     <Content Include="Administrador\CompraDetallada.aspx" />
     <Content Include="Administrador\Config-Articulos.aspx" />
     <Content Include="Administrador\Config-Categoria.aspx" />
+    <Content Include="Administrador\Config-CompraDetallada.aspx" />
     <Content Include="Administrador\Config-Tipo.aspx" />
     <Content Include="Administrador\Config-Usuarios.aspx" />
     <Content Include="Administrador\Informe.aspx" />
     <Content Include="Administrador\Navegacion.aspx" />
     <Content Include="Administrador\Tipos.aspx" />
     <Content Include="Administrador\UsuariosGeneral.aspx" />
+    <Content Include="CambiarPassword.aspx" />
     <Content Include="Compra\Carrito.aspx" />
     <Content Include="Compra\DetalleCompra.aspx" />
     <Content Include="Compra\MiCompra.aspx" />
@@ -140,7 +142,7 @@
     <Content Include="Perfil.aspx" />
     <Content Include="Productos.aspx" />
     <Content Include="ProductosTipo.aspx" />
-    <Content Include="RecuperarPass.aspx" />
+    <Content Include="RecuperarPasswod.aspx" />
     <Content Include="Registro.aspx" />
     <Content Include="Salida.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -240,6 +242,13 @@
     <Compile Include="Administrador\Config-Categoria.aspx.designer.cs">
       <DependentUpon>Config-Categoria.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Administrador\Config-CompraDetallada.aspx.cs">
+      <DependentUpon>Config-CompraDetallada.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\Config-CompraDetallada.aspx.designer.cs">
+      <DependentUpon>Config-CompraDetallada.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Administrador\Config-Tipo.aspx.cs">
       <DependentUpon>Config-Tipo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -283,6 +292,13 @@
       <DependentUpon>UsuariosGeneral.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="CambiarPassword.aspx.cs">
+      <DependentUpon>CambiarPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CambiarPassword.aspx.designer.cs">
+      <DependentUpon>CambiarPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Compra\Carrito.aspx.cs">
       <DependentUpon>Carrito.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -365,12 +381,12 @@
       <DependentUpon>ProductosTipo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecuperarPass.aspx.cs">
-      <DependentUpon>RecuperarPass.aspx</DependentUpon>
+    <Compile Include="RecuperarPasswod.aspx.cs">
+      <DependentUpon>RecuperarPasswod.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="RecuperarPass.aspx.designer.cs">
-      <DependentUpon>RecuperarPass.aspx</DependentUpon>
+    <Compile Include="RecuperarPasswod.aspx.designer.cs">
+      <DependentUpon>RecuperarPasswod.aspx</DependentUpon>
     </Compile>
     <Compile Include="Registro.aspx.cs">
       <DependentUpon>Registro.aspx</DependentUpon>

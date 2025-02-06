@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace TPFinal_Paniagua
 {
-    public partial class RecuperarPass : System.Web.UI.Page
+    public partial class CambiarPassword : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -74,9 +74,6 @@ namespace TPFinal_Paniagua
                 lblMensaje.CssClass = "text-danger";
                 lblMensaje.Visible = true;
             }
-
-
         }
-
     }
 }

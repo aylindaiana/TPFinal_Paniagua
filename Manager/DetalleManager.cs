@@ -1,6 +1,7 @@
 ﻿using Dominio;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -109,15 +110,14 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
+
+        
         public void Agregar(DetalleCompra detalle)
         {
             AccesoDatos datos = new AccesoDatos();
             try
-            {/*
-                if (!CarritoPerteneceAlUsuario(detalle.CarritoCompraId, detalle.UsuarioId))
-                {
-                    throw new InvalidOperationException("El carrito de compra no existe o no pertenece al usuario.");
-                }*/
+            {
                 datos.SetearConsulta("EXEC sp_InsertarPedido @UsuarioId, @CarritoCompraId, @ImporteTotal, @DireccionEntregar, 1");
                 datos.SetearParametro("@UsuarioId", detalle.UsuarioId);
                 datos.SetearParametro("@CarritoCompraId", detalle.CarritoCompraId);
@@ -136,22 +136,89 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
-        private bool CarritoPerteneceAlUsuario(int carritoCompraId, int usuarioId)
+        public List<DetalleArticulo> ObtenerArticulosPorDetalleCompra(int detalleCompraId)
+        {
+            List<DetalleArticulo> lista = new List<DetalleArticulo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ObtenerArticulosPorDetalleCompra @DetalleCompraId");
+                datos.SetearParametro("@DetalleCompraId", detalleCompraId);
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    DetalleArticulo detalle = new DetalleArticulo
+                    {
+                        ArticuloId = (int)datos.Lector["ArticuloId"],
+                        NombreArticulo = (string)datos.Lector["NombreArticulo"],
+                        Cantidad = (int)datos.Lector["Cantidad"],
+                        PrecioUnidad = (decimal)datos.Lector["PrecioUnidad"]
+                    };
+
+                    lista.Add(detalle);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+
+            return lista;
+        }
+
+        public bool ActualizarDetalleCompra(int idCompra,int articuloId, int nuevaCantidad, decimal nuevoPrecio)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT COUNT(1) FROM CarritoCompras WHERE Id_CarritoCompra = @CarritoCompraId AND UsuarioId = @UsuarioId");
-                datos.SetearParametro("@CarritoCompraId", carritoCompraId);
-                datos.SetearParametro("@UsuarioId", usuarioId);
-                int count = (int)datos.ejecutarEscalar();
-                return count > 0;
+                datos.SetearConsulta("UPDATE DetalleArticulo SET Cantidad = @Cantidad, PrecioUnidad = @PrecioUnidad WHERE DetalleCompraId = @IdCompra AND ArticuloId = @ArticuloId");
+                datos.SetearParametro("@Cantidad", nuevaCantidad);
+                datos.SetearParametro("@PrecioUnidad", nuevoPrecio);
+                datos.SetearParametro("@IdCompra", idCompra);
+                datos.SetearParametro("@ArticuloId", articuloId);
+
+                datos.ejecutarAccion();
+                return true;
+
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al verificar el carrito de compra: " + ex.Message);
+                return false;
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
             }
         }
+        public bool EliminarCompra(int idCompra)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                //Hacer el delate con procedimiento almacenado para que afecte a las tablas
+                // de : carrito, detalle y articulo
+              //  datos.SetearConsulta("UPDATE DetalleArticulo SET Cantidad = @Cantidad, PrecioUnidad = @PrecioUnidad WHERE DetalleCompraId = @IdCompra AND ArticuloId = @ArticuloId");
+                datos.SetearParametro("@IdCompra", idCompra);
+                datos.ejecutarAccion();
+                return true;
 
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
     }
 }

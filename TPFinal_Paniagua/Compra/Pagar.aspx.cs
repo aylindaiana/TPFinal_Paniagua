@@ -13,7 +13,7 @@ namespace TPFinal_Paniagua.Compra
 {
     public partial class Pagar : System.Web.UI.Page
     {
-        Manager.DetalleManager detalleManager = new Manager.DetalleManager();
+        DetalleManager detalleManager = new DetalleManager();
         UsuarioManager usuarioManager = new UsuarioManager();  
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -95,9 +95,9 @@ namespace TPFinal_Paniagua.Compra
                 .Where(a => diccionarioCantidades.ContainsKey(a.Id_Articulo))
                 .Sum(a => a.Precio * diccionarioCantidades[a.Id_Articulo]);
 
-           // CarritoManager carrito = new CarritoManager();
+            CarritoManager carrito = new CarritoManager();
 
-            int idCarrito = usuario.Id_Usuario;
+            int idCarrito = carrito.AgregarCarrito(usuario.Id_Usuario);
             int idUsuario = usuario.Id_Usuario;
             DateTime fecha = DateTime.Now;
 

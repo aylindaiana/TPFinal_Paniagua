@@ -27,6 +27,7 @@ namespace TPFinal_Paniagua
         {
             Usuario usuario = new Usuario();
             UsuarioManager manager = new UsuarioManager();
+            CarritoManager carritoManager = new CarritoManager();
 
             try
             {
@@ -47,8 +48,8 @@ namespace TPFinal_Paniagua
                             lblError.Visible = false;
                             lblSuccess.Visible = true;
                             lblSuccess.Text = "Iniciaste session correctamente!";
-
-                            Response.Redirect("Inicio.aspx", false);
+                     //   carritoManager.AgregarCarrito(usuario.Id_Usuario);
+                        Response.Redirect("Inicio.aspx", false);
                     }
                     else
                     {

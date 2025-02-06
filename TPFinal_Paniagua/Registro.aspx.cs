@@ -12,6 +12,7 @@ namespace TPFinal_Paniagua
 {
     public partial class Registro : System.Web.UI.Page
     {
+        CarritoManager carritoManager = new CarritoManager();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,7 +29,7 @@ namespace TPFinal_Paniagua
                 return;
             }
             UsuarioManager manager = new UsuarioManager();
-            CarritoManager carritoManager = new CarritoManager();
+            
             Usuario usuario = new Usuario();
 
             try

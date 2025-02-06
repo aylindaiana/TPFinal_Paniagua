@@ -237,7 +237,7 @@ namespace Manager
             {
                 datos.SetearConsulta("SELECT COUNT(*) FROM Usuarios WHERE Email = @Email AND Estado = 1");
                 datos.SetearParametro("@Email", mail);
-                datos.ejecutarEscalar();
+                datos.EjecutarLectura();
 
                 while(datos.Lector.Read())
                 {
@@ -258,14 +258,14 @@ namespace Manager
             }
         }
 
-        public string RecuperarContra(string mail)
+        public string RecuperarPass(string mail)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.SetearConsulta("SELECT Contra FROM Usuarios WHERE Email = @Email AND Estado = 1");
                 datos.SetearParametro("@Email", mail);
-                datos.ejecutarEscalar();
+                datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -285,6 +285,25 @@ namespace Manager
             }
         }
 
+        public void CambiarContraseña(string email, string nuevaContraseña)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("UPDATE Usuarios SET Contra = @Contra WHERE Email = @Email AND Estado = 1");
+                datos.SetearParametro("@Email", email);
+                datos.SetearParametro("@Contra", nuevaContraseña);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
 
 
     }

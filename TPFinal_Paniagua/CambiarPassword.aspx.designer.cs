@@ -11,7 +11,7 @@ namespace TPFinal_Paniagua
 {
 
 
-    public partial class RecuperarPass
+    public partial class CambiarPassword
     {
 
         /// <summary>

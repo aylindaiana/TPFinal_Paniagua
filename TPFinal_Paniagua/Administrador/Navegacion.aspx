@@ -52,7 +52,7 @@
 
     <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="dashboard-container text-center">
-            <h1>Tablero para Gestión de Productos</h1>
+            <h1>Tablero para una Gestión Global</h1>
             <div class="btn-container">
                 <asp:Button Text="Administrar Usuarios" CssClass="btn btn-orange" ID="btnUsuarios" OnClick="btnUsuarios_Click" runat="server" Visible="false" />
                 <div class="row">
@@ -65,7 +65,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <asp:Button Text="Administrar Prendas" CssClass="btn btn-orange" ID="btnPrendas" OnClick="btnPrendas_Click" runat="server" />
+                        <asp:Button Text="Administrar Articulos" CssClass="btn btn-orange" ID="btnPrendas" OnClick="btnPrendas_Click" runat="server" />
                     </div>
                     <div class="col-md-6 mb-3">
                         <asp:Button Text="Administrar Compras" CssClass="btn btn-orange" ID="btnCompra" OnClick="btnCompra_Click" runat="server" />

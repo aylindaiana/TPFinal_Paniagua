@@ -20,7 +20,7 @@
         }
 
         .login-logo {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Comic Sans MS', sans-serif;
             font-size: 2rem;
             font-weight: bold;
             color: #ff7f50;
@@ -88,7 +88,10 @@
 
         <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control login-input" Placeholder="Usuario"></asp:TextBox>
         <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control login-input" TextMode="Password" Placeholder="Contraseña"></asp:TextBox>
-
+        <div class="login-links">
+            <a href="/RecuperarPassword.aspx">Olvide mi Contraseña</a>
+        </div>
+        <br/>
         <asp:Button ID="btnIngresar" runat="server" CssClass="login-btn" Text="Ingresar" OnClick="btnIngresar_Click" />
 
         <div class="login-links">
