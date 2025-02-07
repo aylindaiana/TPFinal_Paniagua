@@ -17,7 +17,7 @@ namespace TPFinal_Paniagua.Administrador
 
                 if (Session["AccesoId"] == null)
                 {
-                    Response.Redirect("Ingreso.aspx");
+                    Response.Redirect("~/Ingreso.aspx");
                 }
                 int idAcceso = (int)Session["AccesoId"];
 
@@ -28,7 +28,7 @@ namespace TPFinal_Paniagua.Administrador
                 }
                 if (idAcceso == 2)
                 {
-                    btnInforme.Visible = admin;
+                  //  btnInforme.Visible = admin;
                 }
             }
         }
@@ -59,7 +59,6 @@ namespace TPFinal_Paniagua.Administrador
         {
             Response.Redirect("~/Administrador/Informe.aspx");
         }
-
 
     }
 }

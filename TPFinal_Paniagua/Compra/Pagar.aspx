@@ -109,8 +109,8 @@
                                 </div>
 
                                 <div id="divEfectivo" runat="server" visible="false" class="text-center mt-3">
-                                    <img src="~/Images/pagofacil.png" alt="Pago Fácil" class="img-fluid" width="150" />
-                                    <img src="~/Images/rapipago.png" alt="Rapipago" class="img-fluid" width="150" />
+                                    <img src="/Img/pagofacil.PNG" alt="Pago Fácil" class="img-fluid" width="150" />
+                                    <img src="/Img/rapipago.PNG" alt="Rapipago" class="img-fluid" width="150" />
                                 </div>
                                 <asp:TextBox ID="txtNumeroTarjeta" CssClass="form-control" runat="server" placeholder="Número de tarjeta" MaxLength="16"></asp:TextBox>
                                 <asp:RegularExpressionValidator ID="revNumeroTarjeta" runat="server" ControlToValidate="txtNumeroTarjeta" ValidationExpression="\d{16}" ErrorMessage="Número inválido" CssClass="text-danger" Display="Dynamic" />

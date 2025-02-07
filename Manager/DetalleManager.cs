@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,8 +111,6 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
-
-
         
         public void Agregar(DetalleCompra detalle)
         {
@@ -136,6 +135,8 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
+
         public List<DetalleArticulo> ObtenerArticulosPorDetalleCompra(int detalleCompraId)
         {
             List<DetalleArticulo> lista = new List<DetalleArticulo>();

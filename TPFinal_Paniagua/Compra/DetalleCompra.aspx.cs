@@ -88,7 +88,7 @@ namespace TPFinal_Paniagua.Compra
                 if (stock == 0)
                 {
                     btnAgregarCarrito.Enabled = false;
-                    btnAgregarCarrito.Text = "Artículo sin stock.";
+                    btnAgregarCarrito.Text = "No hay stock.";
                     btnAgregarCarrito.CssClass = "btn btn-warning";
                 }
                 else
