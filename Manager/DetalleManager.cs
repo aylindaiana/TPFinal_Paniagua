@@ -202,13 +202,16 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                //Hacer el delate con procedimiento almacenado para que afecte a las tablas
-                // de : carrito, detalle y articulo
-              //  datos.SetearConsulta("UPDATE DetalleArticulo SET Cantidad = @Cantidad, PrecioUnidad = @PrecioUnidad WHERE DetalleCompraId = @IdCompra AND ArticuloId = @ArticuloId");
+                datos.SetearConsulta(@"
+            DELETE FROM DetalleArticulo WHERE DetalleCompraId = @IdCompra;
+            DELETE FROM CarritoCompras WHERE Id_CarritoCompra IN 
+                (SELECT CarritoCompraId FROM DetalleCompra WHERE Id_DetalleCompra = @IdCompra);
+            DELETE FROM DetalleCompra WHERE Id_DetalleCompra = @IdCompra;
+        ");
                 datos.SetearParametro("@IdCompra", idCompra);
+
                 datos.ejecutarAccion();
                 return true;
-
             }
             catch (Exception ex)
             {
@@ -220,5 +223,6 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
     }
 }

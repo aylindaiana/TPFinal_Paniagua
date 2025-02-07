@@ -13,5 +13,9 @@ namespace TPFinal_Paniagua
         {
 
         }
+        protected void btnInicio_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Inicio.aspx");
+        }
     }
 }

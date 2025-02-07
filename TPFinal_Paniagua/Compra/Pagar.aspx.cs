@@ -20,15 +20,39 @@ namespace TPFinal_Paniagua.Compra
             if (!IsPostBack)
             {
                 ReconocerUsuario();
+                CargarResumenCompra();
             }
         }
 
         protected void Pago_CheckedChanged(object sender, EventArgs e)
         {
-            txtNumeroTarjeta.Enabled = rbtnCredito.Checked || rbtnDebito.Checked;
-            txtNombreTitular.Enabled = txtNumeroTarjeta.Enabled;
-            txtVencimiento.Enabled = txtNumeroTarjeta.Enabled;
-            txtCVV.Enabled = txtNumeroTarjeta.Enabled;
+           
+            if (rbtnCredito.Checked || rbtnDebito.Checked)
+            {
+                txtNumeroTarjeta.Enabled = true;
+                txtNombreTitular.Enabled = true;
+                txtVencimiento.Enabled = true;
+                txtCVV.Enabled = true;
+                txtDNI.Enabled = true;
+
+                divEfectivo.Visible = false; 
+            }
+
+            else if (rbtnEfectivo.Checked)
+            {
+                txtNumeroTarjeta.Enabled = false;
+                txtNombreTitular.Enabled = false;
+                txtVencimiento.Enabled = false;
+                txtCVV.Enabled = false;
+                txtDNI.Enabled = false;
+                txtNumeroTarjeta.Visible = false;
+                txtNombreTitular.Visible = false;
+                txtVencimiento.Visible = false;
+                txtCVV.Visible = false;
+                txtDNI.Visible = false;
+
+                divEfectivo.Visible = true; 
+            }
         }
 
         protected void Envio_CheckedChanged(object sender, EventArgs e)
@@ -61,6 +85,7 @@ namespace TPFinal_Paniagua.Compra
             ActualizarStock();
             Response.Redirect("~/Confirmacion.aspx");
         }
+
 
         //Funciones: 
         public void ReconocerUsuario()
@@ -141,29 +166,63 @@ namespace TPFinal_Paniagua.Compra
 
         }
 
+        private void CargarResumenCompra()
+        {
+            List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
+            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+
+            if (listaArticulo != null && diccionarioCantidades != null)
+            {
+                var resumenCompra = listaArticulo
+                    .Where(a => diccionarioCantidades.ContainsKey(a.Id_Articulo))
+                    .Select(a => new
+                    {
+                        Nombre = a.Nombre,
+                        Cantidad = diccionarioCantidades[a.Id_Articulo]
+                    }).ToList();
+
+                rptResumenCompra.DataSource = resumenCompra;
+                rptResumenCompra.DataBind();
+
+                decimal total = listaArticulo.Sum(a => a.Precio * diccionarioCantidades[a.Id_Articulo]);
+                lblTotal.Text = "$" + total.ToString("N2");
+            }
+        }
+
 
         private string ValidarFormulario()
         {
             StringBuilder errores = new StringBuilder();
 
-            if (string.IsNullOrWhiteSpace(txtNumeroTarjeta.Text) || txtNumeroTarjeta.Text.Length != 16)
+            if (!rbtnCredito.Checked && !rbtnDebito.Checked && !rbtnEfectivo.Checked)
             {
-                errores.AppendLine("El numero es invalido o incorrecto. Intente Nuevamente.<br/>");
+                errores.AppendLine("Debe seleccionar un método de pago.<br/>");
             }
-
-            if (string.IsNullOrWhiteSpace(txtNombreTitular.Text))
+            if (!rbtnAcordar.Checked && !rbtnDomicilio.Checked)
             {
-                errores.AppendLine("Tiene que agregar un nombre válido.<br/>");
+                errores.AppendLine("Debe seleccionar una forma de envio.<br/>");
             }
-
-            if (string.IsNullOrWhiteSpace(txtVencimiento.Text))
+            if (rbtnCredito.Checked || rbtnDebito.Checked)
             {
-                errores.AppendLine("Debe rellenar este campo.<br/>");
-            }
+                if (string.IsNullOrWhiteSpace(txtNumeroTarjeta.Text) || txtNumeroTarjeta.Text.Length != 16)
+                {
+                    errores.AppendLine("El numero es invalido o incorrecto. Intente Nuevamente.<br/>");
+                }
 
-            if (string.IsNullOrWhiteSpace(txtCVV.Text) || txtCVV.Text.Length != 3)
-            {
-                errores.AppendLine("Ingrese un formato valido y complete todo los campo.<br/>");
+                if (string.IsNullOrWhiteSpace(txtNombreTitular.Text))
+                {
+                    errores.AppendLine("Tiene que agregar un nombre válido.<br/>");
+                }
+
+                if (string.IsNullOrWhiteSpace(txtVencimiento.Text))
+                {
+                    errores.AppendLine("Debe rellenar este campo.<br/>");
+                }
+
+                if (string.IsNullOrWhiteSpace(txtCVV.Text) || txtCVV.Text.Length != 3)
+                {
+                    errores.AppendLine("Ingrese un formato valido y complete todo los campo.<br/>");
+                }
             }
             return errores.ToString();
         }

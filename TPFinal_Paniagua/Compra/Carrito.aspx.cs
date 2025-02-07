@@ -30,6 +30,15 @@ namespace TPFinal_Paniagua.Compra
 
         protected void btnPay_Click(object sender, EventArgs e)
         {
+            List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
+
+            
+            if (listaArticulos == null || listaArticulos.Count == 0)
+            {
+                lblError.Text = "El carrito está vacío, no se puede realizar ninguna compra sin ningún artículo seleccionado.";
+                lblError.Visible = true;
+                return; 
+            }
             Usuario usuario = (Usuario)Session["usuario"];
 
             if (usuario == null)

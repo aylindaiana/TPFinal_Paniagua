@@ -88,7 +88,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
 
                              <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
                                
@@ -102,6 +102,15 @@
                                         <asp:RadioButton ID="rbtnDebito" runat="server" GroupName="Pago"  AutoPostBack="false" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
                                         <label class="form-check-label">Tarjeta de Débito</label>
                                     </div>
+                                    <div class="form-check">
+                                        <asp:RadioButton ID="rbtnEfectivo" runat="server" GroupName="Pago" AutoPostBack="true" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
+                                        <label class="form-check-label">Efectivo</label>
+                                    </div>
+                                </div>
+
+                                <div id="divEfectivo" runat="server" visible="false" class="text-center mt-3">
+                                    <img src="~/Images/pagofacil.png" alt="Pago Fácil" class="img-fluid" width="150" />
+                                    <img src="~/Images/rapipago.png" alt="Rapipago" class="img-fluid" width="150" />
                                 </div>
                                 <asp:TextBox ID="txtNumeroTarjeta" CssClass="form-control" runat="server" placeholder="Número de tarjeta" MaxLength="16"></asp:TextBox>
                                 <asp:RegularExpressionValidator ID="revNumeroTarjeta" runat="server" ControlToValidate="txtNumeroTarjeta" ValidationExpression="\d{16}" ErrorMessage="Número inválido" CssClass="text-danger" Display="Dynamic" />
@@ -117,7 +126,7 @@
                                 <asp:TextBox ID="txtDNI" CssClass="form-control" runat="server" placeholder="Documento" MaxLength="8"></asp:TextBox>
                                 <asp:RegularExpressionValidator ID="revDNI" runat="server" ControlToValidate="txtDNI" ValidationExpression="\d{8}" ErrorMessage="Formato de DNI inválido" CssClass="text-danger" Display="Dynamic" />
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <h4>Método de Envío</h4>
                                 <div class="radio-container">
                                     <div class="form-check">
@@ -140,10 +149,31 @@
                                         Placeholder="Ingrese su código postal" Visible="false" MaxLength="4"></asp:TextBox>
                                     <asp:RegularExpressionValidator ID="revCP" runat="server" ControlToValidate="codigoPostal" ValidationExpression="\d{4}" ErrorMessage="CP inválido" CssClass="text-danger" Display="Dynamic" />
                                 </div>
-
                             </div>
 
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4>Resumen de la Compra</h4>
+                                        <ul class="list-group">
+                                            <asp:Repeater ID="rptResumenCompra" runat="server">
+                                                <ItemTemplate>
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <%# Eval("Nombre") %>
+                                                        <span class="badge bg-primary rounded-pill">x <%# Eval("Cantidad") %></span>
+                                                    </li>
+                                                </ItemTemplate>
+                                            </asp:Repeater>
+                                        </ul>
+                                        <hr>
+                                        <h5 class="text-end">Total: <asp:Label ID="lblTotal" runat="server" CssClass="fw-bold"></asp:Label></h5>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
+
                         <div class="d-grid">
                             <asp:Button ID="btnConfirmarPago" CssClass="btn btn-custom" runat="server" Text="Confirmar Pago" OnClick="btnConfirmarPago_Click" />
                         </div>
