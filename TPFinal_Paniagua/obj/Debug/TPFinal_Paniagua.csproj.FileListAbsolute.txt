@@ -150,3 +150,7 @@ C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\es\Microsoft.AspN
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_.F3C39151.Up2Date
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.dll
 C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\obj\Debug\TPFinal_Paniagua.pdb
+C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\BouncyCastle.Cryptography.dll
+C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\itextsharp.dll
+C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\BouncyCastle.Cryptography.xml
+C:\Users\aapan\Downloads\TPFinal_Paniagua\TPFinal_Paniagua\bin\itextsharp.xml

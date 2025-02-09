@@ -21,6 +21,8 @@ namespace Dominio
         public string ApellidoUsuario { get; set; }
         public string EmailUsuario { get; set; }
 
+        public string RutaFactura { get; set; }
+
         public DetalleCompra()
         {
             Id_DetalleCompra = 0;

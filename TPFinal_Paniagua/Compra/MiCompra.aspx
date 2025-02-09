@@ -116,6 +116,18 @@
                     <asp:BoundField DataField="ImporteTotal" HeaderText="Importe Total" SortExpression="ImporteTotal" DataFormatString="{0:C}" />
                     <asp:BoundField DataField="DireccionEntregar" HeaderText="Dirección de Entrega" SortExpression="DireccionEntregar" />
                     <asp:BoundField DataField="EstadoCompra" HeaderText="Estado" SortExpression="EstadoCompra" />
+                    <asp:TemplateField HeaderText="Factura">
+                        <ItemTemplate>
+                            <asp:HyperLink ID="lnkFactura" runat="server" 
+                                Text="Descargar PDF" 
+                                NavigateUrl='<%# Eval("RutaFactura") %>' 
+                                Target="_blank" 
+                                CssClass="btn btn-custom"
+                                Visible='<%# !string.IsNullOrEmpty(Eval("RutaFactura").ToString()) %>'>
+                            </asp:HyperLink>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
             </Columns>
         </asp:GridView>
        </ContentTemplate>

@@ -90,6 +90,99 @@ namespace Manager
             }
             return list;
         }
+        public List<DetalleCompra> ObtenerUsuarioPorCompra(int idUsuario)
+        {
+            List<DetalleCompra> list = new List<DetalleCompra>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ObtenerUsuarioPorCompra @IdUsuario");
+                datos.SetearParametro("@IdUsuario", idUsuario);
+
+                datos.EjecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    DetalleCompra detalle = new DetalleCompra();
+                    detalle.Id_DetalleCompra = (int)datos.Lector["Id_DetalleCompra"];
+                    detalle.UsuarioId = (int)datos.Lector["UsuarioId"];
+                    detalle.CarritoCompraId = (int)datos.Lector["CarritoCompraId"];
+                    detalle.Fecha_Compra = (DateTime)datos.Lector["Fecha_Compra"];
+                    detalle.ImporteTotal = (Decimal)datos.Lector["ImporteDetalleCompra"];
+                    detalle.DireccionEntregar = (string)datos.Lector["DireccionEntregar"];
+                    detalle.EstadoCompraId = (int)datos.Lector["Id_EstadoCompra"];
+                    detalle.EstadoCompra = (string)datos.Lector["EstadoCompra"];
+                    detalle.NombreUsuario = (string)datos.Lector["NombreUsuario"];
+                    detalle.ApellidoUsuario = (string)datos.Lector["ApellidoUsuario"];
+                    detalle.EmailUsuario = (string)datos.Lector["EmailUsuario"];
+
+                    if (!(datos.Lector["RutaFactura"] is DBNull))
+                    {
+                        detalle.RutaFactura = datos.Lector["RutaFactura"].ToString();
+                    }
+                    else
+                    {
+                        detalle.RutaFactura = string.Empty; 
+                    }
+                    list.Add(detalle);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+            return list;
+        }
+        public bool GuardarRutaFactura(int idUsuario, string rutaFactura)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                // Primero, actualizamos la base de datos
+                datos.SetearConsulta(@"
+            UPDATE DetalleCompra 
+            SET RutaFactura = @RutaFactura 
+            WHERE UsuarioId = @IdUsuario 
+            AND Fecha_Compra = (SELECT MAX(Fecha_Compra) FROM DetalleCompra WHERE UsuarioId = @IdUsuario)");
+
+                datos.SetearParametro("@RutaFactura", rutaFactura);
+                datos.SetearParametro("@IdUsuario", idUsuario);
+                datos.ejecutarAccion(); // No devuelve nada
+                
+                // Luego, verificamos si el cambio se realizó con un COUNT
+                datos.SetearConsulta(@"
+            SELECT COUNT(*) 
+            FROM DetalleCompra 
+            WHERE UsuarioId = @IdUsuario 
+            AND RutaFactura = @RutaFactura");
+
+                datos.SetearParametro("@RutaFactura", rutaFactura);
+                datos.SetearParametro("@IdUsuario", idUsuario);
+                datos.EjecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int count = (int)datos.Lector[0];
+                    return count > 0;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar la factura en la base de datos.", ex);
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
 
         public bool CambiarEstadoCompraCiclo(int idDetalle)
         {

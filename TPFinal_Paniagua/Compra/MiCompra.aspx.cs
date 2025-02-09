@@ -16,6 +16,25 @@ namespace TPFinal_Paniagua.Compra
         {
             ReconocerUsuario();
             CargarMisCompras();
+            if (!IsPostBack)
+            {
+                if (Session["PDF_Descarga"] != null)
+                {
+                    string nombreArchivo = Session["PDF_Descarga"].ToString();
+                    string rutaRelativa = "~/Facturas/" + nombreArchivo;
+
+                    // Asegúrate de asignar la URL en el GridView desde el servidor
+                    foreach (GridViewRow row in dgvMisCompras.Rows)
+                    {
+                        var lnkFactura = (HyperLink)row.FindControl("lnkFactura");
+                        if (lnkFactura != null && !string.IsNullOrEmpty(rutaRelativa))
+                        {
+                            lnkFactura.NavigateUrl = rutaRelativa;
+                            lnkFactura.Visible = true;
+                        }
+                    }
+                }
+            }
         }
         protected void btnVolver_Click(object sender, EventArgs e)
         {
@@ -39,7 +58,7 @@ namespace TPFinal_Paniagua.Compra
                     return;
                 }
 
-                var compras = detalleManager.ObtenerPorDetalle(usuario.Id_Usuario); 
+                var compras = detalleManager.ObtenerUsuarioPorCompra(usuario.Id_Usuario); 
                 if (compras != null && compras.Any())
                 {
                     dgvMisCompras.DataSource = compras;
@@ -73,7 +92,7 @@ namespace TPFinal_Paniagua.Compra
             }
             else
             {
-                lblMensaje.Text = "Usuario encontrado en la sesión: " + usuario.Nombre;
+             //   lblMensaje.Text = "Usuario encontrado en la sesión: " + usuario.Nombre;
                 lblMensaje.CssClass = "text-success";
                 lblMensaje.Visible = true;
             }

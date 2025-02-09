@@ -8,6 +8,10 @@ using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.Xml.Linq;
 
 namespace TPFinal_Paniagua.Compra
 {
@@ -82,12 +86,162 @@ namespace TPFinal_Paniagua.Compra
             }
 
 
+            GenerarPDF();
+
             ActualizarStock();
-            Response.Redirect("~/Confirmacion.aspx");
+
+           // Response.Redirect("~/Confirmacion.aspx");
+
         }
 
 
         //Funciones: 
+
+        private void GenerarPDF()
+        {
+            try
+            {
+                List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
+                Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+                Usuario usuario = Session["usuarioActual"] as Usuario;
+                
+                if (listaArticulo == null || diccionarioCantidades == null || usuario == null)
+                {
+                    return;
+                }
+                lblMensaje.Text += "<br>Ejecutando código en GenerarPDF()...";
+                lblMensaje.Visible = true;
+
+                string carpetaFacturas = Server.MapPath("~/Facturas/");
+                if (!Directory.Exists(carpetaFacturas))
+                {
+                    Directory.CreateDirectory(carpetaFacturas);
+                }
+
+                string nombreArchivo = $"Factura_{usuario.Id_Usuario}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
+                string ruta = Path.Combine(carpetaFacturas, nombreArchivo);
+
+
+                Document doc = new Document(PageSize.A4);
+                PdfWriter.GetInstance(doc, new FileStream(ruta, FileMode.Create));
+                doc.Open();
+                
+
+                Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+                Font textFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+
+                PdfPTable headerTable = new PdfPTable(1);
+                headerTable.WidthPercentage = 100;
+
+                string logoPath = Server.MapPath("/Img/LogoRoseVibes.JPEG");
+                if (File.Exists(logoPath))
+                {
+                    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
+                    logo.ScaleToFit(120, 120); 
+                    logo.Alignment = Element.ALIGN_CENTER;
+
+                    PdfPCell logoCell = new PdfPCell(logo)
+                    {
+                        Border = PdfPCell.NO_BORDER,
+                        HorizontalAlignment = Element.ALIGN_CENTER
+                    };
+
+                    headerTable.AddCell(logoCell);
+                }
+
+                PdfPCell titleCell = new PdfPCell(new Phrase("Rose Vibes", titleFont))
+                {
+                    Border = PdfPCell.NO_BORDER,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                };
+                headerTable.AddCell(titleCell);
+
+                doc.Add(headerTable); 
+
+                doc.Add(new Paragraph($"\nFactura N°: {DateTime.Now:yyyyMMddHHmmss}", textFont));
+                doc.Add(new Paragraph($"Fecha: {DateTime.Now:dd/MM/yyyy}", textFont));
+                doc.Add(new Paragraph($"Cliente con ID: {usuario.Id_Usuario} {usuario.Nombre} {usuario.Apellido}", textFont));
+
+                doc.Add(new Paragraph("\n"));
+
+
+                PdfPTable table = new PdfPTable(3)
+                {
+                    WidthPercentage = 100
+                };
+                table.SetWidths(new float[] { 50f, 25f, 25f });
+
+                table.AddCell(new PdfPCell(new Phrase("Artículo", textFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Cantidad", textFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                table.AddCell(new PdfPCell(new Phrase("Precio Total", textFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+
+                decimal total = 0;
+
+                foreach (var articulo in listaArticulo)
+                {
+                    if (diccionarioCantidades.TryGetValue(articulo.Id_Articulo, out int cantidad))
+                    {
+                        decimal subtotal = articulo.Precio * cantidad;
+                        total += subtotal;
+
+                        table.AddCell(new PdfPCell(new Phrase(articulo.Nombre, textFont)));
+                        table.AddCell(new PdfPCell(new Phrase(cantidad.ToString(), textFont)));
+                        table.AddCell(new PdfPCell(new Phrase("$" + subtotal.ToString("N2"), textFont)));
+                    }
+                }
+
+                doc.Add(table);
+                doc.Add(new Paragraph($"\nTotal Pagado: ${total:N2}", titleFont));
+
+                doc.Close();
+
+                GuardarRutaFactura(usuario.Id_Usuario, ruta);
+
+                Session["PDF_Descarga"] = nombreArchivo;
+               // Response.Redirect("~/Confirmacion.aspx");
+                
+                Response.ContentType = "application/pdf";
+                Response.AppendHeader("Content-Disposition", "attachment; filename=" + nombreArchivo);
+                Response.TransmitFile(ruta);
+                Response.Flush();
+                Response.Close();
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error al generar el PDF: " + ex.Message + "<br>" + ex.StackTrace;
+                lblMensaje.CssClass = "text-danger";
+                lblMensaje.Visible = true;
+            }
+        }
+        private void GuardarRutaFactura(int idUsuario, string rutaFactura)
+        {
+            try
+            {
+                DetalleManager manager = new DetalleManager();
+                bool resultado = manager.GuardarRutaFactura(idUsuario, rutaFactura);
+
+                if (resultado)
+                {
+                    lblMensaje.Text = "Factura guardada correctamente.";
+                    lblMensaje.CssClass = "text-success";
+                }
+                else
+                {
+                    lblMensaje.Text = "No se pudo guardar la factura.";
+                    lblMensaje.CssClass = "text-danger";
+                }
+
+                lblMensaje.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                lblMensaje.Text = "Error en la base de datos: " + ex.Message;
+                lblMensaje.CssClass = "text-danger";
+                lblMensaje.Visible = true;
+            }
+        }
+
+
         public void ReconocerUsuario()
         {
             List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
