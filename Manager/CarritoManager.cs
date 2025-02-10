@@ -19,9 +19,9 @@ namespace Manager
 
                 datos.SetearParametro("@UsuarioId", idUsuario);
 
-                int nuevoIdCarrito = (int)datos.ejecutarEscalar(); // ✅ CORRECTO: Usamos ejecutarEscalar()
+                int nuevoIdCarrito = (int)datos.ejecutarEscalar(); 
 
-                return nuevoIdCarrito; // ✅ Retornamos el ID generado
+                return nuevoIdCarrito; 
             }
             catch (Exception ex)
             {

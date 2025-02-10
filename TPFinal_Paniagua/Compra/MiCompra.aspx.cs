@@ -14,16 +14,16 @@ namespace TPFinal_Paniagua.Compra
         DetalleManager detalleManager = new DetalleManager();
         protected void Page_Load(object sender, EventArgs e)
         {
-            ReconocerUsuario();
-            CargarMisCompras();
+            
             if (!IsPostBack)
             {
+                ReconocerUsuario();
+                CargarMisCompras();
+                /*
                 if (Session["PDF_Descarga"] != null)
                 {
                     string nombreArchivo = Session["PDF_Descarga"].ToString();
                     string rutaRelativa = "~/Facturas/" + nombreArchivo;
-
-                    // Asegúrate de asignar la URL en el GridView desde el servidor
                     foreach (GridViewRow row in dgvMisCompras.Rows)
                     {
                         var lnkFactura = (HyperLink)row.FindControl("lnkFactura");
@@ -33,7 +33,7 @@ namespace TPFinal_Paniagua.Compra
                             lnkFactura.Visible = true;
                         }
                     }
-                }
+                }*/
             }
         }
         protected void btnVolver_Click(object sender, EventArgs e)

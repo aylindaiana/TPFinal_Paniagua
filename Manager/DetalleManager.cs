@@ -138,51 +138,6 @@ namespace Manager
             }
             return list;
         }
-        public bool GuardarRutaFactura(int idUsuario, string rutaFactura)
-        {
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                // Primero, actualizamos la base de datos
-                datos.SetearConsulta(@"
-            UPDATE DetalleCompra 
-            SET RutaFactura = @RutaFactura 
-            WHERE UsuarioId = @IdUsuario 
-            AND Fecha_Compra = (SELECT MAX(Fecha_Compra) FROM DetalleCompra WHERE UsuarioId = @IdUsuario)");
-
-                datos.SetearParametro("@RutaFactura", rutaFactura);
-                datos.SetearParametro("@IdUsuario", idUsuario);
-                datos.ejecutarAccion(); // No devuelve nada
-                
-                // Luego, verificamos si el cambio se realizó con un COUNT
-                datos.SetearConsulta(@"
-            SELECT COUNT(*) 
-            FROM DetalleCompra 
-            WHERE UsuarioId = @IdUsuario 
-            AND RutaFactura = @RutaFactura");
-
-                datos.SetearParametro("@RutaFactura", rutaFactura);
-                datos.SetearParametro("@IdUsuario", idUsuario);
-                datos.EjecutarLectura();
-
-                if (datos.Lector.Read())
-                {
-                    int count = (int)datos.Lector[0];
-                    return count > 0;
-                }
-
-                return false;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al guardar la factura en la base de datos.", ex);
-            }
-            finally
-            {
-                datos.CerrarConeccion();
-            }
-        }
-
 
         public bool CambiarEstadoCompraCiclo(int idDetalle)
         {
@@ -210,12 +165,13 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_InsertarPedido @UsuarioId, @CarritoCompraId, @ImporteTotal, @DireccionEntregar, 1");
+                datos.SetearConsulta("EXEC sp_InsertarPedido @UsuarioId, @CarritoCompraId, @ImporteTotal, @DireccionEntregar, 1, @RutaFactura");
                 datos.SetearParametro("@UsuarioId", detalle.UsuarioId);
                 datos.SetearParametro("@CarritoCompraId", detalle.CarritoCompraId);
                 datos.SetearParametro("@ImporteTotal", detalle.ImporteTotal);
                 datos.SetearParametro("@DireccionEntregar", detalle.DireccionEntregar);
                 datos.SetearParametro("@EstadoCompraId", detalle.EstadoCompraId);
+                datos.SetearParametro("@RutaFactura", string.IsNullOrEmpty(detalle.RutaFactura) ? (object)DBNull.Value : detalle.RutaFactura);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -228,7 +184,97 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+        public void RegistrarCompra(DetalleCompra detalle)
+        {
+            Agregar(detalle);
 
+            int detalleCompraId = ObtenerUltimoDetalleCompra(detalle.UsuarioId);
+
+            if (detalleCompraId > 0)
+            {
+                string rutaFactura = "/Facturas/Factura_" + detalleCompraId + ".pdf";
+
+                GenerarFactura(detalleCompraId, rutaFactura);
+
+                GuardarRutaFactura(detalleCompraId, rutaFactura);
+            }
+        }
+        public int ObtenerUltimoDetalleCompra(int idUsuario)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta(@"
+            SELECT TOP 1 Id_DetalleCompra 
+            FROM DetalleCompra 
+            WHERE UsuarioId = @IdUsuario 
+            ORDER BY Fecha_Compra DESC");
+
+                datos.SetearParametro("@IdUsuario", idUsuario);
+                datos.EjecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    return (int)datos.Lector["Id_DetalleCompra"];
+                }
+
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el último detalle de compra.", ex);
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void GenerarFactura(int detalleCompraId, string rutaFactura)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("INSERT INTO Facturas (DetalleCompraId, RutaFactura) VALUES (@DetalleCompraId, @RutaFactura)");
+                datos.SetearParametro("@DetalleCompraId", detalleCompraId);
+                datos.SetearParametro("@RutaFactura", rutaFactura);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+        public bool GuardarRutaFactura(int idDetalleCompra, string rutaFactura)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta(@"
+            UPDATE DetalleCompra 
+            SET RutaFactura = @RutaFactura 
+            WHERE Id_DetalleCompra = @IdDetalleCompra");
+
+                datos.SetearParametro("@RutaFactura", rutaFactura);
+                datos.SetearParametro("@IdDetalleCompra", idDetalleCompra);
+                datos.ejecutarAccion();
+
+                return true; // Si se ejecuta correctamente
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al guardar la factura en la base de datos.", ex);
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
 
         public List<DetalleArticulo> ObtenerArticulosPorDetalleCompra(int detalleCompraId)
         {

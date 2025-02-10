@@ -86,7 +86,7 @@ namespace TPFinal_Paniagua.Compra
             }
 
 
-            GenerarPDF();
+           // GenerarPDF();
 
             ActualizarStock();
 
@@ -97,20 +97,18 @@ namespace TPFinal_Paniagua.Compra
 
         //Funciones: 
 
-        private void GenerarPDF()
+        private string GenerarPDF()
         {
             try
             {
                 List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
                 Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
                 Usuario usuario = Session["usuarioActual"] as Usuario;
-                
+
                 if (listaArticulo == null || diccionarioCantidades == null || usuario == null)
                 {
-                    return;
+                    return null;
                 }
-                lblMensaje.Text += "<br>Ejecutando código en GenerarPDF()...";
-                lblMensaje.Visible = true;
 
                 string carpetaFacturas = Server.MapPath("~/Facturas/");
                 if (!Directory.Exists(carpetaFacturas))
@@ -121,11 +119,9 @@ namespace TPFinal_Paniagua.Compra
                 string nombreArchivo = $"Factura_{usuario.Id_Usuario}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
                 string ruta = Path.Combine(carpetaFacturas, nombreArchivo);
 
-
                 Document doc = new Document(PageSize.A4);
                 PdfWriter.GetInstance(doc, new FileStream(ruta, FileMode.Create));
                 doc.Open();
-                
 
                 Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
                 Font textFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
@@ -137,7 +133,7 @@ namespace TPFinal_Paniagua.Compra
                 if (File.Exists(logoPath))
                 {
                     iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
-                    logo.ScaleToFit(120, 120); 
+                    logo.ScaleToFit(120, 120);
                     logo.Alignment = Element.ALIGN_CENTER;
 
                     PdfPCell logoCell = new PdfPCell(logo)
@@ -156,14 +152,13 @@ namespace TPFinal_Paniagua.Compra
                 };
                 headerTable.AddCell(titleCell);
 
-                doc.Add(headerTable); 
+                doc.Add(headerTable);
 
                 doc.Add(new Paragraph($"\nFactura N°: {DateTime.Now:yyyyMMddHHmmss}", textFont));
                 doc.Add(new Paragraph($"Fecha: {DateTime.Now:dd/MM/yyyy}", textFont));
                 doc.Add(new Paragraph($"Cliente con ID: {usuario.Id_Usuario} {usuario.Nombre} {usuario.Apellido}", textFont));
 
                 doc.Add(new Paragraph("\n"));
-
 
                 PdfPTable table = new PdfPTable(3)
                 {
@@ -195,24 +190,17 @@ namespace TPFinal_Paniagua.Compra
 
                 doc.Close();
 
-                GuardarRutaFactura(usuario.Id_Usuario, ruta);
-
-                Session["PDF_Descarga"] = nombreArchivo;
-               // Response.Redirect("~/Confirmacion.aspx");
-                
-                Response.ContentType = "application/pdf";
-                Response.AppendHeader("Content-Disposition", "attachment; filename=" + nombreArchivo);
-                Response.TransmitFile(ruta);
-                Response.Flush();
-                Response.Close();
+                return "~/Facturas/" + nombreArchivo; // Retorna la ruta relativa
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = "Error al generar el PDF: " + ex.Message + "<br>" + ex.StackTrace;
+                lblMensaje.Text = "Error al generar el PDF: " + ex.Message;
                 lblMensaje.CssClass = "text-danger";
                 lblMensaje.Visible = true;
+                return null;
             }
         }
+
         private void GuardarRutaFactura(int idUsuario, string rutaFactura)
         {
             try
@@ -289,6 +277,7 @@ namespace TPFinal_Paniagua.Compra
             detalle.Fecha_Compra = fecha;
             detalle.EstadoCompraId = 1;
             detalle.DireccionEntregar = usuario.Direccion;
+            detalle.RutaFactura = GenerarPDF();
             detalleManager.Agregar(detalle);
 
             ArticuloManager articuloManager = new ArticuloManager();
