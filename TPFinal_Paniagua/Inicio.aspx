@@ -7,7 +7,6 @@
             font-family: 'Comic Sans MS', sans-serif;
         }
         
-        /* Estilo de la sección principal */
         .ofertas-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -22,7 +21,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* Botones anterior/siguiente */
         .paginacion {
             display: flex;
             justify-content: space-between;
@@ -57,7 +55,7 @@
             border: 2px dashed #ffd700;
             background-color: #fffdf5;
             border-radius: 10px;
-            position: relative; /* Para ubicar la etiqueta 2x1 */
+            position: relative;
             overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -66,7 +64,6 @@
             box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
-        /* etiqueta 2x1 o descuento */
         .badge-oferta {
             background-color: #ff7f50;
             color: white;

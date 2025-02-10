@@ -113,14 +113,36 @@
             background-color: white;
             color: #ff7f50;
         }
-        footer {
+        .footer {
+            background-color: #ff7f50;
+            padding: 2rem 0;
+            font-family: 'Comic Sans MS', sans-serif;
+        }
+
+        .footer h5 {
+            font-weight: bold;
+        }
+
+        .footer i {
+            margin: 0.5rem;
+        }
+
+        .footer a {
+            text-decoration: none;
+        }
+
+        .footer img {
+            max-width: 100%;
+            height: auto;
+        }
+        .articlefooter {
             background-color: #ff7f50;
             color: white;
             text-align: center;
             padding: 1rem;
-            font-size: 0.9rem;
             font-family: 'Comic Sans MS', sans-serif;
         }
+
     </style>
 </head>
 <body>
@@ -189,7 +211,7 @@
                             <a class="nav-link" href="/Compra/Carrito.aspx" style="color: white;">
                                 <i class="fa-solid fa-shopping-cart" style="font-size: 1.5rem;"></i>
                             </a>
-                        </li>
+                        </li> 
                     </ul>
 
                 </div>
@@ -200,9 +222,40 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
-            <footer>
-                <p>&copy; CopyRigth <%: DateTime.Now.Year %> - Rose Vibes</p>
+            <footer class="footer mt-5">
+                <div class="container">
+                    <div class="row text-white text-center">
+                        <div class="col-md-3">
+                            <h5>Medios de pago</h5>
+                            <img src="/Img/medios_pago.JPEG" alt="Medios de pago" class="img-fluid" />
+                        </div>
+
+                        <div class="col-md-3">
+                            <h5>Medios de envío</h5>
+                            <i class="fa-solid fa-truck-fast fa-2x"></i>
+                            <i class="fa-solid fa-rotate fa-2x"></i>
+                        </div>
+
+                        <div class="col-md-3">
+                            <h5>Nuestras redes sociales</h5>
+                            <a href="#" class="text-white me-2"><i class="fa-brands fa-instagram fa-2x"></i></a>
+                            <a href="#" class="text-white me-2"><i class="fa-brands fa-youtube fa-2x"></i></a>
+                            <a href="#" class="text-white"><i class="fa-brands fa-tiktok fa-2x"></i></a>
+                        </div>
+
+                        <div class="col-md-3">
+                            <h5>Contacto</h5>
+                            <p>pinkvibesshoes@gmail.com</p>
+                            <p>01159047939</p>
+                            <a href="/BotonArrepentimiento.aspx" class="text-white">Botón de arrepentimiento</a>
+                        </div>
+                    </div>
+                </div>
+                
             </footer>
+            <div class="articlefooter">
+                <p>&copy; CopyRigth <%: DateTime.Now.Year %> - Rose Vibes</p>
+            </div>
         </div>
     </form>
     <asp:PlaceHolder runat="server">
