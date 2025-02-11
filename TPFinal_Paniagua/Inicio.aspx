@@ -112,6 +112,36 @@
             text-align: center;
             margin-bottom: 10px;
         }
+        .info-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .info-item {
+            flex: 1;
+            padding: 15px;
+        }
+
+        .info-item i {
+            color: #ff7f50;
+            margin-bottom: 10px;
+        }
+
+        .info-item h5 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .info-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
     </style>
 
     <div class="ofertas-container">
@@ -153,6 +183,34 @@
             </asp:Repeater>
         </div>
     </div>
+        <div class="info-container">
+        <div class="row">
+            <div class="col-md-3 info-item">
+                <i class="fa-solid fa-truck fa-2x"></i>
+                <h5>Envío a todo Buenos Aires</h5>
+                <p>También enviamos a CABA</p>
+            </div>
+
+            <div class="col-md-3 info-item">
+                <i class="fa-solid fa-box-open fa-2x"></i>
+                <h5>Producto Garantizado</h5>
+                <p>La calidad que ofrecemos es superior en todo el mercado</p>
+            </div>
+
+            <div class="col-md-3 info-item">
+                <i class="fa-brands fa-instagram fa-2x"></i>
+                <h5>Seguinos en redes</h5>
+                <p>Entérate de nuevos productos y descuentos especiales</p>
+            </div>
+
+            <div class="col-md-3 info-item">
+                <i class="fa-solid fa-credit-card fa-2x"></i>
+                <h5>Pagos 100% Seguro</h5>
+                <p>Paga con múltiples formas de pago de manera eficaz, rápida y segura</p>
+            </div>
+        </div>
+    </div>
+
 
 
 </asp:Content>

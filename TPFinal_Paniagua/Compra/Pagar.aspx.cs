@@ -90,7 +90,7 @@ namespace TPFinal_Paniagua.Compra
 
             ActualizarStock();
 
-           // Response.Redirect("~/Confirmacion.aspx");
+            Response.Redirect("~/Confirmacion.aspx");
 
         }
 
