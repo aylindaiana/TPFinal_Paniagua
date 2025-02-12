@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
+    [Serializable]
     public class Imagenes
     {
         public int Id_Imagen {  get; set; }

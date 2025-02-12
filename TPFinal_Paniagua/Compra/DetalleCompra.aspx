@@ -147,6 +147,25 @@
         .btn-back:hover {
             color: #ff4500;
         }
+        .carousel-btn {
+            background-color: #ff7f50;
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 5px;
+        }
+
+        .carousel-btn:hover {
+            background-color: #ff4500;
+        }
+
+        button:first-of-type { left: 10px; }
+        button:last-of-type { right: 10px; }
 
     </style>
 
@@ -158,15 +177,12 @@
         <div class="images-sidebar">
             <asp:Repeater ID="repImagenes" runat="server">
                 <ItemTemplate>
-                    <asp:Image
-                        ID="imgThumbnail"
-                        runat="server"
-                        CssClass="thumbnail"
-                        ImageUrl='<%# Eval("ImagenURL") %>'
-                        AlternateText='<%# Eval("Nombre") %>'
-                        OnClick="thumbnail_Click" />
+                <img class="thumbnail" src='<%# Eval("UrlImagen") %>' 
+                     data-url='<%# Eval("UrlImagen") %>' 
+                     onclick="seleccionarImagen(this)" />
                 </ItemTemplate>
             </asp:Repeater>
+
         </div>
 
         <div class="main-image-container">
@@ -208,4 +224,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let imagenes = [];
+        let indexActual = 0;
+
+        // Obtener todas las imágenes del Repeater al cargar la página
+        document.addEventListener("DOMContentLoaded", function () {
+            imagenes = [...document.querySelectorAll('.thumbnail')].map(img => img.dataset.url);
+        });
+
+        // Función para seleccionar imagen manualmente
+        function seleccionarImagen(elemento) {
+            let nuevaImagen = elemento.dataset.url;
+            document.getElementById('<%= imgArticulo.ClientID %>').src = nuevaImagen;
+            indexActual = imagenes.indexOf(nuevaImagen);
+        }
+
+        // Función para cambiar imagen con los botones
+        function cambiarImagen(direccion) {
+            if (imagenes.length === 0) return;
+
+            indexActual += direccion;
+            if (indexActual < 0) indexActual = imagenes.length - 1;
+            if (indexActual >= imagenes.length) indexActual = 0;
+
+                    document.getElementById('<%= imgArticulo.ClientID %>').src = imagenes[indexActual];
+                }
+
+    </script>
+
 </asp:Content>

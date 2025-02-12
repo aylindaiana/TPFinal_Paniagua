@@ -29,6 +29,7 @@ namespace TPFinal_Paniagua.Compra
                 if (!string.IsNullOrEmpty(idProduct))
                 {
                     CargaDetallesProducto(idProduct);
+                    ObtenerImagenesArticulo(idProduct);
                     lblId.Visible = false;
                 }
                 else
@@ -61,12 +62,12 @@ namespace TPFinal_Paniagua.Compra
         public void CargaDetallesProducto(string id)
         {
             ArticuloManager manager = new ArticuloManager();
-            Articulo articulo = manager.ListarArticulosActivos().Find(x => x.Id_Articulo == Convert.ToInt32(id));
+            Articulo articulo = manager.ListarArticulosDetalleCompra().Find(x => x.Id_Articulo == Convert.ToInt32(id));
             lblId.Text = articulo.Id_Articulo.ToString();
             lblNombre.Text = articulo.Nombre;
             lblDescripcion.Text = articulo.Descripcion;
             lblPrecio.Text = articulo.Precio.ToString();
-            imgArticulo.ImageUrl = articulo.ImagenURL;
+        //    imgArticulo.ImageUrl = articulo.ImagenURL;
 
             CategoriaManager categoriaManager = new CategoriaManager();
             Categoria categoria = categoriaManager.ListarTodos().Find(c => c.Id_Categoria == articulo.CategoriaId);
@@ -103,6 +104,25 @@ namespace TPFinal_Paniagua.Compra
             {
 
                 Console.WriteLine("Error de conversión: " + ex.Message);
+            }
+        }
+        private void ObtenerImagenesArticulo(string id)
+        {
+            ArticuloManager manager = new ArticuloManager();
+            Articulo articulo = manager.ListarArticulosDetalleCompra().Find(x => x.Id_Articulo == Convert.ToInt32(id));
+
+            if (articulo != null && articulo.Imagenes != null && articulo.Imagenes.Count > 0)
+            {
+                repImagenes.DataSource = articulo.Imagenes;
+                repImagenes.DataBind();
+
+                // Configurar la imagen principal como la primera de la lista
+                imgArticulo.ImageUrl = articulo.Imagenes[0].UrlImagen;
+            }
+            else
+            {
+                // Si no hay imágenes, usar una imagen por defecto
+                imgArticulo.ImageUrl = "https://via.placeholder.com/200";
             }
         }
     }

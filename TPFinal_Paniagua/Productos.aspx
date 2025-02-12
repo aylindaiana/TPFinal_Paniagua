@@ -114,6 +114,8 @@
             font-size: 0.9rem;
             color: #333;
         }
+
+
     </style>
 
     <div class="breadcrumb">
@@ -143,15 +145,18 @@
 
         <div class="products">
             <div class="products-grid">
-                <asp:Repeater ID="repRepetidor" runat="server">
+                <asp:Repeater ID="repRepetidor" runat="server" OnItemDataBound="repRepetidor_ItemDataBound">
                     <ItemTemplate>
                         <div class="product-card">
-                            <asp:Image
-                                ID="imgArticulo"
-                                runat="server"
-                                CssClass="product-image"
-                                ImageUrl='<%# string.IsNullOrWhiteSpace(Eval("ImagenURL") as string) ? "https://via.placeholder.com/200" : Eval("ImagenURL") %>'
-                                AlternateText='<%# Eval("Nombre") %>' />
+
+                            <asp:Image ID="imgProducto" runat="server" CssClass="product-image" Visible="false" />
+                            <asp:Repeater ID="repImagenes" runat="server">
+                                <ItemTemplate>
+                                    <img src='<%# Eval("UrlImagen") %>' class="product-image" alt="Imagen del producto" />
+                                </ItemTemplate>
+                            </asp:Repeater>
+
+
                             <div class="product-details">
                                 <div class="product-name"><%# Eval("Nombre") %></div>
                                 <div class="product-price">$ <%# Eval("Precio") %></div>

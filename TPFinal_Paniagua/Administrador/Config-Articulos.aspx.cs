@@ -20,7 +20,12 @@ namespace TPFinal_Paniagua.Administrador
 
                 if (!IsPostBack)
                 {
-                    CategoriaManager categoria = new CategoriaManager();
+                if (ViewState["Imagenes"] == null)
+                {
+                    ViewState["Imagenes"] = new List<string>();
+                }
+
+                CategoriaManager categoria = new CategoriaManager();
                     List<Categoria> list = categoria.ListarTodos();
                     ddlCategoria.DataSource = list;
                     ddlCategoria.DataTextField = "Nombre";
@@ -35,7 +40,7 @@ namespace TPFinal_Paniagua.Administrador
                     ddlTipo.DataValueField = "Id_Tipo";
                     ddlTipo.DataBind();
                 }
-
+                
                 string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
                 if (!string.IsNullOrEmpty(id) && !IsPostBack)
                 {
@@ -49,10 +54,20 @@ namespace TPFinal_Paniagua.Administrador
                         txtStock.Text = articulo.Stock.ToString();
                         ddlCategoria.SelectedValue = articulo.CategoriaId.ToString();
                         ddlTipo.SelectedValue = articulo.TipoId.ToString();
-                        txtImagenURL.Text = articulo.ImagenURL;
-                        imgArticulo.ImageUrl = articulo.ImagenURL;
+                    //  imgPreview.ImageUrl = articulo.ImagenURL;
 
-                        if (!articulo.Estado)
+                    if (articulo.Imagenes.Count > 0)
+                    {
+                        imgPreview.ImageUrl = articulo.Imagenes[0].UrlImagen; // Muestra la primera imagen
+                    }
+
+                    // txtImagenURL.Text = articulo.ImagenURL;
+                    // imgArticulo.ImageUrl = articulo.ImagenURL;
+                    ImagenesManager imagenManager = new ImagenesManager();
+                        List<Imagenes> imagenes = imagenManager.ListarPorArticulo(articulo.Id_Articulo);
+                        ViewState["Imagenes"] = imagenes.Select(img => img.UrlImagen).ToList();
+                        CargarListaImagenes();
+                    if (!articulo.Estado)
                         {
                             btnDeshabilitar.Text = "Reactivar";
                         }
@@ -80,7 +95,10 @@ namespace TPFinal_Paniagua.Administrador
                 articulo.Stock = int.Parse(txtStock.Text);
                 articulo.CategoriaId = int.Parse(ddlCategoria.SelectedValue);
                 articulo.TipoId = int.Parse(ddlTipo.SelectedValue) ;
-                articulo.ImagenURL = txtImagenURL.Text;
+
+                // articulo.ImagenURL = txtImagenURL.Text;
+                ImagenesManager imagenManager = new ImagenesManager();
+                List<string> imagenes = (List<string>)ViewState["Imagenes"];
 
                 if (Request.QueryString["id"] != null)
                 {
@@ -91,6 +109,12 @@ namespace TPFinal_Paniagua.Administrador
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
 
+                    foreach (string url in imagenes)
+                    {
+                        imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
+
+                    }
+
                     Response.Redirect("~/Administrador/Articulos.aspx");
                 }
                 else
@@ -99,6 +123,12 @@ namespace TPFinal_Paniagua.Administrador
                     lblMensaje.Text = "Su usuario se agregó exitosamente.";
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
+
+                    foreach (string url in imagenes)
+                    {
+                        imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
+
+                    }
                     Response.Redirect("~/Administrador/Articulos.aspx");
                 }
 
@@ -160,10 +190,67 @@ namespace TPFinal_Paniagua.Administrador
         }
         protected void txtImagenUrl_TextChanged(object sender, EventArgs e)
         {
-            imgArticulo.ImageUrl = txtImagenURL.Text;
+            imgPreview.ImageUrl = txtImagenURL.Text.Trim();
         }
 
+        protected void btnAgregarImagen_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtImagenURL.Text))
+            {
+                List<string> imagenes = (List<string>)ViewState["Imagenes"];
+                imagenes.Add(txtImagenURL.Text);
+
+                ViewState["Imagenes"] = imagenes;
+                CargarListaImagenes();
+
+                imgPreview.ImageUrl = txtImagenURL.Text.Trim();
+
+                // imgPreview.ImageUrl = txtImagenURL.Text;
+                // imgPreview.ImageUrl = "https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png";
+            }
+        }
+        protected void btnEliminarImagen_Click(object sender, EventArgs e)
+        {
+            if (lstImagenes.SelectedIndex != -1) 
+            {
+                List<string> imagenes = (List<string>)ViewState["Imagenes"];
+                string imagenAEliminar = imagenes[lstImagenes.SelectedIndex];
+
+                ImagenesManager imagenManager = new ImagenesManager();
+                imagenManager.Eliminar(imagenAEliminar); 
+
+                imagenes.RemoveAt(lstImagenes.SelectedIndex);
+                ViewState["Imagenes"] = imagenes;
+                CargarListaImagenes(); 
+
+                if (imagenes.Count > 0)
+                {
+                    imgPreview.ImageUrl = imagenes[imagenes.Count - 1]; 
+                }
+                else
+                {
+                    imgPreview.ImageUrl = "https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png"; 
+                }
+            }
+        }
+
+
         //Funciones:
+        private void CargarListaImagenes()
+        {
+            lstImagenes.Items.Clear();
+            List<string> imagenes = (List<string>)ViewState["Imagenes"];
+
+            foreach (string url in imagenes)
+            {
+                lstImagenes.Items.Add(new ListItem(url, url)); // Agrega la URL al ListBox
+            }
+
+            if (imagenes.Count > 0)
+            {
+                imgPreview.ImageUrl = imagenes[0]; // Muestra la primera imagen
+            }
+        }
         public void chequearUsuarios()
         {
             if (Session["AccesoId"] == null)
@@ -214,10 +301,10 @@ namespace TPFinal_Paniagua.Administrador
             {
                 errores.AppendLine("El apellido es obligatorio.<br/>");
             }
-            if (string.IsNullOrWhiteSpace(txtImagenURL.Text))
-            {
-                errores.AppendLine("Debe agregar una contraseña.<br/>");
-            }
+         //   if (string.IsNullOrWhiteSpace(txtImagenURL.Text))
+           // {
+             //   errores.AppendLine("Debe agregar una contraseña.<br/>");
+            //}
             if (!decimal.TryParse(txtPrecio.Text, out precio) || precio <= 0)
             {
                 errores.AppendLine("El Precio solo debe contener números y debe ser válido. <br/>");

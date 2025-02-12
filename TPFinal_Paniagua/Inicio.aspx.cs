@@ -40,7 +40,6 @@ namespace TPFinal_Paniagua
             ArticuloManager articuloManager = new ArticuloManager();
             allOfertas = articuloManager.ListarArticulosActivos(); 
 
-            // Guarda la lista en el ViewState para conservarla en PostBack
             ViewState["AllOfertas"] = allOfertas;
         }
         protected void btnDetalle_Click(object sender, EventArgs e)
@@ -81,5 +80,7 @@ namespace TPFinal_Paniagua
             CurrentPage++;
             BindData();
         }
+
+
     }
 }

@@ -65,6 +65,20 @@ namespace TPFinal_Paniagua
             repRepetidor.DataSource = listaArticulos;
             repRepetidor.DataBind();
         }
+        protected void repRepetidor_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                var articulo = (Articulo)e.Item.DataItem;
+                var imgProducto = e.Item.FindControl("imgProducto") as Image;
+
+                if (imgProducto != null && articulo.Imagenes != null && articulo.Imagenes.Count > 0)
+                {
+                    imgProducto.ImageUrl = articulo.Imagenes[0].UrlImagen;
+                    imgProducto.Visible = true; // Mostrar la imagen si existe
+                }
+            }
+        }
 
         //Funciones:
         private void CargarCategorias()

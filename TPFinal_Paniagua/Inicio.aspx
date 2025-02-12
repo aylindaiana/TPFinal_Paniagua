@@ -156,20 +156,20 @@
         </div>
 
         <div class="row">
-            <asp:Repeater ID="repOfertas" runat="server">
+            <asp:Repeater ID="repOfertas" runat="server" >
                 <ItemTemplate>
                     <div class="col-3">
                         <div class="card">
                             <span class="badge-oferta">SALE</span>
                             
-                            <img src='<%# Eval("ImagenUrl") %>' alt='<%# Eval("Nombre") %>' class="card-img-top" />
+                    <asp:Image ID="imgProducto" runat="server" CssClass="card-img-top" 
+                               ImageUrl='<%# Eval("Imagenes[0].UrlImagen") %>' alt="Imagen del producto" />
+
 
                             <div class="card-body">
                                 <h5 class="card-title"><%# Eval("Nombre") %></h5>
                                 
-                                <p class="precio-anterior">
-                                    8999
-                                </p>
+                                <p class="precio-anterior">8999</p>
                                 
                                 <p class="precio-oferta">
                                     <%# String.Format("{0:C}", Eval("Precio")) %>

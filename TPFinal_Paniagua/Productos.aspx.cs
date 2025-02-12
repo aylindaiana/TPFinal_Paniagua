@@ -46,6 +46,22 @@ namespace TPFinal_Paniagua
             }
 
         }
+        protected void repRepetidor_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                var articulo = (Articulo)e.Item.DataItem;
+                var imgProducto = e.Item.FindControl("imgProducto") as Image;
+
+                if (imgProducto != null && articulo.Imagenes != null && articulo.Imagenes.Count > 0)
+                {
+                    imgProducto.ImageUrl = articulo.Imagenes[0].UrlImagen;
+                    imgProducto.Visible = true; // Mostrar la imagen si existe
+                }
+            }
+        }
+
+
         protected void filtrarPorCategoria_Click(object sender, EventArgs e)
         {
             LinkButton btnCategoria = (LinkButton)sender;
@@ -77,7 +93,7 @@ namespace TPFinal_Paniagua
         private void CargarProductos()
         {
             ArticuloManager articulo = new ArticuloManager();
-            listaArticulos = articulo.ListarArticulosActivos(); // Método para obtener productos
+            listaArticulos = articulo.ListarArticulosActivos(); 
             repRepetidor.DataSource = listaArticulos;
             repRepetidor.DataBind();
         }

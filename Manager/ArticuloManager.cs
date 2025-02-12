@@ -10,7 +10,7 @@ namespace Manager
 {
     public class ArticuloManager
     {
-        
+        /*
         public List<Articulo> ListarArticulosActivos()
         {
             List<Articulo> list = new List<Articulo>();
@@ -31,7 +31,7 @@ namespace Manager
                     aux.Stock = (int)datos.Lector["Stock"];
                     aux.CategoriaId = (int)datos.Lector["CategoriaId"];
                     aux.TipoId = (int)datos.Lector["TipoId"];
-                    aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
+                   // aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
 
                     list.Add(aux);
                 }
@@ -46,49 +46,59 @@ namespace Manager
             {
                 datos.CerrarConeccion();
             }
-        }
-        /*
-        public List<Articulo> ListarArticulosActivos(string sp, int idCategoria)
+        }*/
+        public List<Articulo> ListarArticulosActivos()
         {
-            List<Articulo> list = new List<Articulo>();
+            List<Articulo> listaArticulos = new List<Articulo>();
+
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta(sp);
-                datos.SetearParametro("@CategoriaId", idCategoria);
+                datos.SetearConsulta("EXEC sp_ListarArticulosActivos");
                 datos.EjecutarLectura();
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
+                    Articulo articulo = new Articulo
+                    {
+                        Id_Articulo = (int)datos.Lector["Id_Articulo"],
+                        Nombre = datos.Lector["NombreArticulo"].ToString(),
+                        Descripcion = datos.Lector["Descripcion"] != DBNull.Value ? datos.Lector["Descripcion"].ToString() : string.Empty,
+                        Stock = (int)datos.Lector["Stock"],
+                        Precio = (decimal)datos.Lector["Precio"],
+                        CategoriaId = (int)datos.Lector["CategoriaId"],
+                        TipoId = (int)datos.Lector["TipoId"],
+                        Estado = true,
+                        Imagenes = new List<Imagenes>()
+                    };
 
-                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
-                    aux.Nombre = (string)datos.Lector["NombreArticulo"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
-                    aux.Stock = (int)datos.Lector["Stock"];
-                    aux.CategoriaId = (string)datos.Lector["NombreCategoria"];
-                    aux.TipoId = (string)datos.Lector["NombreTipo"];
-                    aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
+                    // Agregar la primera imagen si existe
+                    if (datos.Lector["Imagen"] != DBNull.Value)
+                    {
+                        articulo.Imagenes.Add(new Imagenes { UrlImagen = datos.Lector["Imagen"].ToString() });
+                    }
 
-                    list.Add(aux);
+                    listaArticulos.Add(articulo);
                 }
-                return list;
+
+                return listaArticulos;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
             {
                 datos.CerrarConeccion();
             }
-        } */
+        }
+
+
 
         public List<Articulo> ListarArticulosTodos()
         {
             List<Articulo> list = new List<Articulo>();
+            Dictionary<int, Articulo> articulosDict = new Dictionary<int, Articulo>(); 
             AccesoDatos datos = new AccesoDatos();
             try
             {
@@ -97,25 +107,37 @@ namespace Manager
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
+                    int idArticulo = (int)datos.Lector["Id_Articulo"];
 
-                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
-                    aux.Nombre = (string)datos.Lector["NombreArticulo"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
-                    aux.Stock = (int)datos.Lector["Stock"];
-                    aux.CategoriaId = (int)datos.Lector["CategoriaId"];
-                    aux.TipoId = (int)datos.Lector["TipoId"];
-                    aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
-                    aux.Estado = (bool)datos.Lector["Estado"];
+                    if (!articulosDict.ContainsKey(idArticulo))
+                    {
+                        Articulo aux = new Articulo
+                        {
+                            Id_Articulo = idArticulo,
+                            Nombre = (string)datos.Lector["NombreArticulo"],
+                            Descripcion = (string)datos.Lector["Descripcion"],
+                            Precio = (decimal)datos.Lector["Precio"],
+                            Stock = (int)datos.Lector["Stock"],
+                            CategoriaId = (int)datos.Lector["CategoriaId"],
+                            TipoId = (int)datos.Lector["TipoId"],
+                            Estado = (bool)datos.Lector["Estado"]
+                        };
 
-                    list.Add(aux);
+                        articulosDict.Add(idArticulo, aux);
+                    }
+
+                    string imagenUrl = datos.Lector["ImagenUrl"] as string;
+                    if (!string.IsNullOrEmpty(imagenUrl))
+                    {
+                        articulosDict[idArticulo].Imagenes.Add(new Imagenes { UrlImagen = imagenUrl });
+                    }
                 }
+
+                list = articulosDict.Values.ToList(); 
                 return list;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -123,6 +145,62 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
+        public List<Articulo> ListarArticulosDetalleCompra()
+        {
+            List<Articulo> listaArticulos = new List<Articulo>();
+
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ListarArticulosDetalleCompra");
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Articulo articulo = new Articulo
+                    {
+                        Id_Articulo = (int)datos.Lector["Id_Articulo"],
+                        Nombre = datos.Lector["NombreArticulo"].ToString(),
+                        Descripcion = datos.Lector["Descripcion"] != DBNull.Value ? datos.Lector["Descripcion"].ToString() : string.Empty,
+                        Stock = (int)datos.Lector["Stock"],
+                        Precio = (decimal)datos.Lector["Precio"],
+                        CategoriaId = (int)datos.Lector["CategoriaId"],
+                        TipoId = (int)datos.Lector["TipoId"],
+                        Estado = true,
+                        Imagenes = new List<Imagenes>()
+                    };
+
+                    if (!datos.Lector.IsDBNull(datos.Lector.GetOrdinal("Imagenes")))
+                    {
+                        string imagenesConcatenadas = datos.Lector["Imagenes"].ToString();
+                        if (!string.IsNullOrEmpty(imagenesConcatenadas))
+                        {
+                            // 🔹 Dividir las imágenes separadas por ";"
+                            string[] imagenesArray = imagenesConcatenadas.Split(';');
+                            foreach (string imagen in imagenesArray)
+                            {
+                                articulo.Imagenes.Add(new Imagenes { UrlImagen = imagen.Trim() });
+                            }
+                        }
+                    }
+
+
+                    listaArticulos.Add(articulo);
+                }
+
+                return listaArticulos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
 
         public int ObtenerStock(int idArticulo)
         {
@@ -180,19 +258,29 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_AgregarArticulo @Nombre, @Descripcion, @Precio, @Stock, @CategoriaId, @TipoId, @ImagenesURL");
+                datos.SetearConsulta("DECLARE @Id_Articulo INT; EXEC sp_AgregarArticulo @Nombre, @Descripcion, @Precio, @Stock, @CategoriaId, @TipoId, @Id_Articulo OUTPUT; SELECT @Id_Articulo;");
                 datos.SetearParametro("@Nombre", articulo.Nombre);
                 datos.SetearParametro("@Descripcion", articulo.Descripcion);
                 datos.SetearParametro("@Precio", articulo.Precio);
-                datos.SetearParametro("Stock", articulo.Stock);
+                datos.SetearParametro("@Stock", articulo.Stock);
                 datos.SetearParametro("@CategoriaId", articulo.CategoriaId);
                 datos.SetearParametro("@TipoId", articulo.TipoId);
-                datos.SetearParametro("@ImagenesURL", articulo.ImagenURL);
-                datos.ejecutarAccion();
+
+                int articuloId = Convert.ToInt32(datos.ejecutarEscalar());
+
+                if (articulo.Imagenes != null && articulo.Imagenes.Count > 0)
+                {
+                    foreach (Imagenes imagen in articulo.Imagenes)
+                    {
+                        datos.SetearConsulta("INSERT INTO Imagenes (ImagenURL, ArticuloId) VALUES (@ImagenURL, @ArticuloId)");
+                        datos.SetearParametro("@ImagenURL", imagen.UrlImagen);
+                        datos.SetearParametro("@ArticuloId", articuloId);
+                        datos.ejecutarAccion();
+                    }
+                }
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -200,26 +288,41 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
 
         public void Modificar(Articulo articulo)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("EXEC sp_ModificarArticulo @Id_Articulo, @Nombre, @Descripcion, @Precio, @Stock, @CategoriaId, @TipoId,1, @ImagenesURL");
+                datos.SetearConsulta("EXEC sp_ModificarArticulo @Id_Articulo, @Nombre, @Descripcion, @Precio, @Stock, @CategoriaId, @TipoId, @Estado");
                 datos.SetearParametro("@Id_Articulo", articulo.Id_Articulo);
                 datos.SetearParametro("@Nombre", articulo.Nombre);
                 datos.SetearParametro("@Descripcion", articulo.Descripcion);
                 datos.SetearParametro("@Precio", articulo.Precio);
-                datos.SetearParametro("Stock", articulo.Stock);
+                datos.SetearParametro("@Stock", articulo.Stock);
                 datos.SetearParametro("@CategoriaId", articulo.CategoriaId);
                 datos.SetearParametro("@TipoId", articulo.TipoId);
-                datos.SetearParametro("@ImagenesURL", articulo.ImagenURL);
+                datos.SetearParametro("@Estado", articulo.Estado);
                 datos.ejecutarAccion();
+
+                if (articulo.Imagenes != null && articulo.Imagenes.Count > 0)
+                {
+                    datos.SetearConsulta("DELETE FROM Imagenes WHERE ArticuloId = @Id_Articulo");
+                    datos.SetearParametro("@Id_Articulo", articulo.Id_Articulo);
+                    datos.ejecutarAccion();
+
+                    foreach (Imagenes imagen in articulo.Imagenes)
+                    {
+                        datos.SetearConsulta("INSERT INTO Imagenes (ImagenURL, ArticuloId) VALUES (@ImagenURL, @Id_Articulo)");
+                        datos.SetearParametro("@ImagenURL", imagen.UrlImagen);
+                        datos.SetearParametro("@Id_Articulo", articulo.Id_Articulo);
+                        datos.ejecutarAccion();
+                    }
+                }
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -227,6 +330,7 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
 
         public void Desactivar(int idArticulo)
         {
@@ -269,10 +373,11 @@ namespace Manager
             }
         }
 
-        public List<Articulo> ListarArticulosPorCategoria( int idCategoria)
+        public List<Articulo> ListarArticulosPorCategoria(int idCategoria)
         {
             List<Articulo> list = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
+
             try
             {
                 datos.SetearConsulta("EXEC sp_ListarArticulosPorCategoria @CategoriaId");
@@ -281,22 +386,31 @@ namespace Manager
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
-
-                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
-                    aux.Nombre = (string)datos.Lector["NombreArticulo"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
-                    aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
+                    Articulo aux = new Articulo
+                    {
+                        Id_Articulo = (int)datos.Lector["Id_Articulo"],
+                        Nombre = datos.Lector["NombreArticulo"] as string ?? "Sin nombre",
+                        Descripcion = datos.Lector["Descripcion"] as string ?? "Sin descripción",
+                        Precio = datos.Lector["Precio"] != DBNull.Value ? (decimal)datos.Lector["Precio"] : 0,
+                        Imagenes = new List<Imagenes>() 
+                    };
+                    string imagenesStr = datos.Lector["Imagenes"] as string ?? "";
+                    if (!string.IsNullOrEmpty(imagenesStr))
+                    {
+                        string[] imagenesArray = imagenesStr.Split(',');
+                        foreach (string url in imagenesArray)
+                        {
+                            aux.Imagenes.Add(new Imagenes { UrlImagen = url });
+                        }
+                    }
 
                     list.Add(aux);
                 }
                 return list;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-
-                throw EX;
+                throw ex;
             }
             finally
             {
@@ -304,10 +418,13 @@ namespace Manager
             }
         }
 
+
+
         public List<Articulo> ListarArticulosPorTipo(int idTipo)
         {
             List<Articulo> list = new List<Articulo>();
             AccesoDatos datos = new AccesoDatos();
+
             try
             {
                 datos.SetearConsulta("EXEC sp_ListarArticulosPorTipo @TipoId");
@@ -316,28 +433,40 @@ namespace Manager
 
                 while (datos.Lector.Read())
                 {
-                    Articulo aux = new Articulo();
+                    Articulo aux = new Articulo
+                    {
+                        Id_Articulo = (int)datos.Lector["Id_Articulo"],
+                        Nombre = datos.Lector["NombreArticulo"] as string ?? "Sin nombre",
+                        Descripcion = datos.Lector["Descripcion"] as string ?? "Sin descripción",
+                        Precio = datos.Lector["Precio"] != DBNull.Value ? (decimal)datos.Lector["Precio"] : 0,
+                        Imagenes = new List<Imagenes>() 
+                    };
 
-                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
-                    aux.Nombre = (string)datos.Lector["NombreArticulo"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
-                    aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
+                    string imagenesStr = datos.Lector["Imagenes"] as string ?? "";
+                    if (!string.IsNullOrEmpty(imagenesStr))
+                    {
+                        string[] imagenesArray = imagenesStr.Split(',');
+                        foreach (string url in imagenesArray)
+                        {
+                            aux.Imagenes.Add(new Imagenes { UrlImagen = url });
+                        }
+                    }
 
                     list.Add(aux);
                 }
                 return list;
             }
-            catch (Exception EX)
+            catch (Exception ex)
             {
-
-                throw EX;
+                throw ex;
             }
             finally
             {
                 datos.CerrarConeccion();
             }
         }
+
+
 
         public int CantidadClientesActivos()
         {

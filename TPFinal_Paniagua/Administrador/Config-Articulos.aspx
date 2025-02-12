@@ -87,19 +87,28 @@
 
         </div>
 
+
         <div class="col-md-6 mb-3">
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
                     <div class="mb-3">
                         <label for="txtImagenURL" class="form-label">Url de Imagen</label>
-                        <asp:TextBox runat="server" ID="txtImagenURL" CssClass="form-control"
-                            AutoPostBack="true" OnTextChanged="txtImagenUrl_TextChanged" />
+                        <asp:TextBox ID="txtImagenURL" runat="server" AutoPostBack="true"  CssClass="form-control" OnTextChanged="txtImagenUrl_TextChanged"></asp:TextBox>
+
+                        <asp:Button runat="server" ID="btnAgregarImagen" Text="Agregar Imagen" CssClass="btn btn-custom" OnClick="btnAgregarImagen_Click" />
                     </div>
+
                     <asp:Image ImageUrl="https://grupoact.com.ar/wp-content/uploads/2020/04/placeholder.png"
-                        runat="server" ID="imgArticulo" Width="100%" />
+                        runat="server" ID="imgPreview" Width="100%" />
+
+                    <asp:ListBox ID="lstImagenes" runat="server" CssClass="form-control" Height="100px"></asp:ListBox>
+                    <asp:Button runat="server" ID="btnEliminarImagen" Text="Eliminar Imagen" CssClass="btn btn-custom mt-2" OnClick="btnEliminarImagen_Click" />
+
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
+
+
         <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
     </div>
 
