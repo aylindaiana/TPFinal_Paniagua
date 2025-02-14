@@ -2,6 +2,7 @@
 using Manager;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -20,10 +21,10 @@ namespace TPFinal_Paniagua.Administrador
 
                 if (!IsPostBack)
                 {
-                if (ViewState["Imagenes"] == null)
-                {
-                    ViewState["Imagenes"] = new List<string>();
-                }
+                    if (ViewState["Imagenes"] == null)
+                    {
+                        ViewState["Imagenes"] = new List<string>();
+                    }
 
                 CategoriaManager categoria = new CategoriaManager();
                     List<Categoria> list = categoria.ListarTodos();
@@ -39,12 +40,22 @@ namespace TPFinal_Paniagua.Administrador
                     ddlTipo.DataTextField = "Nombre";
                     ddlTipo.DataValueField = "Id_Tipo";
                     ddlTipo.DataBind();
-                }
+
+        }
                 
                 string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
                 if (!string.IsNullOrEmpty(id) && !IsPostBack)
                 {
-                    Articulo articulo = manager.ListarArticulosTodos().Find(x => x.Id_Articulo == int.Parse(id));
+                    int idArticulo = int.Parse(id);
+                    CargarTalles(idArticulo);
+
+                 //   TalleManager talleManager = new TalleManager();
+                 //   List<Talles> testTalles = talleManager.ObtenerStockPorTalle(idArticulo);
+                  //  lblMensaje.Text += "<br/>Talles encontrados en BD: " + testTalles.Count;
+                  //  lblMensaje.Visible = true;
+
+
+                Articulo articulo = manager.ListarArticulosTodos().Find(x => x.Id_Articulo == int.Parse(id));
                     if (articulo != null)
                     {
                         txtId_Articulo.Text = articulo.Id_Articulo.ToString();
@@ -52,9 +63,11 @@ namespace TPFinal_Paniagua.Administrador
                         txtDescripcion.Text = articulo.Descripcion;
                         txtPrecio.Text = articulo.Precio.ToString();
                         txtStock.Text = articulo.Stock.ToString();
+                    
                         ddlCategoria.SelectedValue = articulo.CategoriaId.ToString();
                         ddlTipo.SelectedValue = articulo.TipoId.ToString();
                     //  imgPreview.ImageUrl = articulo.ImagenURL;
+                    
 
                     if (articulo.Imagenes.Count > 0)
                     {
@@ -92,13 +105,48 @@ namespace TPFinal_Paniagua.Administrador
                 articulo.Nombre = txtNombre.Text;
                 articulo.Descripcion = txtDescripcion.Text;
                 articulo.Precio = decimal.Parse(txtPrecio.Text);
-                articulo.Stock = int.Parse(txtStock.Text);
+               // articulo.Stock = int.Parse(txtStock.Text);
                 articulo.CategoriaId = int.Parse(ddlCategoria.SelectedValue);
                 articulo.TipoId = int.Parse(ddlTipo.SelectedValue) ;
 
+                List<Talles> listaTalles = new List<Talles>();
+                int stockTotal= 0;
+
+                foreach (RepeaterItem item in rptTalles.Items)
+                {
+                    HiddenField hfIdTalle = (HiddenField)item.FindControl("hfIdTalle");
+                    TextBox txtStock = (TextBox)item.FindControl("txtStockTalle");
+
+                    int idTalle = 0, stock = 0;
+                    bool idValido = int.TryParse(hfIdTalle.Value, out idTalle);
+                    bool stockValido = int.TryParse(txtStock.Text, out stock);
+
+                    // Debug para ver qué valores está obteniendo
+                    lblMensaje.Text += $"Talle ID: {idTalle} - Stock: {stock} - Validez: {idValido}/{stockValido}<br/>";
+
+                    if (idValido && stockValido)
+                    {
+                        listaTalles.Add(new Talles { Id_Talle = idTalle, Stock = stock });
+                        stockTotal += stock;
+                    }
+                    else
+                    {
+                        lblMensaje.Text += $"ERROR - Datos inválidos para Talle ID: {hfIdTalle.Value}, Stock: {txtStock.Text}<br/>";
+                    }
+                }
+                lblMensaje.Text += $"DEBUG - Stock total calculado: {stockTotal}<br/>";
+                lblMensaje.Visible = true;
+
+                articulo.Talles = listaTalles;
+                articulo.Stock = stockTotal;
+                
+                if (listaTalles.Count == 0)
+                {
+                    lblMensaje.Text += "⚠️ ERROR - No se detectaron talles con stock válido.<br/>";
+                    return; 
+                }
                 // articulo.ImagenURL = txtImagenURL.Text;
-                ImagenesManager imagenManager = new ImagenesManager();
-                List<string> imagenes = (List<string>)ViewState["Imagenes"];
+
 
                 if (Request.QueryString["id"] != null)
                 {
@@ -109,12 +157,19 @@ namespace TPFinal_Paniagua.Administrador
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
 
+                    ImagenesManager imagenManager = new ImagenesManager();
+                    List<string> imagenes = (List<string>)ViewState["Imagenes"];
                     foreach (string url in imagenes)
                     {
                         imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
 
                     }
-
+                    TalleManager talleManager = new TalleManager();
+                    foreach (Talles talle in listaTalles)
+                    {
+                        talleManager.AsociarStockArticuloTalle(articulo.Id_Articulo, talle.Id_Talle, talle.Stock);
+                        Debug.WriteLine($"Asociando stock: ArticuloId = {articulo.Id_Articulo}, TalleId = {talle.Id_Talle}, Stock = {talle.Stock}");
+                    }
                     Response.Redirect("~/Administrador/Articulos.aspx");
                 }
                 else
@@ -124,15 +179,23 @@ namespace TPFinal_Paniagua.Administrador
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
 
+                    ImagenesManager imagenManager = new ImagenesManager();
+                    List<string> imagenes = (List<string>)ViewState["Imagenes"];
                     foreach (string url in imagenes)
                     {
                         imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
 
                     }
+                    TalleManager talleManager = new TalleManager();
+                    foreach (Talles talle in listaTalles)
+                    {
+                        talleManager.AsociarStockArticuloTalle(articulo.Id_Articulo, talle.Id_Talle, talle.Stock);
+                        Debug.WriteLine($"Asociando stock: ArticuloId = {articulo.Id_Articulo}, TalleId = {talle.Id_Talle}, Stock = {talle.Stock}");
+                    }
                     Response.Redirect("~/Administrador/Articulos.aspx");
                 }
 
-                
+
             }
             catch (Exception ex)
             {
@@ -140,6 +203,27 @@ namespace TPFinal_Paniagua.Administrador
                 throw ex;
             }
         }
+        protected void CargarTalles(int idArticulo)
+        {
+            TalleManager talleManager = new TalleManager();
+            List<Talles> talles = talleManager.ObtenerStockPorTalle(idArticulo);
+
+            lblMensaje.Text += "<br/>CargarTalles: " + talles.Count + " talles cargados";
+
+            rptTalles.DataSource = talles;
+            rptTalles.DataBind();
+
+            // Verifica que los valores de stock sean correctos
+            foreach (var talle in talles)
+            {
+                Debug.WriteLine($"Talle: {talle.Nombre}, Stock: {talle.Stock}");
+            }
+        }
+
+
+
+
+
         protected void ddlCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
 

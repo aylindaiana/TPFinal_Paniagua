@@ -111,10 +111,12 @@
     <Content Include="Administrador\Config-Articulos.aspx" />
     <Content Include="Administrador\Config-Categoria.aspx" />
     <Content Include="Administrador\Config-CompraDetallada.aspx" />
+    <Content Include="Administrador\Config-Talle.aspx" />
     <Content Include="Administrador\Config-Tipo.aspx" />
     <Content Include="Administrador\Config-Usuarios.aspx" />
     <Content Include="Administrador\Informe.aspx" />
     <Content Include="Administrador\Navegacion.aspx" />
+    <Content Include="Administrador\Talle.aspx" />
     <Content Include="Administrador\Tipos.aspx" />
     <Content Include="Administrador\UsuariosGeneral.aspx" />
     <Content Include="CambiarPassword.aspx" />
@@ -255,6 +257,13 @@
     <Compile Include="Administrador\Config-CompraDetallada.aspx.designer.cs">
       <DependentUpon>Config-CompraDetallada.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Administrador\Config-Talle.aspx.cs">
+      <DependentUpon>Config-Talle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\Config-Talle.aspx.designer.cs">
+      <DependentUpon>Config-Talle.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Administrador\Config-Tipo.aspx.cs">
       <DependentUpon>Config-Tipo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -282,6 +291,13 @@
     </Compile>
     <Compile Include="Administrador\Navegacion.aspx.designer.cs">
       <DependentUpon>Navegacion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Administrador\Talle.aspx.cs">
+      <DependentUpon>Talle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Administrador\Talle.aspx.designer.cs">
+      <DependentUpon>Talle.aspx</DependentUpon>
     </Compile>
     <Compile Include="Administrador\Tipos.aspx.cs">
       <DependentUpon>Tipos.aspx</DependentUpon>

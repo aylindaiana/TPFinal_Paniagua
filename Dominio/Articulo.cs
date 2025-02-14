@@ -15,9 +15,16 @@ namespace Dominio
         public string Descripcion { get; set; }
         public List<Imagenes> Imagenes { get; set; } = new List<Imagenes>();
         public int Stock {  get; set; }
+        public void CalcularStockTotal()
+        {
+            this.Stock = Talles.Sum(t => t.Stock);
+        }
+
         public decimal Precio { get; set; }
         public int CategoriaId { get; set; }
         public int TipoId { get; set; }
+     //   public int TalleId { get; set; }
+        public List<Talles> Talles { get; set; } = new List<Talles>();
         public bool Estado { get; set; }
 
 

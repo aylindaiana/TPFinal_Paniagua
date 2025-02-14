@@ -59,6 +59,9 @@ namespace TPFinal_Paniagua.Administrador
         {
             Response.Redirect("~/Administrador/Informe.aspx");
         }
-
+        protected void btnTalle_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Administrador/Talle.aspx");
+        }
     }
 }

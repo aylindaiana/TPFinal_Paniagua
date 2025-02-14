@@ -10,43 +10,7 @@ namespace Manager
 {
     public class ArticuloManager
     {
-        /*
-        public List<Articulo> ListarArticulosActivos()
-        {
-            List<Articulo> list = new List<Articulo>();
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta("EXEC sp_ListarArticulosActivos");
-                datos.EjecutarLectura();
 
-                while(datos.Lector.Read())
-                {
-                    Articulo aux = new Articulo();
-
-                    aux.Id_Articulo = (int)datos.Lector["Id_Articulo"];
-                    aux.Nombre = (string)datos.Lector["NombreArticulo"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Precio = (decimal)datos.Lector["Precio"];
-                    aux.Stock = (int)datos.Lector["Stock"];
-                    aux.CategoriaId = (int)datos.Lector["CategoriaId"];
-                    aux.TipoId = (int)datos.Lector["TipoId"];
-                   // aux.ImagenURL = (string)datos.Lector["ImagenUrl"];
-
-                    list.Add(aux);
-                }
-                return list;
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            } 
-            finally
-            {
-                datos.CerrarConeccion();
-            }
-        }*/
         public List<Articulo> ListarArticulosActivos()
         {
             List<Articulo> listaArticulos = new List<Articulo>();
@@ -202,27 +166,31 @@ namespace Manager
         }
 
 
-        public int ObtenerStock(int idArticulo)
+        public int ObtenerStockTalle(int idArticulo, int idTalle)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("SELECT Stock FROM Articulos WHERE Id_Articulo = @Id_Articulo");
+                datos.SetearConsulta(@"
+            SELECT Stock 
+            FROM Articulos_Talles
+            WHERE Id_Articulo = @Id_Articulo AND Id_Talle = @Id_Talle");
+
                 datos.SetearParametro("@Id_Articulo", idArticulo);
+                datos.SetearParametro("@Id_Talle", idTalle);
                 datos.EjecutarLectura();
 
-                if (datos.Lector.Read())
+                if (datos.Lector.Read() && datos.Lector["Stock"] != DBNull.Value)
                 {
                     return (int)datos.Lector["Stock"];
                 }
                 else
                 {
-                    throw new InvalidOperationException($"No se encontró el artículo con ID: {idArticulo}.");
+                    return 0;
                 }
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -230,6 +198,41 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
+        public int ObtenerStock(int idArticulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta(@"
+            SELECT Stock 
+            FROM Articulos 
+            WHERE Id_Articulo = @Id_Articulo");
+
+                datos.SetearParametro("@Id_Articulo", idArticulo);
+                datos.EjecutarLectura();
+
+                if (datos.Lector.Read() && datos.Lector["Stock"] != DBNull.Value)
+                {
+                    return (int)datos.Lector["Stock"];
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+
+
 
         public void ActualizarStock(int idArticulo, int cantidadVendida)
         {
@@ -252,6 +255,32 @@ namespace Manager
                 throw ex;
             }
         }
+        /*
+        public void ActualizarStock(int idArticulo, int idTalle, int cantidadVendida)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                // Ejecutamos el procedimiento almacenado con los tres parámetros
+                datos.SetearConsulta("EXEC sp_ActualizarStockTalle @idArticulo, @idTalle, @cantidadVendida");
+                datos.SetearParametro("@idArticulo", idArticulo);
+                datos.SetearParametro("@idTalle", idTalle);
+                datos.SetearParametro("@cantidadVendida", cantidadVendida);
+                datos.ejecutarAccion();
+
+                // Validamos que el stock no haya quedado negativo
+                int stockActualizado = ObtenerStock(idArticulo, idTalle);
+                if (stockActualizado < 0)
+                {
+                    throw new InvalidOperationException($"No hay suficiente stock para el artículo con ID: {idArticulo} y Talle: {idTalle}.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        */
 
         public void Agregar(Articulo articulo)
         {

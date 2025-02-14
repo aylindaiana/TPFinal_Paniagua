@@ -96,30 +96,45 @@ namespace TPFinal_Paniagua.Compra
                 ArticuloManager manager = new ArticuloManager();
                 Articulo articulo = manager.ListarArticulosTodos().Find(x => x.Id_Articulo == Convert.ToInt32(idArticulo));
 
-                if (articulo != null)
+                if (Session["TalleSeleccionado"] != null)
                 {
-                    int cantidad = Convert.ToInt32(Session["CantidadSeleccionada"]);
-                    if (!listaArticulos.Any(a => a.Id_Articulo == articulo.Id_Articulo))
+                    int idTalle = Convert.ToInt32(Session["TalleSeleccionado"]);
+                    int cantidad = Convert.ToInt32(Session["CantidadSeleccionada"] ?? 1);
+
+                    // Verificar stock real del artículo en ese talle
+                    int stockDisponible = manager.ObtenerStockTalle(articulo.Id_Articulo, idTalle);
+
+                    if (stockDisponible >= cantidad)
                     {
-                        listaArticulos.Add(articulo);
-                        diccionarioCantidades[articulo.Id_Articulo] = cantidad;
+                        articulo.Stock = stockDisponible; // Asignar el stock real del talle
+
+                        if (!listaArticulos.Any(a => a.Id_Articulo == articulo.Id_Articulo))
+                        {
+                            listaArticulos.Add(articulo);
+                            diccionarioCantidades[articulo.Id_Articulo] = cantidad;
+                        }
+                        else
+                        {
+                            diccionarioCantidades[articulo.Id_Articulo] += cantidad;
+                        }
+
+                        Session["ListaArticulos"] = listaArticulos;
+                        Session["DiccionarioCantidades"] = diccionarioCantidades;
                     }
                     else
                     {
-                        diccionarioCantidades[articulo.Id_Articulo] += cantidad;
+                        lblError.Text = "No hay suficiente stock disponible para el talle seleccionado.";
+                        lblError.Visible = true;
                     }
-
-                    Session["ListaArticulos"] = listaArticulos;
-                    Session["DiccionarioCantidades"] = diccionarioCantidades;
                 }
 
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
+
 
         public void CargarCarrito()
         {

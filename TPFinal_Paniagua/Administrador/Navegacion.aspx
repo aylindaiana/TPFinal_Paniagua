@@ -71,6 +71,9 @@
                         <asp:Button Text="Administrar Compras" CssClass="btn btn-orange" ID="btnCompra" OnClick="btnCompra_Click" runat="server" />
                     </div>
                 </div>
+                    <div class="col-md-6 mb-3">
+                        <asp:Button Text="Administrar Talles" CssClass="btn btn-orange" ID="btnTalle" OnClick="btnTalle_Click" runat="server" />
+                    </div>
                 <asp:Button Text="Informe Completo" CssClass="btn btn-orange" ID="btnInforme" OnClick="btnInforme_Click" runat="server" Visible="false" />
             </div>
         </div>

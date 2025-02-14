@@ -285,17 +285,20 @@ namespace TPFinal_Paniagua.Compra
             {
                 if (diccionarioCantidades.TryGetValue(articulo.Id_Articulo, out int cantidadVendida))
                 {
-                    int stockDisponible = articuloManager.ObtenerStock(articulo.Id_Articulo);
+                    int stockDisponible = articuloManager.ObtenerStock(articulo.Id_Articulo); 
                     if (stockDisponible >= cantidadVendida)
                     {
                         articuloManager.ActualizarStock(articulo.Id_Articulo, cantidadVendida);
                     }
                     else
                     {
-                        throw new InvalidOperationException($"No hay suficiente stock para el artículo con Id: {articulo.Id_Articulo}. Stock disponible: {stockDisponible}, La Cantidad requerida: {cantidadVendida}.");
+                        throw new InvalidOperationException($"No hay suficiente stock para el artículo {articulo.Nombre}. Stock disponible: {stockDisponible}, Cantidad requerida: {cantidadVendida}.");
                     }
                 }
             }
+
+
+
 
             Session["ListaArticulos"] = null;
             Session["DiccionarioCantidades"] = null;

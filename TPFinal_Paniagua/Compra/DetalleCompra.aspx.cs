@@ -1,5 +1,6 @@
 ﻿using Dominio;
 using Manager;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.EnterpriseServices;
@@ -25,11 +26,11 @@ namespace TPFinal_Paniagua.Compra
             if (!IsPostBack)
             {
                 string idProduct = Session["ArticuloId"] as string;
-
-                if (!string.IsNullOrEmpty(idProduct))
+                if (!string.IsNullOrEmpty(idProduct) && int.TryParse(idProduct, out int articuloId))
                 {
                     CargaDetallesProducto(idProduct);
                     ObtenerImagenesArticulo(idProduct);
+                    CargarTalles(articuloId); // Ahora pasamos un int
                     lblId.Visible = false;
                 }
                 else
@@ -42,23 +43,45 @@ namespace TPFinal_Paniagua.Compra
 
         protected void btnAgregarCarrito_Click(object sender, EventArgs e)
         {
-            int cantidadSeleccionada = 1;
+            if (Session["TalleSeleccionado"] != null)
+            {
+               // var talleSeleccionado = (dynamic)Session["TalleSeleccionado"];
+                //  int talleId = talleSeleccionado.id;
+                int talleId = (int)Session["TalleSeleccionado"];
 
-            Session["CantidadSeleccionada"] = cantidadSeleccionada;
 
+                // Guardamos los detalles en la sesión
+                Session["ArticuloId"] = lblId.Text;
+                Session["TalleId"] = talleId;
+                Session["CantidadSeleccionada"] = 1; // Puede ser dinámico según la interfaz de usuario
 
-            Session["ArticuloId"] = lblId.Text;
-
-
-            Response.Redirect("/Compra/Carrito.aspx");
+                // Redirigimos al carrito
+                Response.Redirect("/Compra/Carrito.aspx");
+            }
+            else
+            {
+                // Si no se ha seleccionado un talle, mostramos un mensaje de advertencia
+                lblMensaje.Text = "Por favor, selecciona un talle antes de agregar al carrito.";
+                lblMensaje.Visible = true;
+            }
         }
 
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Response.Redirect("/Productos.aspx");
         }
-
+        
         //Funciones:
+
+        private void CargarTalles(int articuloId)
+        {
+            var talleManager = new TalleManager();
+            List<Talles> talles = talleManager.ObtenerStockPorTalle(articuloId);
+
+            repTalles.DataSource = talles;
+            repTalles.DataBind();
+        }
+
         public void CargaDetallesProducto(string id)
         {
             ArticuloManager manager = new ArticuloManager();
@@ -80,32 +103,68 @@ namespace TPFinal_Paniagua.Compra
 
 
         }
+        protected void rbtnTalle_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rbtn = (RadioButton)sender;
+            RepeaterItem item = (RepeaterItem)rbtn.NamingContainer;
+            HiddenField hfIdTalle = (HiddenField)item.FindControl("hfIdTalle");
+
+            if (hfIdTalle != null && rbtn.Checked)
+            {
+                int talleId = Convert.ToInt32(hfIdTalle.Value);
+                Session["TalleSeleccionado"] = talleId; // Guardamos solo el ID
+
+                Response.Write($"Talle seleccionado correctamente: {talleId} <br/>");
+                ChequearStock();
+            }
+        }
+
+
+
+
         public void ChequearStock()
         {
             try
             {
-                ArticuloManager manager = new ArticuloManager();
-                int stock = manager.ObtenerStock(int.Parse(lblId.Text));
-                if (stock == 0)
+                if (Session["TalleSeleccionado"] != null)
                 {
-                    btnAgregarCarrito.Enabled = false;
-                    btnAgregarCarrito.Text = "No hay stock.";
-                    btnAgregarCarrito.CssClass = "btn btn-warning";
+                    //  var talleSeleccionado = (dynamic)Session["TalleSeleccionado"];
+                    //  int talleId = talleSeleccionado.id;
+                    int talleId = (int)Session["TalleSeleccionado"];
+
+                    ArticuloManager manager = new ArticuloManager();
+                    int stockTalle = manager.ObtenerStockTalle(int.Parse(lblId.Text), talleId);
+
+                    Response.Write($"Stock disponible para talle {talleId}: {stockTalle} <br/>");
+
+                    if (stockTalle == 0)
+                    {
+                        btnAgregarCarrito.Enabled = false;
+                        btnAgregarCarrito.Text = "No hay stock para este talle.";
+                        btnAgregarCarrito.CssClass = "btn btn-warning";
+                    }
+                    else
+                    {
+                        btnAgregarCarrito.Enabled = true;
+                        btnAgregarCarrito.Text = "Agregar al carrito";
+                        btnAgregarCarrito.CssClass = "btn btn-primary";
+                    }
                 }
                 else
                 {
-                    btnAgregarCarrito.Enabled = true;
-                    btnAgregarCarrito.Text = "Agregar al carrito";
-                    btnAgregarCarrito.CssClass = "btn btn-primary";
+                    btnAgregarCarrito.Enabled = false;
+                    btnAgregarCarrito.Text = "Selecciona un talle";
+                    btnAgregarCarrito.CssClass = "btn btn-secondary";
                 }
-
             }
             catch (Exception ex)
             {
-
-                Console.WriteLine("Error de conversión: " + ex.Message);
+                Response.Write("Error al verificar stock: " + ex.Message);
             }
         }
+
+
+
         private void ObtenerImagenesArticulo(string id)
         {
             ArticuloManager manager = new ArticuloManager();
@@ -116,12 +175,10 @@ namespace TPFinal_Paniagua.Compra
                 repImagenes.DataSource = articulo.Imagenes;
                 repImagenes.DataBind();
 
-                // Configurar la imagen principal como la primera de la lista
                 imgArticulo.ImageUrl = articulo.Imagenes[0].UrlImagen;
             }
             else
             {
-                // Si no hay imágenes, usar una imagen por defecto
                 imgArticulo.ImageUrl = "https://via.placeholder.com/200";
             }
         }

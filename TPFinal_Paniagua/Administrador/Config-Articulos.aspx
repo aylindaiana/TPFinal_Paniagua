@@ -79,11 +79,41 @@
         </div>
 
         <div class="col-md-6 mb-3">
-            <asp:TextBox runat="server" ID="txtStock" CssClass="form-control" placeholder="Stock" />
+            <asp:TextBox runat="server" ID="txtStock" CssClass="form-control" placeholder="Stock" ReadOnly="true" />
             <label for="ddlCategoria" class="form-label">Categoria: </label>
             <asp:DropDownList ID="ddlCategoria" CssClass="form-control" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlCategoria_SelectedIndexChanged"></asp:DropDownList>
             <label for="ddlCategoria" class="form-label">Tipo: </label>
             <asp:DropDownList ID="ddlTipo" CssClass="form-control" runat="server"></asp:DropDownList>
+            <label for="ddlTalle" class="form-label">Talle: </label>
+            <asp:Repeater ID="rptTalles" runat="server">
+                <HeaderTemplate>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Talle</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblTalle" runat="server" Text='<%# Eval("Nombre") %>' />
+                            <asp:HiddenField ID="hfIdTalle" runat="server" Value='<%# Eval("Id_Talle") %>' />
+                        </td>
+                        <td>
+                            <asp:TextBox ID="txtStockTalle" runat="server" CssClass="form-control" Text='<%# Eval("Stock") %>' />
+                        </td>
+
+                    </tr>
+                </ItemTemplate>
+                <FooterTemplate>
+                        </tbody>
+                    </table>
+                </FooterTemplate>
+            </asp:Repeater>
+
 
         </div>
 

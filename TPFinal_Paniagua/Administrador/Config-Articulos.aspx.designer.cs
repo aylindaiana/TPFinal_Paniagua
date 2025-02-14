@@ -87,6 +87,15 @@ namespace TPFinal_Paniagua.Administrador
         protected global::System.Web.UI.WebControls.DropDownList ddlTipo;
 
         /// <summary>
+        /// Control rptTalles.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptTalles;
+
+        /// <summary>
         /// Control UpdatePanel1.
         /// </summary>
         /// <remarks>

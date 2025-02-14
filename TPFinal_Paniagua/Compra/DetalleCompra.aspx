@@ -170,7 +170,7 @@
     </style>
 
     <div class="breadcrumb">
-        <a href="Inicio.aspx">Inicio</a> // <a href="Productos.aspx">Productos</a> 
+        <a href="Inicio.aspx">Inicio</a> // <a href="/Productos.aspx">Productos</a> 
     </div>
 
     <div class="detalle-container">
@@ -191,7 +191,7 @@
                 runat="server"
                 CssClass="product-image"
                 ImageUrl='<%# string.IsNullOrWhiteSpace(Eval("ImagenURL") as string) ? "https://via.placeholder.com/200" : Eval("ImagenURL") %>'
-                AlternateText='<%# Eval("Nombre") %>' />
+                AlternateText='<%# Eval("Nombre") %>' onerror="this.src='https://via.placeholder.com/200';" />
         </div>
 
         <div class="product-details">
@@ -200,7 +200,7 @@
             <asp:Label ID="lblNombre" runat="server" CssClass="product-title" > <%# Eval("Nombre") %></asp:Label>
 
             <div class="product-price">
-                <span>$</span<asp:Label ID="lblPrecio" runat="server" CssClass="product-price" Text='<%# "Precio: $ " + Eval("Precio") %>'></asp:Label>
+                <span>$</span><asp:Label ID="lblPrecio" runat="server" CssClass="product-price" Text='<%# "Precio: $ " + Eval("Precio") %>'></asp:Label>
             </div>
 
             <div class="product-category">
@@ -213,8 +213,29 @@
                 <asp:Label ID="lblTipo" runat="server" CssClass="discount-badge" Text='<%# Eval("TiposId") %>'></asp:Label>
             </div>
 
+            <div class="product-talles">
+                <h3>Elige un talle:</h3>
+                <asp:Repeater ID="repTalles" runat="server">
+                    <ItemTemplate>
+                        <label>
+                            <asp:RadioButton ID="rbtnTalle" runat="server" GroupName="Talles" 
+                                AutoPostBack="true" OnCheckedChanged="rbtnTalle_CheckedChanged" />
+                            <%# Eval("Nombre") %> (Stock: <%# Eval("Stock") %>)
+
+                            <!-- HiddenField para almacenar el ID del talle -->
+                            <asp:HiddenField ID="hfIdTalle" runat="server" Value='<%# Eval("Id_Talle") %>' />
+                        </label>
+                        <br />
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
+
+            <asp:HiddenField ID="hfTalleSeleccionado" runat="server" />
+
+
             <asp:Label ID="lblDescripcion" runat="server" CssClass="product-description" ><%# Eval("Descripcion") %></asp:Label>
 
+            <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
             <div class="btn-container">
                 <asp:Button ID="btnAgregarCarrito" runat="server" CssClass="btn-add" Text="Agregar al carrito" OnClick="btnAgregarCarrito_Click" />
             </div>
@@ -251,7 +272,6 @@
 
                     document.getElementById('<%= imgArticulo.ClientID %>').src = imagenes[indexActual];
                 }
-
     </script>
 
 </asp:Content>

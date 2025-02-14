@@ -56,7 +56,7 @@ namespace TPFinal_Paniagua
                 if (imgProducto != null && articulo.Imagenes != null && articulo.Imagenes.Count > 0)
                 {
                     imgProducto.ImageUrl = articulo.Imagenes[0].UrlImagen;
-                    imgProducto.Visible = true; // Mostrar la imagen si existe
+                    imgProducto.Visible = true; 
                 }
             }
         }
