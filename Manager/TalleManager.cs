@@ -214,6 +214,94 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+        public List<int> ObtenerArticulosPorTalle(int idTalle)
+        {
+            List<int> lista = new List<int>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta("SELECT Id_Articulo FROM Articulos_Talles WHERE Id_Talle = @idTalle");
+                datos.SetearParametro("@idTalle", idTalle);
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add((int)datos.Lector["Id_Articulo"]);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void EliminarArticulosDeTalle(int idTalle, List<int> articulosDesmarcados)
+        {
+            if (articulosDesmarcados == null || articulosDesmarcados.Count == 0)
+                return; // Evita eliminar todo si la lista está vacía
+
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                string listaEliminar = string.Join(",", articulosDesmarcados);
+                Console.WriteLine($"DEBUG - Eliminando artículos: {listaEliminar}");
+
+                datos.SetearConsulta("EXEC sp_EliminarArticulosDeTalle @idTalle, @listaEliminar");
+                datos.SetearParametro("@idTalle", idTalle);
+                datos.SetearParametro("@listaEliminar", listaEliminar);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ERROR en EliminarArticulosDeTalle: {ex.Message}");
+                throw;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
+        public void ActualizarArticulosDeTalle(int idTalle, List<int> articulosSeleccionados, List<int> articulosAnteriores)
+        {
+            if (articulosSeleccionados == null) articulosSeleccionados = new List<int>();
+            if (articulosAnteriores == null) articulosAnteriores = new List<int>();
+
+            List<int> articulosDesmarcados = articulosAnteriores.Except(articulosSeleccionados).ToList(); 
+            List<int> articulosNuevos = articulosSeleccionados.Except(articulosAnteriores).ToList(); 
+
+            string listaEliminar = articulosDesmarcados.Count > 0 ? string.Join(",", articulosDesmarcados) : "";
+            string listaAgregar = articulosNuevos.Count > 0 ? string.Join(",", articulosNuevos) : "";
+
+            Console.WriteLine("Lista para eliminar: " + listaEliminar);
+            Console.WriteLine("Lista para agregar: " + listaAgregar);
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ActualizarArticulosDeTalle @idTalle, @listaEliminar, @listaAgregar");
+                datos.SetearParametro("@idTalle", idTalle);
+                datos.SetearParametro("@listaEliminar", listaEliminar);
+                datos.SetearParametro("@listaAgregar", listaAgregar);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
 
 
         /*
@@ -270,6 +358,7 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
 
     }
 }

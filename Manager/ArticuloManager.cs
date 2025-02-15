@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Manager
 {
     public class ArticuloManager
     {
-
+        /*
         public List<Articulo> ListarArticulosActivos()
         {
             List<Articulo> listaArticulos = new List<Articulo>();
@@ -55,7 +56,61 @@ namespace Manager
             {
                 datos.CerrarConeccion();
             }
+        }*/
+
+        public List<Articulo> ListarArticulosActivos()
+        {
+            List<Articulo> listaArticulos = new List<Articulo>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ListarArticulosActivos");
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    int idArticulo = (int)datos.Lector["Id_Articulo"];
+                    Articulo articulo = listaArticulos.FirstOrDefault(a => a.Id_Articulo == idArticulo);
+
+                    if (articulo == null)
+                    {
+                        articulo = new Articulo
+                        {
+                            Id_Articulo = idArticulo,
+                            Nombre = datos.Lector["NombreArticulo"].ToString(),
+                            Descripcion = datos.Lector["Descripcion"] != DBNull.Value ? datos.Lector["Descripcion"].ToString() : string.Empty,
+                            Stock = (int)datos.Lector["Stock"],
+                            Precio = (decimal)datos.Lector["Precio"],
+                            CategoriaId = (int)datos.Lector["CategoriaId"],
+                            TipoId = (int)datos.Lector["TipoId"],
+                            Estado = true,
+                            Imagenes = new List<Imagenes>()
+                        };
+                        listaArticulos.Add(articulo);
+                    }
+
+                    if (datos.Lector["Imagen"] != DBNull.Value)
+                    {
+                        string urlImagen = datos.Lector["Imagen"].ToString();
+                        if (!articulo.Imagenes.Any(img => img.UrlImagen == urlImagen))
+                        {
+                            articulo.Imagenes.Add(new Imagenes { UrlImagen = urlImagen });
+                        }
+                    }
+                }
+
+                return listaArticulos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
         }
+
 
 
 
@@ -231,9 +286,48 @@ namespace Manager
             }
         }
 
+        public void ActualizarStockTalle(int idArticulo, int idTalle, int cantidadVendida)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ActualizarStockTalle @idArticulo, @idTalle, @cantidadVendida");
+                datos.SetearParametro("@idArticulo", idArticulo);
+                datos.SetearParametro("@idTalle", idTalle);
+                datos.SetearParametro("@cantidadVendida", cantidadVendida);
 
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Error SQL: " + ex.Message, ex);
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
 
+        public void ActualizarStock(int idArticulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("EXEC sp_ActualizarStock @idArticulo");
+                datos.SetearParametro("@idArticulo", idArticulo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
 
+        /*
         public void ActualizarStock(int idArticulo, int cantidadVendida)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -254,7 +348,7 @@ namespace Manager
 
                 throw ex;
             }
-        }
+        }*/
         /*
         public void ActualizarStock(int idArticulo, int idTalle, int cantidadVendida)
         {

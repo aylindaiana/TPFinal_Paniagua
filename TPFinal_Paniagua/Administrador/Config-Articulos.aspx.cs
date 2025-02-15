@@ -221,9 +221,6 @@ namespace TPFinal_Paniagua.Administrador
         }
 
 
-
-
-
         protected void ddlCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
 

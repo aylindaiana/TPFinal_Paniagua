@@ -19,11 +19,17 @@ namespace TPFinal_Paniagua.Administrador
             txtId_Talle.Enabled = false;
             chequearUsuarios();
 
-            List<Articulo> articulos = articuloManager.ListarArticulosActivos(); // Obtener lista de artículos
-            chkArticulos.DataSource = articulos;
-            chkArticulos.DataTextField = "Nombre"; // Suponiendo que tienes un campo Nombre en Articulo
-            chkArticulos.DataValueField = "Id_Articulo"; // Asignar Id del artículo
-            chkArticulos.DataBind();
+            if (!IsPostBack) 
+            {
+                List<Articulo> articulos = articuloManager.ListarArticulosActivos();
+                if (articulos != null && articulos.Count > 0)
+                {
+                    chkArticulos.DataSource = articulos;
+                    chkArticulos.DataTextField = "Nombre";
+                    chkArticulos.DataValueField = "Id_Articulo";
+                    chkArticulos.DataBind();
+                }
+            }
 
             string id = Request.QueryString["id"] != null ? Request.QueryString["id"].ToString() : "";
             if (!string.IsNullOrEmpty(id) && !IsPostBack)
@@ -39,6 +45,14 @@ namespace TPFinal_Paniagua.Administrador
                     {
                         btnDeshabilitar.Text = "Reactivar";
 
+                    }
+                    List<int> articulosConTalle = manager.ObtenerArticulosPorTalle(talle.Id_Talle);
+                    foreach (ListItem item in chkArticulos.Items)
+                    {
+                        if (articulosConTalle.Contains(int.Parse(item.Value)))
+                        {
+                            item.Selected = true; 
+                        }
                     }
                 }
             }
@@ -64,7 +78,30 @@ namespace TPFinal_Paniagua.Administrador
                     talle.Id_Talle = int.Parse(txtId_Talle.Text);
 
                     manager.Modificar(talle);
-                    lblMensaje.Text = "Su mofificacion se realizó exitosamente.";
+
+                    List<int> articulosAnteriores = manager.ObtenerArticulosPorTalle(talle.Id_Talle);
+                    List<int> articulosSeleccionados = chkArticulos.Items.Cast<ListItem>()
+                        .Where(item => item.Selected)
+                        .Select(item => int.Parse(item.Value))
+                        .ToList();
+
+
+                    List<int> articulosDesmarcados = articulosAnteriores.Except(articulosSeleccionados).ToList();
+                    List<int> articulosNuevos = articulosSeleccionados.Except(articulosAnteriores).ToList();
+
+
+                    if (articulosDesmarcados.Count > 0)
+                    {
+                        manager.EliminarArticulosDeTalle(talle.Id_Talle, articulosDesmarcados);
+                    }
+
+                    foreach (int idArticulo in articulosNuevos)
+                    {
+                        manager.AsociarStockArticuloTalle(idArticulo, talle.Id_Talle, 0);
+                    }
+
+
+                    lblMensaje.Text = "Su modificacion se realizó exitosamente.";
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
 

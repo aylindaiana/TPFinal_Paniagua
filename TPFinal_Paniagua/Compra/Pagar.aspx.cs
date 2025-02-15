@@ -12,6 +12,7 @@ using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.Xml.Linq;
+using TPFinal_Paniagua.Administrador;
 
 namespace TPFinal_Paniagua.Compra
 {
@@ -245,6 +246,7 @@ namespace TPFinal_Paniagua.Compra
 
             List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
             Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+            Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
             Usuario usuario = Session["usuarioActual"] as Usuario;
 
             if (listaArticulo == null || diccionarioCantidades == null || usuario == null)
@@ -257,6 +259,7 @@ namespace TPFinal_Paniagua.Compra
 
                 Response.Redirect("~/Ingreso.aspx");
             }
+
 
             decimal subtotal = listaArticulo
                 .Where(a => diccionarioCantidades.ContainsKey(a.Id_Articulo))
@@ -281,14 +284,22 @@ namespace TPFinal_Paniagua.Compra
             detalleManager.Agregar(detalle);
 
             ArticuloManager articuloManager = new ArticuloManager();
+
+
             foreach (var articulo in listaArticulo)
             {
-                if (diccionarioCantidades.TryGetValue(articulo.Id_Articulo, out int cantidadVendida))
+
+
+                if (diccionarioCantidades.TryGetValue(articulo.Id_Articulo, out int cantidadVendida) &&
+            diccionarioTalles.TryGetValue(articulo.Id_Articulo, out int idTalle))
                 {
+
+
                     int stockDisponible = articuloManager.ObtenerStock(articulo.Id_Articulo); 
                     if (stockDisponible >= cantidadVendida)
                     {
-                        articuloManager.ActualizarStock(articulo.Id_Articulo, cantidadVendida);
+                        articuloManager.ActualizarStockTalle(articulo.Id_Articulo, idTalle, cantidadVendida);
+                        articuloManager.ActualizarStock(articulo.Id_Articulo);
                     }
                     else
                     {

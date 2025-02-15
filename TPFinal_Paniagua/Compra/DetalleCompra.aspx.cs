@@ -30,7 +30,7 @@ namespace TPFinal_Paniagua.Compra
                 {
                     CargaDetallesProducto(idProduct);
                     ObtenerImagenesArticulo(idProduct);
-                    CargarTalles(articuloId); // Ahora pasamos un int
+                    CargarTalles(articuloId); 
                     lblId.Visible = false;
                 }
                 else
@@ -50,17 +50,14 @@ namespace TPFinal_Paniagua.Compra
                 int talleId = (int)Session["TalleSeleccionado"];
 
 
-                // Guardamos los detalles en la sesión
                 Session["ArticuloId"] = lblId.Text;
                 Session["TalleId"] = talleId;
-                Session["CantidadSeleccionada"] = 1; // Puede ser dinámico según la interfaz de usuario
+                Session["CantidadSeleccionada"] = 1;
 
-                // Redirigimos al carrito
                 Response.Redirect("/Compra/Carrito.aspx");
             }
             else
             {
-                // Si no se ha seleccionado un talle, mostramos un mensaje de advertencia
                 lblMensaje.Text = "Por favor, selecciona un talle antes de agregar al carrito.";
                 lblMensaje.Visible = true;
             }
@@ -114,7 +111,6 @@ namespace TPFinal_Paniagua.Compra
                 int talleId = Convert.ToInt32(hfIdTalle.Value);
                 Session["TalleSeleccionado"] = talleId; // Guardamos solo el ID
 
-                Response.Write($"Talle seleccionado correctamente: {talleId} <br/>");
                 ChequearStock();
             }
         }
@@ -135,7 +131,7 @@ namespace TPFinal_Paniagua.Compra
                     ArticuloManager manager = new ArticuloManager();
                     int stockTalle = manager.ObtenerStockTalle(int.Parse(lblId.Text), talleId);
 
-                    Response.Write($"Stock disponible para talle {talleId}: {stockTalle} <br/>");
+                  //  Response.Write($"Stock disponible para talle {talleId}: {stockTalle} <br/>");
 
                     if (stockTalle == 0)
                     {

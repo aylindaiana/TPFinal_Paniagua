@@ -79,6 +79,7 @@ namespace TPFinal_Paniagua.Compra
         {
             try
             {
+                Dictionary<int, int> diccionarioTalles = new Dictionary<int, int>();
                 if (Session["ListaArticulos"] == null)
                 {
                     Session["ListaArticulos"] = new List<Articulo>();
@@ -92,21 +93,29 @@ namespace TPFinal_Paniagua.Compra
                 }
 
                 Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+               // Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
+
 
                 ArticuloManager manager = new ArticuloManager();
                 Articulo articulo = manager.ListarArticulosTodos().Find(x => x.Id_Articulo == Convert.ToInt32(idArticulo));
+
+                if (articulo == null)
+                {
+                    lblError.Text = "El artículo seleccionado no existe.";
+                    lblError.Visible = true;
+                    return;
+                }
 
                 if (Session["TalleSeleccionado"] != null)
                 {
                     int idTalle = Convert.ToInt32(Session["TalleSeleccionado"]);
                     int cantidad = Convert.ToInt32(Session["CantidadSeleccionada"] ?? 1);
 
-                    // Verificar stock real del artículo en ese talle
                     int stockDisponible = manager.ObtenerStockTalle(articulo.Id_Articulo, idTalle);
 
                     if (stockDisponible >= cantidad)
                     {
-                        articulo.Stock = stockDisponible; // Asignar el stock real del talle
+                        articulo.Stock = stockDisponible; 
 
                         if (!listaArticulos.Any(a => a.Id_Articulo == articulo.Id_Articulo))
                         {
@@ -117,9 +126,14 @@ namespace TPFinal_Paniagua.Compra
                         {
                             diccionarioCantidades[articulo.Id_Articulo] += cantidad;
                         }
+                        if (!diccionarioTalles.ContainsKey(articulo.Id_Articulo))
+                        {
+                            diccionarioTalles[articulo.Id_Articulo] = idTalle;
+                        }
 
                         Session["ListaArticulos"] = listaArticulos;
                         Session["DiccionarioCantidades"] = diccionarioCantidades;
+                        Session["DiccionarioTalles"] = diccionarioTalles;
                     }
                     else
                     {
