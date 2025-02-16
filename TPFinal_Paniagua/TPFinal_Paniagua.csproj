@@ -119,6 +119,7 @@
     <Content Include="Administrador\Talle.aspx" />
     <Content Include="Administrador\Tipos.aspx" />
     <Content Include="Administrador\UsuariosGeneral.aspx" />
+    <Content Include="BotonArrepentimiento.aspx" />
     <Content Include="CambiarPassword.aspx" />
     <Content Include="Compra\Carrito.aspx" />
     <Content Include="Compra\DetalleCompra.aspx" />
@@ -314,6 +315,13 @@
       <DependentUpon>UsuariosGeneral.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="BotonArrepentimiento.aspx.cs">
+      <DependentUpon>BotonArrepentimiento.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BotonArrepentimiento.aspx.designer.cs">
+      <DependentUpon>BotonArrepentimiento.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CambiarPassword.aspx.cs">
       <DependentUpon>CambiarPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

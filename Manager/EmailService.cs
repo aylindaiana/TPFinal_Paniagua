@@ -38,13 +38,36 @@ namespace Manager
                             "</body></html>";
 
             email = new MailMessage();
-            email.From = new MailAddress("dai83r2@gmail.com"); // Cambia este correo por uno adecuado
+            email.From = new MailAddress("dai83r2@gmail.com"); 
             email.Subject = asunto;
             email.IsBodyHtml = true;
             email.Body = cuerpo;
             email.To.Add(emailDestino);
         }
 
+        public void ArmarCorreoArrepentimiento(string email, string nombre, string numeroOrden)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new Exception("El correo electrónico del destinatario no es válido.");
+            }
+
+            string cuerpo = "<html><body>" +
+                            "<p>Estimado usuario,</p>" +
+                            "<p>Le informamos que estaremos analizando el estado de su devolución con Factura nro:</p>" +
+                            "<h2 style='color: #ff7f50;'>" + numeroOrden + "</h2>" +
+                            "<p>Nos estaremos comunicando en la brevedad y utilizaremos los datos que se nos proporciono para gestionar mejor su compra.</p>" +
+                            "<p>Agradecemos su paciencia y sinceridad.</p>" +
+                            "<p>Saludos,<br>El equipo de soporte de Rose Vibes.</p>" +
+                            "</body></html>";
+            MailMessage correo = new MailMessage();
+            correo = new MailMessage();
+            correo.From = new MailAddress("dai83r2@gmail.com"); 
+            correo.Subject = numeroOrden;
+            correo.IsBodyHtml = true;
+            correo.Body = cuerpo;
+            correo.To.Add(email);
+        }
 
         public void enviarmail()
         {
