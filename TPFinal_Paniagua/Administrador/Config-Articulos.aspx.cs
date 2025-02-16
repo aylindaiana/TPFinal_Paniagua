@@ -146,10 +146,25 @@ namespace TPFinal_Paniagua.Administrador
                     return; 
                 }
                 // articulo.ImagenURL = txtImagenURL.Text;
+                if (Request.QueryString["id"] != null)
+                {
+                    int idArticulo = int.Parse(Request.QueryString["id"]);
+                    Articulo articuloExistente = manager.ListarArticulosTodos().Find(x => x.Id_Articulo == idArticulo);
 
+                    if (articuloExistente != null)
+                    {
+                        articulo.Estado = articuloExistente.Estado;
+                    }
+                }
+                else
+                {
+                    articulo.Estado = true; 
+                }
+                //_--------gurado cambios----------
 
                 if (Request.QueryString["id"] != null)
                 {
+
                     articulo.Id_Articulo = int.Parse(txtId_Articulo.Text);
                     manager.Modificar(articulo);
 
@@ -158,10 +173,17 @@ namespace TPFinal_Paniagua.Administrador
                     lblMensaje.Visible = true;
 
                     ImagenesManager imagenManager = new ImagenesManager();
+                    //------------------
+                    List<Imagenes> imagenesExistentes = imagenManager.ListarPorArticulo(articulo.Id_Articulo);
+                    //--------------------
                     List<string> imagenes = (List<string>)ViewState["Imagenes"];
                     foreach (string url in imagenes)
                     {
-                        imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
+                        //  imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
+                        if (!imagenesExistentes.Any(img => img.UrlImagen == url))
+                        {
+                            imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
+                        }
 
                     }
                     TalleManager talleManager = new TalleManager();
@@ -170,6 +192,7 @@ namespace TPFinal_Paniagua.Administrador
                         talleManager.AsociarStockArticuloTalle(articulo.Id_Articulo, talle.Id_Talle, talle.Stock);
                         Debug.WriteLine($"Asociando stock: ArticuloId = {articulo.Id_Articulo}, TalleId = {talle.Id_Talle}, Stock = {talle.Stock}");
                     }
+
                     Response.Redirect("~/Administrador/Articulos.aspx");
                 }
                 else
@@ -190,7 +213,6 @@ namespace TPFinal_Paniagua.Administrador
                     foreach (Talles talle in listaTalles)
                     {
                         talleManager.AsociarStockArticuloTalle(articulo.Id_Articulo, talle.Id_Talle, talle.Stock);
-                        Debug.WriteLine($"Asociando stock: ArticuloId = {articulo.Id_Articulo}, TalleId = {talle.Id_Talle}, Stock = {talle.Stock}");
                     }
                     Response.Redirect("~/Administrador/Articulos.aspx");
                 }

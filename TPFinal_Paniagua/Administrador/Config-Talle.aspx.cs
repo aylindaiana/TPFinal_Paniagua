@@ -111,6 +111,8 @@ namespace TPFinal_Paniagua.Administrador
                 else
                 {
                     manager.Agregar(talle);
+                    talle.Id_Talle = manager.ObtenerUltimoIdTalle();
+
                     List<int> idArticulosSeleccionados = new List<int>();
                     foreach (ListItem item in chkArticulos.Items)
                     {

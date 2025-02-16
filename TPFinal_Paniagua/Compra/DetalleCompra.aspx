@@ -214,7 +214,7 @@
             </div>
 
             <div class="product-talles">
-                <h3>Elige un talle:</h3>
+                <h3>Disponibilidad:</h3>
                 <asp:Repeater ID="repTalles" runat="server">
                     <ItemTemplate>
                         <label>
@@ -250,19 +250,16 @@
         let imagenes = [];
         let indexActual = 0;
 
-        // Obtener todas las imágenes del Repeater al cargar la página
         document.addEventListener("DOMContentLoaded", function () {
             imagenes = [...document.querySelectorAll('.thumbnail')].map(img => img.dataset.url);
         });
 
-        // Función para seleccionar imagen manualmente
         function seleccionarImagen(elemento) {
             let nuevaImagen = elemento.dataset.url;
             document.getElementById('<%= imgArticulo.ClientID %>').src = nuevaImagen;
             indexActual = imagenes.indexOf(nuevaImagen);
         }
 
-        // Función para cambiar imagen con los botones
         function cambiarImagen(direccion) {
             if (imagenes.length === 0) return;
 

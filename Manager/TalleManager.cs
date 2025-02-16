@@ -93,6 +93,29 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+        public int ObtenerUltimoIdTalle()
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.SetearConsulta("SELECT MAX(Id_Talle) FROM Talles");
+                datos.EjecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    return datos.Lector.GetInt32(0);
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
+        }
+
 
         public void Modificar(Talles talle)
         {
