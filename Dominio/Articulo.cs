@@ -19,6 +19,8 @@ namespace Dominio
         {
             this.Stock = Talles.Sum(t => t.Stock);
         }
+        public int Talle { get; set; }
+
 
         public decimal Precio { get; set; }
         public int CategoriaId { get; set; }

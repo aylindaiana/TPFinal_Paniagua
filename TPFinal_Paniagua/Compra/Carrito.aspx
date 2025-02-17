@@ -143,8 +143,8 @@
 
                 <asp:TemplateField HeaderText="Acciones">
                     <ItemTemplate>
-                        <asp:Button ID="btnAdd" runat="server" Text="+" CssClass="btn-action btn-add" CommandName="Aumentar" CommandArgument='<%# Eval("Id_Articulo") %>' />
-                        <asp:Button ID="btnRemove" runat="server" Text="-" CssClass="btn-action btn-remove" CommandName="Disminuir" CommandArgument='<%# Eval("Id_Articulo") %>' />
+                        <asp:Button ID="btnAdd" runat="server" Text="+" CssClass="btn-action btn-add" CommandName="Aumentar" CommandArgument='<%# Eval("Id_Articulo")  %>' />
+                        <asp:Button ID="btnRemove" runat="server" Text="-" CssClass="btn-action btn-remove" CommandName="Disminuir" CommandArgument='<%# Eval("Id_Articulo")  %>' />
                         <asp:Button ID="btnDelete" runat="server" Text="Eliminar" CssClass="btn-action btn-delete" CommandName="Eliminar" CommandArgument='<%# Eval("Id_Articulo") %>' />
                     </ItemTemplate>
                 </asp:TemplateField>

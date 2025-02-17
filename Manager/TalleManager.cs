@@ -175,6 +175,7 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+        /*
         public List<Talles> ObtenerStockPorTalle(int idArticulo)
         {
             List<Talles> lista = new List<Talles>();
@@ -208,7 +209,49 @@ namespace Manager
             {
                 datos.CerrarConeccion();
             }
+        }*/
+
+        public List<Talles> ObtenerStockPorTalle(int idArticulo)
+        {
+            List<Talles> lista = new List<Talles>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.SetearConsulta(@"
+            SELECT T.Id_Talle, T.Nombre, 
+                   COALESCE(AT.Stock, 0) AS Stock  -- Si Stock es NULL, poner 0
+            FROM Articulos_Talles AT
+            INNER JOIN Talles T ON AT.Id_Talle = T.Id_Talle
+            WHERE AT.Id_Articulo = @Id_Articulo");
+
+                datos.SetearParametro("@Id_Articulo", idArticulo);
+                datos.EjecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Talles talle = new Talles
+                    {
+                        Id_Talle = (int)datos.Lector["Id_Talle"],
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Stock = datos.Lector["Stock"] != DBNull.Value ? (int)datos.Lector["Stock"] : 0
+                    };
+
+                    lista.Add(talle);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.CerrarConeccion();
+            }
         }
+
         public void AsociarStockArticuloTalle(int idArticulo, int idTalle, int stock)
         {
             AccesoDatos datos = new AccesoDatos();
@@ -325,6 +368,7 @@ namespace Manager
                 datos.CerrarConeccion();
             }
         }
+
 
 
         /*

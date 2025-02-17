@@ -217,17 +217,19 @@
                 <h3>Disponibilidad:</h3>
                 <asp:Repeater ID="repTalles" runat="server">
                     <ItemTemplate>
-                        <label>
-                            <asp:RadioButton ID="rbtnTalle" runat="server" GroupName="Talles" 
-                                AutoPostBack="true" OnCheckedChanged="rbtnTalle_CheckedChanged" />
-                            <%# Eval("Nombre") %> (Stock: <%# Eval("Stock") %>)
+                        <asp:HiddenField ID="hfIdTalle" runat="server" Value='<%# Eval("Id_Talle") %>' />
+                        <asp:HiddenField ID="hfStock" runat="server" Value='<%# Eval("Stock") %>' />
 
-                            <!-- HiddenField para almacenar el ID del talle -->
-                            <asp:HiddenField ID="hfIdTalle" runat="server" Value='<%# Eval("Id_Talle") %>' />
-                        </label>
-                        <br />
+                        <asp:RadioButton ID="rbtnTalle" runat="server"
+                            GroupName="Talles"
+                            AutoPostBack="true"
+                            OnCheckedChanged="rbtnTalle_CheckedChanged" Checked='<%# Eval("Id_Talle").ToString() == (Session["TalleSeleccionado"] != null ? Session["TalleSeleccionado"].ToString() : "") %>' />
+
+                        <asp:Label ID="lblTalle" runat="server" Text='<%# Eval("Nombre") %>'></asp:Label>
+                        <asp:Label ID="lblStock" runat="server" Text='<%# Eval("Stock") %>'></asp:Label> 
                     </ItemTemplate>
                 </asp:Repeater>
+
             </div>
 
             <asp:HiddenField ID="hfTalleSeleccionado" runat="server" />
@@ -267,8 +269,8 @@
             if (indexActual < 0) indexActual = imagenes.length - 1;
             if (indexActual >= imagenes.length) indexActual = 0;
 
-                    document.getElementById('<%= imgArticulo.ClientID %>').src = imagenes[indexActual];
-                }
+            document.getElementById('<%= imgArticulo.ClientID %>').src = imagenes[indexActual];
+        }
     </script>
 
 </asp:Content>

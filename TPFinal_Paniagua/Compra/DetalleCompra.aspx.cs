@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TPFinal_Paniagua.Administrador;
 
 namespace TPFinal_Paniagua.Compra
 {
@@ -30,7 +31,7 @@ namespace TPFinal_Paniagua.Compra
                 {
                     CargaDetallesProducto(idProduct);
                     ObtenerImagenesArticulo(idProduct);
-                    CargarTalles(articuloId); 
+                    CargarTalles(articuloId);
                     lblId.Visible = false;
                 }
                 else
@@ -45,14 +46,13 @@ namespace TPFinal_Paniagua.Compra
         {
             if (Session["TalleSeleccionado"] != null)
             {
-               // var talleSeleccionado = (dynamic)Session["TalleSeleccionado"];
-                //  int talleId = talleSeleccionado.id;
                 int talleId = (int)Session["TalleSeleccionado"];
-
-
                 Session["ArticuloId"] = lblId.Text;
                 Session["TalleId"] = talleId;
                 Session["CantidadSeleccionada"] = 1;
+
+                // Depuración antes de redirigir
+                Response.Write($"DEBUG: Agregando Artículo {lblId.Text} - Talle {talleId} - Cantidad {Session["CantidadSeleccionada"]}<br/>");
 
                 Response.Redirect("/Compra/Carrito.aspx");
             }
@@ -67,7 +67,7 @@ namespace TPFinal_Paniagua.Compra
         {
             Response.Redirect("/Productos.aspx");
         }
-        
+
         //Funciones:
 
         private void CargarTalles(int articuloId)
@@ -75,9 +75,16 @@ namespace TPFinal_Paniagua.Compra
             var talleManager = new TalleManager();
             List<Talles> talles = talleManager.ObtenerStockPorTalle(articuloId);
 
+            // Debug: Ver los datos antes de pasarlos al Repeater
+            foreach (var talle in talles)
+            {
+                Response.Write($"DEBUG: Talle ID = {talle.Id_Talle}, Stock = {talle.Stock}<br/>");
+            }
+
             repTalles.DataSource = talles;
             repTalles.DataBind();
         }
+
 
         public void CargaDetallesProducto(string id)
         {
@@ -87,7 +94,7 @@ namespace TPFinal_Paniagua.Compra
             lblNombre.Text = articulo.Nombre;
             lblDescripcion.Text = articulo.Descripcion;
             lblPrecio.Text = articulo.Precio.ToString();
-        //    imgArticulo.ImageUrl = articulo.ImagenURL;
+            //    imgArticulo.ImageUrl = articulo.ImagenURL;
 
             CategoriaManager categoriaManager = new CategoriaManager();
             Categoria categoria = categoriaManager.ListarTodos().Find(c => c.Id_Categoria == articulo.CategoriaId);
@@ -104,18 +111,27 @@ namespace TPFinal_Paniagua.Compra
         {
             RadioButton rbtn = (RadioButton)sender;
             RepeaterItem item = (RepeaterItem)rbtn.NamingContainer;
+
             HiddenField hfIdTalle = (HiddenField)item.FindControl("hfIdTalle");
+            HiddenField hfStock = (HiddenField)item.FindControl("hfStock");
 
-            if (hfIdTalle != null && rbtn.Checked)
+            if (hfIdTalle != null && hfStock != null)
             {
-                int talleId = Convert.ToInt32(hfIdTalle.Value);
-                Session["TalleSeleccionado"] = talleId; // Guardamos solo el ID
+                int idTalle = int.Parse(hfIdTalle.Value);
+                int stockDisponible = int.Parse(hfStock.Value);
 
-                ChequearStock();
+                // Guardamos en sesión el talle seleccionado y su stock
+                Session["TalleSeleccionado"] = idTalle;
+                Session["StockTalleSeleccionado"] = stockDisponible;
+
+                lblMensaje.Text = $"Talle seleccionado: {idTalle}, Stock: {stockDisponible}";
+                lblMensaje.Visible = true;
+            }
+            if (int.TryParse(Session["ArticuloId"] as string, out int articuloId))
+            {
+                CargarTalles(articuloId);  // Pasamos el int, no el string
             }
         }
-
-
 
 
         public void ChequearStock()
@@ -124,14 +140,22 @@ namespace TPFinal_Paniagua.Compra
             {
                 if (Session["TalleSeleccionado"] != null)
                 {
-                    //  var talleSeleccionado = (dynamic)Session["TalleSeleccionado"];
-                    //  int talleId = talleSeleccionado.id;
                     int talleId = (int)Session["TalleSeleccionado"];
+                    int stockTalle = 0;
 
-                    ArticuloManager manager = new ArticuloManager();
-                    int stockTalle = manager.ObtenerStockTalle(int.Parse(lblId.Text), talleId);
+                    if (Session["StockTalleSeleccionado"] != null)
+                    {
+                        stockTalle = (int)Session["StockTalleSeleccionado"];
+                    }
+                    else
+                    {
+                        ArticuloManager manager = new ArticuloManager();
+                        stockTalle = manager.ObtenerStockTalle(int.Parse(lblId.Text), talleId);
 
-                  //  Response.Write($"Stock disponible para talle {talleId}: {stockTalle} <br/>");
+                        Session["StockTalleSeleccionado"] = stockTalle;
+                    }
+
+                    Response.Write($"DEBUG: Stock disponible para Artículo {lblId.Text}, Talle {talleId} = {stockTalle}<br/>");
 
                     if (stockTalle == 0)
                     {
@@ -155,7 +179,7 @@ namespace TPFinal_Paniagua.Compra
             }
             catch (Exception ex)
             {
-                Response.Write("Error al verificar stock: " + ex.Message);
+                Response.Write("Error en ChequearStock: " + ex.Message);
             }
         }
 

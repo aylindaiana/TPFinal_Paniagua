@@ -11,52 +11,6 @@ namespace Manager
 {
     public class ArticuloManager
     {
-        /*
-        public List<Articulo> ListarArticulosActivos()
-        {
-            List<Articulo> listaArticulos = new List<Articulo>();
-
-            AccesoDatos datos = new AccesoDatos();
-            try
-            {
-                datos.SetearConsulta("EXEC sp_ListarArticulosActivos");
-                datos.EjecutarLectura();
-
-                while (datos.Lector.Read())
-                {
-                    Articulo articulo = new Articulo
-                    {
-                        Id_Articulo = (int)datos.Lector["Id_Articulo"],
-                        Nombre = datos.Lector["NombreArticulo"].ToString(),
-                        Descripcion = datos.Lector["Descripcion"] != DBNull.Value ? datos.Lector["Descripcion"].ToString() : string.Empty,
-                        Stock = (int)datos.Lector["Stock"],
-                        Precio = (decimal)datos.Lector["Precio"],
-                        CategoriaId = (int)datos.Lector["CategoriaId"],
-                        TipoId = (int)datos.Lector["TipoId"],
-                        Estado = true,
-                        Imagenes = new List<Imagenes>()
-                    };
-
-                    // Agregar la primera imagen si existe
-                    if (datos.Lector["Imagen"] != DBNull.Value)
-                    {
-                        articulo.Imagenes.Add(new Imagenes { UrlImagen = datos.Lector["Imagen"].ToString() });
-                    }
-
-                    listaArticulos.Add(articulo);
-                }
-
-                return listaArticulos;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.CerrarConeccion();
-            }
-        }*/
 
         public List<Articulo> ListarArticulosActivos()
         {
@@ -231,6 +185,7 @@ namespace Manager
             FROM Articulos_Talles
             WHERE Id_Articulo = @Id_Articulo AND Id_Talle = @Id_Talle");
 
+
                 datos.SetearParametro("@Id_Articulo", idArticulo);
                 datos.SetearParametro("@Id_Talle", idTalle);
                 datos.EjecutarLectura();
@@ -254,17 +209,18 @@ namespace Manager
             }
         }
 
-        public int ObtenerStock(int idArticulo)
+        public int ObtenerStockPorTalle(int idArticulo, int idTalle)
         {
             AccesoDatos datos = new AccesoDatos();
             try
             {
                 datos.SetearConsulta(@"
             SELECT Stock 
-            FROM Articulos 
-            WHERE Id_Articulo = @Id_Articulo");
+            FROM Articulos_Talles 
+            WHERE Id_Articulo = @Id_Articulo AND Id_Talle = @Id_Talle");
 
                 datos.SetearParametro("@Id_Articulo", idArticulo);
+                datos.SetearParametro("@Id_Talle", idTalle);
                 datos.EjecutarLectura();
 
                 if (datos.Lector.Read() && datos.Lector["Stock"] != DBNull.Value)
@@ -273,7 +229,7 @@ namespace Manager
                 }
                 else
                 {
-                    return 0;
+                    return 0; // Si no encuentra el stock, devuelve 0
                 }
             }
             catch (Exception ex)

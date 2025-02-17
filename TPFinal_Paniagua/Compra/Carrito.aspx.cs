@@ -32,12 +32,12 @@ namespace TPFinal_Paniagua.Compra
         {
             List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
 
-            
+
             if (listaArticulos == null || listaArticulos.Count == 0)
             {
                 lblError.Text = "El carrito está vacío, no se puede realizar ninguna compra sin ningún artículo seleccionado.";
                 lblError.Visible = true;
-                return; 
+                return;
             }
             Usuario usuario = (Usuario)Session["usuario"];
 
@@ -54,7 +54,7 @@ namespace TPFinal_Paniagua.Compra
 
         protected void dgvCarrito_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int idArticulo = Convert.ToInt32(e.CommandArgument); 
+            int idArticulo = Convert.ToInt32(e.CommandArgument);
 
             switch (e.CommandName)
             {
@@ -79,7 +79,7 @@ namespace TPFinal_Paniagua.Compra
         {
             try
             {
-                Dictionary<int, int> diccionarioTalles = new Dictionary<int, int>();
+
                 if (Session["ListaArticulos"] == null)
                 {
                     Session["ListaArticulos"] = new List<Articulo>();
@@ -91,9 +91,14 @@ namespace TPFinal_Paniagua.Compra
                 {
                     Session["DiccionarioCantidades"] = new Dictionary<int, int>();
                 }
-
                 Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
-               // Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
+
+                if (Session["DiccionarioTalles"] == null)
+                {
+                    Session["DiccionarioTalles"] = new Dictionary<int, int>();
+                }
+                Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
+
 
 
                 ArticuloManager manager = new ArticuloManager();
@@ -111,11 +116,16 @@ namespace TPFinal_Paniagua.Compra
                     int idTalle = Convert.ToInt32(Session["TalleSeleccionado"]);
                     int cantidad = Convert.ToInt32(Session["CantidadSeleccionada"] ?? 1);
 
+                    if (!diccionarioTalles.ContainsKey(articulo.Id_Articulo))
+                    {
+                        diccionarioTalles[articulo.Id_Articulo] = idTalle;
+                    }
+
                     int stockDisponible = manager.ObtenerStockTalle(articulo.Id_Articulo, idTalle);
 
                     if (stockDisponible >= cantidad)
                     {
-                        articulo.Stock = stockDisponible; 
+                        articulo.Stock = stockDisponible;
 
                         if (!listaArticulos.Any(a => a.Id_Articulo == articulo.Id_Articulo))
                         {
@@ -154,6 +164,7 @@ namespace TPFinal_Paniagua.Compra
         {
             List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
             Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+            Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
             try
             {
                 if (listaArticulos != null && diccionarioCantidades != null)
@@ -165,7 +176,8 @@ namespace TPFinal_Paniagua.Compra
                         a.Precio,
                         Cantidad = diccionarioCantidades[a.Id_Articulo],
                         StockMaximo = a.Stock,
-                        Subtotal = a.Precio * diccionarioCantidades[a.Id_Articulo]
+                        Subtotal = a.Precio * diccionarioCantidades[a.Id_Articulo],
+                        Talle = diccionarioTalles.ContainsKey(a.Id_Articulo) ? diccionarioTalles[a.Id_Articulo] : 0
                     }).ToList();
 
                     decimal subtotalGeneral = carrito.Sum(item => item.Subtotal);

@@ -281,6 +281,7 @@ namespace TPFinal_Paniagua.Compra
             detalle.EstadoCompraId = 1;
             detalle.DireccionEntregar = usuario.Direccion;
             detalle.RutaFactura = GenerarPDF();
+
             detalleManager.Agregar(detalle);
 
             ArticuloManager articuloManager = new ArticuloManager();
@@ -295,11 +296,11 @@ namespace TPFinal_Paniagua.Compra
                 {
 
 
-                    int stockDisponible = articuloManager.ObtenerStock(articulo.Id_Articulo); 
+                    int stockDisponible = articuloManager.ObtenerStockPorTalle(articulo.Id_Articulo, idTalle);
                     if (stockDisponible >= cantidadVendida)
                     {
                         articuloManager.ActualizarStockTalle(articulo.Id_Articulo, idTalle, cantidadVendida);
-                        articuloManager.ActualizarStock(articulo.Id_Articulo);
+                     //   articuloManager.ActualizarStock(articulo.Id_Articulo);
                     }
                     else
                     {
@@ -307,9 +308,6 @@ namespace TPFinal_Paniagua.Compra
                     }
                 }
             }
-
-
-
 
             Session["ListaArticulos"] = null;
             Session["DiccionarioCantidades"] = null;
