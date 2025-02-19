@@ -19,21 +19,7 @@ namespace TPFinal_Paniagua.Compra
             {
                 ReconocerUsuario();
                 CargarMisCompras();
-                /*
-                if (Session["PDF_Descarga"] != null)
-                {
-                    string nombreArchivo = Session["PDF_Descarga"].ToString();
-                    string rutaRelativa = "~/Facturas/" + nombreArchivo;
-                    foreach (GridViewRow row in dgvMisCompras.Rows)
-                    {
-                        var lnkFactura = (HyperLink)row.FindControl("lnkFactura");
-                        if (lnkFactura != null && !string.IsNullOrEmpty(rutaRelativa))
-                        {
-                            lnkFactura.NavigateUrl = rutaRelativa;
-                            lnkFactura.Visible = true;
-                        }
-                    }
-                }*/
+
             }
         }
         protected void btnVolver_Click(object sender, EventArgs e)
@@ -61,6 +47,14 @@ namespace TPFinal_Paniagua.Compra
                 var compras = detalleManager.ObtenerUsuarioPorCompra(usuario.Id_Usuario); 
                 if (compras != null && compras.Any())
                 {
+                    //-----
+                    foreach (var compra in compras)
+                    {
+                        string rutaCompleta = Server.MapPath(compra.RutaFactura);
+                        bool existe = System.IO.File.Exists(rutaCompleta);
+                        Response.Write($"Compra: {compra.Id_DetalleCompra}, RutaFactura: {compra.RutaFactura}");
+                    }
+                    //-----
                     dgvMisCompras.DataSource = compras;
                     dgvMisCompras.DataBind();
                 }

@@ -39,6 +39,9 @@ namespace TPFinal_Paniagua.Compra
                 lblError.Visible = true;
                 return;
             }
+            decimal importeTotal = (Session["ImporteTotal"] != null) ? (decimal)Session["ImporteTotal"] : 0;
+            Session["ImporteTotal"] = importeTotal;
+
             Usuario usuario = (Usuario)Session["usuario"];
 
             if (usuario == null)
@@ -54,7 +57,7 @@ namespace TPFinal_Paniagua.Compra
 
         protected void dgvCarrito_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            int idArticulo = Convert.ToInt32(e.CommandArgument);
+            string idArticulo = e.CommandArgument.ToString();
 
             switch (e.CommandName)
             {
@@ -79,7 +82,6 @@ namespace TPFinal_Paniagua.Compra
         {
             try
             {
-
                 if (Session["ListaArticulos"] == null)
                 {
                     Session["ListaArticulos"] = new List<Articulo>();
@@ -89,17 +91,22 @@ namespace TPFinal_Paniagua.Compra
 
                 if (Session["DiccionarioCantidades"] == null)
                 {
-                    Session["DiccionarioCantidades"] = new Dictionary<int, int>();
+                    Session["DiccionarioCantidades"] = new Dictionary<string, int>();
                 }
-                Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+
+                Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
 
                 if (Session["DiccionarioTalles"] == null)
                 {
-                    Session["DiccionarioTalles"] = new Dictionary<int, int>();
+                    Session["DiccionarioTalles"] = new Dictionary<string, int>();
                 }
-                Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
+                Dictionary<string, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<string, int>;
 
-
+                if (Session["DiccionarioStock"] == null)
+                {
+                    Session["DiccionarioStock"] = new Dictionary<string, int>();
+                }
+                Dictionary<string, int> diccionarioStock = Session["DiccionarioStock"] as Dictionary<string, int>;
 
                 ArticuloManager manager = new ArticuloManager();
                 Articulo articulo = manager.ListarArticulosTodos().Find(x => x.Id_Articulo == Convert.ToInt32(idArticulo));
@@ -116,34 +123,44 @@ namespace TPFinal_Paniagua.Compra
                     int idTalle = Convert.ToInt32(Session["TalleSeleccionado"]);
                     int cantidad = Convert.ToInt32(Session["CantidadSeleccionada"] ?? 1);
 
-                    if (!diccionarioTalles.ContainsKey(articulo.Id_Articulo))
-                    {
-                        diccionarioTalles[articulo.Id_Articulo] = idTalle;
-                    }
+
+                    string claveArticuloTalle = $"{idArticulo}-{idTalle}";
 
                     int stockDisponible = manager.ObtenerStockTalle(articulo.Id_Articulo, idTalle);
+
+                    diccionarioStock[claveArticuloTalle] = stockDisponible;
 
                     if (stockDisponible >= cantidad)
                     {
                         articulo.Stock = stockDisponible;
 
-                        if (!listaArticulos.Any(a => a.Id_Articulo == articulo.Id_Articulo))
+                        if (diccionarioCantidades.ContainsKey(claveArticuloTalle))
                         {
-                            listaArticulos.Add(articulo);
-                            diccionarioCantidades[articulo.Id_Articulo] = cantidad;
+                            diccionarioCantidades[claveArticuloTalle] += cantidad;
                         }
                         else
                         {
-                            diccionarioCantidades[articulo.Id_Articulo] += cantidad;
+                            diccionarioCantidades[claveArticuloTalle] = cantidad;
+                            diccionarioTalles[claveArticuloTalle] = idTalle;
+                            listaArticulos.Add(articulo); 
                         }
-                        if (!diccionarioTalles.ContainsKey(articulo.Id_Articulo))
-                        {
-                            diccionarioTalles[articulo.Id_Articulo] = idTalle;
-                        }
+                        //Response.Write("<br/>DEBUG: Guardando DiccionarioTalles en sesión:<br/>");
+                    //    foreach (var item in diccionarioTalles)
+                      //  {
+                        //    Response.Write($"DEBUG: Clave={item.Key}, Valor={item.Value} <br/>");
+                      //  }
+
 
                         Session["ListaArticulos"] = listaArticulos;
                         Session["DiccionarioCantidades"] = diccionarioCantidades;
                         Session["DiccionarioTalles"] = diccionarioTalles;
+                        Session["DiccionarioStock"] = diccionarioStock;
+
+                     //   Response.Write("<br/>DEBUG: Guardando DiccionarioStock en sesión:<br/>");
+                       // foreach (var item in diccionarioStock)
+                       // {
+                       //     Response.Write($"DEBUG Stock: Clave={item.Key}, Stock={item.Value} <br/>");
+                       // }
                     }
                     else
                     {
@@ -151,34 +168,70 @@ namespace TPFinal_Paniagua.Compra
                         lblError.Visible = true;
                     }
                 }
-
             }
             catch (Exception ex)
             {
-                throw ex;
+                lblError.Text = "Error al agregar el artículo: " + ex.Message;
+                lblError.Visible = true;
             }
         }
 
 
         public void CargarCarrito()
         {
+            if (Session["DiccionarioCantidades"] == null || Session["DiccionarioTalles"] == null)
+                return;
+
+            Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
+            Dictionary<string, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<string, int>;
             List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
-            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
-            Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
+
             try
             {
-                if (listaArticulos != null && diccionarioCantidades != null)
+                if (listaArticulos != null && diccionarioCantidades != null && diccionarioTalles != null)
                 {
-                    var carrito = listaArticulos.Select(a => new
-                    {
-                        a.Id_Articulo,
-                        a.Nombre,
-                        a.Precio,
-                        Cantidad = diccionarioCantidades[a.Id_Articulo],
-                        StockMaximo = a.Stock,
-                        Subtotal = a.Precio * diccionarioCantidades[a.Id_Articulo],
-                        Talle = diccionarioTalles.ContainsKey(a.Id_Articulo) ? diccionarioTalles[a.Id_Articulo] : 0
-                    }).ToList();
+                //    Response.Write("<br/>DEBUG: Listando diccionario de talles en CargarCarrito:<br/>");
+                  //  foreach (var item in diccionarioTalles)
+                  //  {
+                    //    Response.Write($"DEBUG Talles: Clave={item.Key}, Valor={item.Value} <br/>");
+                  //  }
+
+                    var carrito = diccionarioTalles
+                        .Select(kv => new
+                        {
+                            Clave = kv.Key,
+                            IdArticulo = kv.Key.Split('-')[0], // Obtiene el Id_Articulo desde la clave
+                            Talle = kv.Value
+                        })
+                        .GroupBy(x => new { x.IdArticulo, x.Talle }) // Agrupa por artículo y talle
+                        .Select(grupo =>
+                        {
+                            string claveArticuloTalle = grupo.Key.IdArticulo + "-" + grupo.Key.Talle;
+
+                            Articulo articulo = listaArticulos.FirstOrDefault(a => a.Id_Articulo.ToString() == grupo.Key.IdArticulo);
+
+                            if (articulo != null && diccionarioCantidades.ContainsKey(claveArticuloTalle))
+                            {
+                                //    Response.Write($"DEBUG CARRITO: Clave={claveArticuloTalle}, Cantidad={diccionarioCantidades[claveArticuloTalle]}, Talle={grupo.Key.Talle}<br/>");
+                              //  diccionarioCantidades.TryGetValue(claveArticuloTalle, out int cantidad); // Se obtiene la cantidad correctamente
+                                return new
+                                {
+                                    Id_Articulo = articulo.Id_Articulo,
+                                    Nombre = articulo.Nombre,
+                                    Precio = articulo.Precio,
+                                    Cantidad = diccionarioCantidades[claveArticuloTalle],
+                                //    Cantidad = cantidad,
+                                    StockMaximo = StockTalle(articulo.Id_Articulo, grupo.Key.Talle),
+
+                                    Subtotal = articulo.Precio * diccionarioCantidades[claveArticuloTalle],
+                                  //  Subtotal = articulo.Precio * cantidad,
+                                    Talle = grupo.Key.Talle
+                                };
+                            }
+                            return null;
+                        })
+                        .Where(item => item != null)
+                        .ToList();
 
                     decimal subtotalGeneral = carrito.Sum(item => item.Subtotal);
                     Session["Subtotal"] = subtotalGeneral;
@@ -199,113 +252,155 @@ namespace TPFinal_Paniagua.Compra
             }
         }
 
+
+        private int StockTalle(int idArticulo, int talle)
+        {
+            Dictionary<string, int> diccionarioStock = Session["DiccionarioStock"] as Dictionary<string, int>;
+
+       //     Response.Write("<br/>DEBUG: Revisando DiccionarioStock en ObtenerStockPorTalle:<br/>");
+            if (diccionarioStock != null)
+            {
+         //       foreach (var item in diccionarioStock)
+             //   {
+           //         Response.Write($"DEBUG Stock: Clave={item.Key}, Stock={item.Value} <br/>");
+             //   }
+
+                string clave = idArticulo + "-" + talle;
+                if (diccionarioStock.ContainsKey(clave))
+                {
+                    return diccionarioStock[clave];
+                }
+                else
+                {
+                    Response.Write($"DEBUG: No se encontró stock para clave {clave}. Retornando 0.<br/>");
+                }
+            }
+            else
+            {
+                Response.Write("DEBUG: DiccionarioStock es NULL.<br/>");
+            }
+
+            return 0; 
+        }
+
         private void CalcularTotal()
         {
             List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
-            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+            Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
+
             try
             {
                 decimal total = 0;
                 if (listaArticulos != null && diccionarioCantidades != null)
                 {
-                    total = listaArticulos.Sum(a => a.Precio * diccionarioCantidades[a.Id_Articulo]);
+                    foreach (var clave in diccionarioCantidades.Keys)
+                    {
+                        string[] partes = clave.Split('-');
+                        string idArticulo = partes[0]; // Extraer el ID del artículo
+
+                        Articulo articulo = listaArticulos.FirstOrDefault(a => a.Id_Articulo.ToString() == idArticulo);
+                        if (articulo != null)
+                        {
+                            total += articulo.Precio * diccionarioCantidades[clave];
+                        }
+                    }
                 }
+                Session["ImporteTotal"] = total;
+
                 lblTotal.Text = $"Total: ${total.ToString("0.00")}";
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                lblError.Text = "Error al calcular el total: " + ex.Message;
+                lblError.Visible = true;
             }
         }
 
-        private void AumentarCantidad(int idArticulo)
+        private void AumentarCantidad(string claveArticuloTalle)
         {
-            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
-            List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
+            Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
+            Dictionary<string, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<string, int>;
 
-            try
+            if (diccionarioCantidades != null && diccionarioCantidades.ContainsKey(claveArticuloTalle))
             {
-                if (diccionarioCantidades != null && listaArticulos != null)
-                {
-                    if (diccionarioCantidades.ContainsKey(idArticulo))
-                    {
-                        Articulo articulo = listaArticulos.FirstOrDefault(a => a.Id_Articulo == idArticulo);
+                int idArticulo = Convert.ToInt32(claveArticuloTalle.Split('-')[0]);  
+                int idTalle = diccionarioTalles[claveArticuloTalle]; 
 
-                        if (articulo != null)
-                        {
-                            // Verificar si la cantidad actual es menor que el stock máximo
-                            int cantidadActual = diccionarioCantidades[idArticulo];
-                            if (cantidadActual < articulo.Stock)
-                            {
-                                // Incrementar la cantidad solo si no supera el stock máximo
-                                diccionarioCantidades[idArticulo]++;
-                                Session["DiccionarioCantidades"] = diccionarioCantidades;
-                            }
-                            else
-                            {
-                                Response.Write("No se puede incrementar más. Alcanzaste el tope del stock disponible.");
-                            }
-                        }
-                    }
+                ArticuloManager manager = new ArticuloManager();
+                int stockDisponible = manager.ObtenerStockTalle(idArticulo, idTalle);
+
+                if (diccionarioCantidades[claveArticuloTalle] < stockDisponible)
+                {
+                    diccionarioCantidades[claveArticuloTalle]++;
+                    Session["DiccionarioCantidades"] = diccionarioCantidades;
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "alertStock", "alert('No puedes agregar más productos, stock insuficiente.');", true);
                 }
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
         }
 
-        private void DisminuirCantidad(int idArticulo)
-        {
-            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
 
+
+
+        private void DisminuirCantidad(string claveArticuloTalle)
+        {
+            Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
             try
             {
-                if (diccionarioCantidades != null && diccionarioCantidades.ContainsKey(idArticulo))
+                if (diccionarioCantidades != null && diccionarioCantidades.ContainsKey(claveArticuloTalle))
                 {
-                    if (diccionarioCantidades[idArticulo] > 1)
+                    if (diccionarioCantidades[claveArticuloTalle] > 1)
                     {
-                        diccionarioCantidades[idArticulo]--;
+                        diccionarioCantidades[claveArticuloTalle]--;
                     }
                     else
                     {
-                        EliminarArticulo(idArticulo);
+                        diccionarioCantidades.Remove(claveArticuloTalle);
                     }
 
                     Session["DiccionarioCantidades"] = diccionarioCantidades;
                 }
-
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
 
-        private void EliminarArticulo(int idArticulo)
+
+        private void EliminarArticulo(string claveArticuloTalle)
         {
             List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
-            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+            Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
+            Dictionary<string, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<string, int>;
+
             try
             {
                 if (listaArticulos != null && diccionarioCantidades != null)
                 {
-                    listaArticulos.RemoveAll(a => a.Id_Articulo == idArticulo);
-                    diccionarioCantidades.Remove(idArticulo);
+                    diccionarioCantidades.Remove(claveArticuloTalle);
+                    diccionarioTalles.Remove(claveArticuloTalle);
+
+                    string[] partes = claveArticuloTalle.Split('-');
+                    int idArticulo = Convert.ToInt32(partes[0]);
+
+                    if (!diccionarioCantidades.Keys.Any(k => k.StartsWith(idArticulo + "-")))
+                    {
+                        listaArticulos.RemoveAll(a => a.Id_Articulo == idArticulo);
+                    }
 
                     Session["ListaArticulos"] = listaArticulos;
                     Session["DiccionarioCantidades"] = diccionarioCantidades;
+                    Session["DiccionarioTalles"] = diccionarioTalles;
                 }
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-
         }
+
     }
 }

@@ -87,11 +87,10 @@ namespace TPFinal_Paniagua.Compra
             }
 
 
-           // GenerarPDF();
 
             ActualizarStock();
 
-            Response.Redirect("~/Confirmacion.aspx");
+          //  Response.Redirect("~/Confirmacion.aspx");
 
         }
 
@@ -102,15 +101,27 @@ namespace TPFinal_Paniagua.Compra
         {
             try
             {
+                Dictionary<string, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<string, int> ?? new Dictionary<string, int>();
+
                 List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
-                Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+                Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
                 Usuario usuario = Session["usuarioActual"] as Usuario;
 
                 if (listaArticulo == null || diccionarioCantidades == null || usuario == null)
                 {
                     return null;
                 }
+                //---------
+                foreach (var articulo in listaArticulo)
+                {
+                    Console.WriteLine($"Articulo: {articulo.Id_Articulo} - {articulo.Nombre} - Precio: {articulo.Precio}");
+                }
 
+                foreach (var kvp in diccionarioCantidades)
+                {
+                    Console.WriteLine($"Clave: {kvp.Key}, Cantidad: {kvp.Value}");
+                }
+                //---------
                 string carpetaFacturas = Server.MapPath("~/Facturas/");
                 if (!Directory.Exists(carpetaFacturas))
                 {
@@ -120,12 +131,13 @@ namespace TPFinal_Paniagua.Compra
                 string nombreArchivo = $"Factura_{usuario.Id_Usuario}_{DateTime.Now:yyyyMMddHHmmss}.pdf";
                 string ruta = Path.Combine(carpetaFacturas, nombreArchivo);
 
-                Document doc = new Document(PageSize.A4);
+                Document doc = new Document(PageSize.A4, 30, 30, 50, 50);
                 PdfWriter.GetInstance(doc, new FileStream(ruta, FileMode.Create));
                 doc.Open();
 
-                Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
-                Font textFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+                Font titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18, BaseColor.BLACK);
+                Font textFont = FontFactory.GetFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+                Font headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
 
                 PdfPTable headerTable = new PdfPTable(1);
                 headerTable.WidthPercentage = 100;
@@ -136,62 +148,83 @@ namespace TPFinal_Paniagua.Compra
                     iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(logoPath);
                     logo.ScaleToFit(120, 120);
                     logo.Alignment = Element.ALIGN_CENTER;
-
-                    PdfPCell logoCell = new PdfPCell(logo)
-                    {
-                        Border = PdfPCell.NO_BORDER,
-                        HorizontalAlignment = Element.ALIGN_CENTER
-                    };
-
+                    PdfPCell logoCell = new PdfPCell(logo) { Border = PdfPCell.NO_BORDER, HorizontalAlignment = Element.ALIGN_CENTER };
                     headerTable.AddCell(logoCell);
                 }
 
                 PdfPCell titleCell = new PdfPCell(new Phrase("Rose Vibes", titleFont))
                 {
                     Border = PdfPCell.NO_BORDER,
-                    HorizontalAlignment = Element.ALIGN_CENTER
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    PaddingBottom = 10
                 };
                 headerTable.AddCell(titleCell);
-
                 doc.Add(headerTable);
 
-                doc.Add(new Paragraph($"\nFactura N°: {DateTime.Now:yyyyMMddHHmmss}", textFont));
+                doc.Add(new Paragraph($"Factura N°: {DateTime.Now:yyyyMMddHHmmss}\n", textFont));
                 doc.Add(new Paragraph($"Fecha: {DateTime.Now:dd/MM/yyyy}", textFont));
-                doc.Add(new Paragraph($"Cliente con ID: {usuario.Id_Usuario} {usuario.Nombre} {usuario.Apellido}", textFont));
+                doc.Add(new Paragraph($"Cliente: {usuario.Nombre} {usuario.Apellido} (ID: {usuario.Id_Usuario})\n\n", textFont));
 
-                doc.Add(new Paragraph("\n"));
-
-                PdfPTable table = new PdfPTable(3)
-                {
-                    WidthPercentage = 100
-                };
+                PdfPTable table = new PdfPTable(3) { WidthPercentage = 100 };
                 table.SetWidths(new float[] { 50f, 25f, 25f });
 
-                table.AddCell(new PdfPCell(new Phrase("Artículo", textFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
-                table.AddCell(new PdfPCell(new Phrase("Cantidad", textFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
-                table.AddCell(new PdfPCell(new Phrase("Precio Total", textFont)) { BackgroundColor = BaseColor.LIGHT_GRAY });
+                PdfPCell header1 = new PdfPCell(new Phrase("Artículo", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, Padding = 5 };
+                PdfPCell header2 = new PdfPCell(new Phrase("Cantidad", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, Padding = 5 };
+                PdfPCell header3 = new PdfPCell(new Phrase("Precio Total", headerFont)) { BackgroundColor = BaseColor.DARK_GRAY, Padding = 5 };
+
+                table.AddCell(header1);
+                table.AddCell(header2);
+                table.AddCell(header3);
 
                 decimal total = 0;
 
-                foreach (var articulo in listaArticulo)
-                {
-                    if (diccionarioCantidades.TryGetValue(articulo.Id_Articulo, out int cantidad))
-                    {
-                        decimal subtotal = articulo.Precio * cantidad;
-                        total += subtotal;
+                var articulosAgrupados = listaArticulo
+                    .GroupBy(a => a.Id_Articulo) 
+                    .ToDictionary(g => g.Key, g => g.ToList()); 
 
-                        table.AddCell(new PdfPCell(new Phrase(articulo.Nombre, textFont)));
-                        table.AddCell(new PdfPCell(new Phrase(cantidad.ToString(), textFont)));
-                        table.AddCell(new PdfPCell(new Phrase("$" + subtotal.ToString("N2"), textFont)));
+               HashSet<string> procesados = new HashSet<string>(); 
+
+                foreach (var grupoArticulo in articulosAgrupados)
+                {
+                    var idArticulo = grupoArticulo.Key;
+                    var articulos = grupoArticulo.Value; 
+                    var tallesDelArticulo = diccionarioTalles
+                        .Where(kv => kv.Key.StartsWith(idArticulo + "-"))
+                        .ToDictionary(kv => kv.Key, kv => kv.Value);
+
+                    foreach (var kvp in tallesDelArticulo)
+                    {
+                        string claveArticuloTalle = kvp.Key; 
+                        int idTalle = kvp.Value;
+
+                        if (!diccionarioCantidades.TryGetValue(claveArticuloTalle, out int cantidad) || cantidad == 0)
+                        {
+                            continue; 
+                        }
+
+                        string claveUnica = $"{idArticulo}-{idTalle}";
+
+                        if (!procesados.Contains(claveUnica)) 
+                        {
+                            var articulo = articulos.FirstOrDefault(); 
+
+                            decimal subtotal = articulo.Precio * cantidad;
+                            total += subtotal;
+
+                            table.AddCell(new PdfPCell(new Phrase($"{articulo.Nombre} - Talle {idTalle}", textFont)) { Padding = 5 });
+                            table.AddCell(new PdfPCell(new Phrase(cantidad.ToString(), textFont)) { Padding = 5, HorizontalAlignment = Element.ALIGN_CENTER });
+                            table.AddCell(new PdfPCell(new Phrase("$" + subtotal.ToString("N2"), textFont)) { Padding = 5, HorizontalAlignment = Element.ALIGN_RIGHT });
+
+                            procesados.Add(claveUnica); 
+                        }
                     }
                 }
 
                 doc.Add(table);
-                doc.Add(new Paragraph($"\nTotal Pagado: ${total:N2}", titleFont));
+                doc.Add(new Paragraph($"\nTotal Pagado: ${total:N2}\n", titleFont));
 
                 doc.Close();
-
-                return "~/Facturas/" + nombreArchivo; // Retorna la ruta relativa
+                return "~/Facturas/" + nombreArchivo;
             }
             catch (Exception ex)
             {
@@ -201,6 +234,7 @@ namespace TPFinal_Paniagua.Compra
                 return null;
             }
         }
+
 
         private void GuardarRutaFactura(int idUsuario, string rutaFactura)
         {
@@ -243,106 +277,234 @@ namespace TPFinal_Paniagua.Compra
         }
         public void ActualizarStock()
         {
-
-            List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
-            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
-            Dictionary<int, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<int, int>;
-            Usuario usuario = Session["usuarioActual"] as Usuario;
-
-            if (listaArticulo == null || diccionarioCantidades == null || usuario == null)
+            try
             {
-                lblMensaje.Text = "Faltan datos en la sesión para procesar el pedido. Debes Registrate o Iniciar Sesion";
-                lblMensaje.CssClass = "text-danger";
-                lblMensaje.Visible = true;
+                List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
+                Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int> ?? new Dictionary<string, int>();
+                Dictionary<string, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<string, int> ?? new Dictionary<string, int>();
 
-                System.Threading.Thread.Sleep(3000);
+                Usuario usuario = Session["usuarioActual"] as Usuario;
+                Session["DiccionarioCantidades"] = diccionarioCantidades;  
 
-                Response.Redirect("~/Ingreso.aspx");
-            }
-
-
-            decimal subtotal = listaArticulo
-                .Where(a => diccionarioCantidades.ContainsKey(a.Id_Articulo))
-                .Sum(a => a.Precio * diccionarioCantidades[a.Id_Articulo]);
-
-            CarritoManager carrito = new CarritoManager();
-
-            int idCarrito = carrito.AgregarCarrito(usuario.Id_Usuario);
-            int idUsuario = usuario.Id_Usuario;
-            DateTime fecha = DateTime.Now;
-
-            usuario.Direccion = usuarioManager.ObtenerUsuarioPorId(idUsuario).Direccion;
-            Dominio.DetalleCompra detalle = new Dominio.DetalleCompra();
-            
-            detalle.UsuarioId = idUsuario;
-            detalle.CarritoCompraId = idCarrito;
-            detalle.ImporteTotal =subtotal;
-            detalle.Fecha_Compra = fecha;
-            detalle.EstadoCompraId = 1;
-            detalle.DireccionEntregar = usuario.Direccion;
-            detalle.RutaFactura = GenerarPDF();
-
-            detalleManager.Agregar(detalle);
-
-            ArticuloManager articuloManager = new ArticuloManager();
-
-
-            foreach (var articulo in listaArticulo)
-            {
-
-
-                if (diccionarioCantidades.TryGetValue(articulo.Id_Articulo, out int cantidadVendida) &&
-            diccionarioTalles.TryGetValue(articulo.Id_Articulo, out int idTalle))
+                if (listaArticulo == null || listaArticulo.Count == 0)
                 {
+                    Response.Write("❌ Error: No hay artículos en la lista.<br/>");
+                    return;
+                }
+
+                if (diccionarioCantidades == null)
+                {
+                    lblMensaje.Text = "Error: El diccionario de cantidades no está en sesión.<br/>";
+                    lblMensaje.CssClass = "text-danger";
+                    lblMensaje.Visible = true;
+                    return;
+                }
+                if (diccionarioCantidades.Count == 0)
+                {
+                    Response.Write("⚠️ Advertencia: Diccionario de cantidades está vacío.<br/>");
+                }
+
+                if (diccionarioTalles.Count == 0)
+                {
+                    Response.Write("⚠️ Advertencia: Diccionario de talles está vacío.<br/>");
+                }
+
+                if (usuario == null)
+                {
+                    lblMensaje.Text = "Error: No se encontró usuario en sesión. Debes iniciar sesión.<br/>";
+                    lblMensaje.CssClass = "text-danger";
+                    lblMensaje.Visible = true;
+
+                    System.Threading.Thread.Sleep(2000);
+                    Response.Redirect("~/Ingreso.aspx");
+                }
+
+                foreach (var item in diccionarioTalles)
+                {
+                    Response.Write($"Articulo: {item.Key}, Talle: {item.Value}");
+                }
 
 
-                    int stockDisponible = articuloManager.ObtenerStockPorTalle(articulo.Id_Articulo, idTalle);
-                    if (stockDisponible >= cantidadVendida)
+                Response.Write($"Cantidad de artículos en sesión: {listaArticulo?.Count ?? 0}<br/>");
+                Response.Write($"Cantidad de talles en diccionario: {diccionarioTalles?.Count ?? 0}<br/>");
+                Response.Write($"Cantidad de cantidades en diccionario: {diccionarioCantidades?.Count ?? 0}<br/>");
+
+                decimal subtotal = listaArticulo
+                .Where(a => diccionarioCantidades.Keys.Any(k => k.StartsWith(a.Id_Articulo + "-")))
+                .Sum(a => diccionarioCantidades
+                    .Where(kv => kv.Key.StartsWith(a.Id_Articulo + "-"))
+                    .Sum(kv => kv.Value * a.Precio));
+
+                Response.Write($"✅ Subtotal corregido: {subtotal}<br/>");
+
+
+                CarritoManager carrito = new CarritoManager();
+
+                int idCarrito = carrito.AgregarCarrito(usuario.Id_Usuario);
+              //  Response.Write($"🔍 ID del Carrito generado: {idCarrito}");
+                int idUsuario = usuario.Id_Usuario;
+                DateTime fecha = DateTime.Now;
+
+                usuario.Direccion = usuarioManager.ObtenerUsuarioPorId(idUsuario).Direccion;
+                Dominio.DetalleCompra detalle = new Dominio.DetalleCompra();
+
+                detalle.UsuarioId = idUsuario;
+                detalle.CarritoCompraId = idCarrito;
+                detalle.ImporteTotal = subtotal;
+                detalle.Fecha_Compra = fecha;
+                detalle.EstadoCompraId = 1;
+                detalle.DireccionEntregar = usuario.Direccion;
+                Response.Write("📄 Intentando generar la factura en PDF...<br/>");
+                detalle.RutaFactura = GenerarPDF();
+
+                //----------------
+                if (string.IsNullOrEmpty(detalle.RutaFactura))
+                {
+                    Response.Write("❌ Error: No se pudo generar la factura PDF.<br/>");
+                    return;
+                }
+                Response.Write($"✅ PDF generado correctamente. Ruta: {detalle.RutaFactura}<br/>");
+                //------------------
+                //detalleManager.Agregar(detalle);
+                try
+                {
+                    detalleManager.Agregar(detalle);
+                }
+                catch (Exception ex)
+                {
+                    Response.Write($"❌ Error en Agregar detalle: {ex.Message}<br/>");
+                }
+
+                ArticuloManager articuloManager = new ArticuloManager();
+
+
+                Response.Write($"Entrando al foreach. Cantidad de artículos en lista: {listaArticulo.Count}<br/>");
+
+                var articulosUnicos = listaArticulo
+                    .GroupBy(a => a.Id_Articulo)
+                    .Select(g => g.First()) 
+                    .ToList();
+
+                foreach (var articulo in articulosUnicos)
+                {
+                    Response.Write($"Procesando artículo ID: {articulo.Id_Articulo} - Nombre: {articulo.Nombre}<br/>");
+      
+                    var tallesDelArticulo = diccionarioTalles
+                        .Where(kv => kv.Key.StartsWith(articulo.Id_Articulo + "-"))
+                        .ToDictionary(kv => kv.Key, kv => kv.Value);
+
+                    if (tallesDelArticulo.Count == 0)
                     {
-                        articuloManager.ActualizarStockTalle(articulo.Id_Articulo, idTalle, cantidadVendida);
-                     //   articuloManager.ActualizarStock(articulo.Id_Articulo);
+                        lblMensaje.Text = $"Error: No se encontró un talle asociado para el artículo {articulo.Nombre}.";
+                        lblMensaje.CssClass = "text-danger";
+                        lblMensaje.Visible = true;
+                        Response.Write($"❌ No se encontró talle para Artículo ID: {articulo.Id_Articulo}<br/>");
+                        return;
                     }
-                    else
+                    //-----------
+                    foreach (var kvp in diccionarioCantidades)
                     {
-                        throw new InvalidOperationException($"No hay suficiente stock para el artículo {articulo.Nombre}. Stock disponible: {stockDisponible}, Cantidad requerida: {cantidadVendida}.");
+                        Response.Write($"Clave: {kvp.Key}, Valor: {kvp.Value}<br/>");
+                    }
+                    //------------
+                    foreach (var kvp in tallesDelArticulo)
+                    {
+                        string claveArticuloTalle = kvp.Key; 
+                        int idTalle = kvp.Value;
+
+                        if (!diccionarioCantidades.TryGetValue(claveArticuloTalle, out int cantidadVendida))
+                        {
+                            Response.Write($"❌ No se encontró cantidad para Artículo ID: {articulo.Id_Articulo} - Talle: {idTalle}<br/>");
+                            continue;
+                        }
+
+                        int stockDisponible = articuloManager.ObtenerStockPorTalle(articulo.Id_Articulo, idTalle);
+
+                        Response.Write($"Articulo: {articulo.Id_Articulo}, Talle: {idTalle}, Stock Disponible: {stockDisponible}, Cantidad Vendida: {cantidadVendida}<br/>");
+
+                        if (stockDisponible >= cantidadVendida)
+                        {
+                            Response.Write($"Ejecutando ActualizarStockTalle para Articulo: {articulo.Id_Articulo}, Talle: {idTalle}, Cantidad: {cantidadVendida}<br/>");
+                            articuloManager.ActualizarStockTalle(articulo.Id_Articulo, idTalle, cantidadVendida);
+                            Response.Write("✅ Procedimiento almacenado ejecutado correctamente.<br/>");
+                        }
+                        else
+                        {
+                            Response.Write($"❌ Error al ejecutar sp_ActualizarStockTalle<br/>");
+                            lblMensaje.Text = $"No hay suficiente stock para el artículo {articulo.Nombre}, Talle {idTalle}. Stock disponible: {stockDisponible}, Cantidad requerida: {cantidadVendida}.";
+                            lblMensaje.CssClass = "text-danger";
+                            lblMensaje.Visible = true;
+                            return;
+                        }
                     }
                 }
+
+
+                Session["ListaArticulos"] = null;
+                Session["DiccionarioCantidades"] = null;
+                Session["DiccionarioTalles"] = null;
+                  listaArticulo = null;
+                  diccionarioCantidades = null;
+                  usuario = null;
+                //Session.Clear();
+
+
+                lblMensaje.Text = "Pago realizado con éxito.";
+                lblMensaje.CssClass = "text-success";
+                lblMensaje.Visible = true;
             }
+            catch (Exception ex)
+            {
 
-            Session["ListaArticulos"] = null;
-            Session["DiccionarioCantidades"] = null;
-            listaArticulo = null;
-            diccionarioCantidades = null;
-            usuario = null;
-
-            lblMensaje.Text = "Pago realizado con éxito.";
-            lblMensaje.CssClass = "text-success"; 
-            lblMensaje.Visible = true;
+                lblMensaje.Text = "Error al procesar el pago: " + ex.Message;
+                lblMensaje.CssClass = "text-danger";
+                lblMensaje.Visible = true;
+            }
 
         }
 
         private void CargarResumenCompra()
         {
-            List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo>;
-            Dictionary<int, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<int, int>;
+            List<Articulo> listaArticulo = Session["ListaArticulos"] as List<Articulo> ?? new List<Articulo>();
+            Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int> ?? new Dictionary<string, int>();
+            Dictionary<string, int> diccionarioTalles = Session["DiccionarioTalles"] as Dictionary<string, int> ?? new Dictionary<string, int>();
 
-            if (listaArticulo != null && diccionarioCantidades != null)
+            if (listaArticulo.Count == 0 || diccionarioCantidades.Count == 0)
             {
-                var resumenCompra = listaArticulo
-                    .Where(a => diccionarioCantidades.ContainsKey(a.Id_Articulo))
-                    .Select(a => new
-                    {
-                        Nombre = a.Nombre,
-                        Cantidad = diccionarioCantidades[a.Id_Articulo]
-                    }).ToList();
-
-                rptResumenCompra.DataSource = resumenCompra;
-                rptResumenCompra.DataBind();
-
-                decimal total = listaArticulo.Sum(a => a.Precio * diccionarioCantidades[a.Id_Articulo]);
-                lblTotal.Text = "$" + total.ToString("N2");
+                lblTotal.Text = "No hay artículos en el carrito.";
+                return;
             }
+
+            var resumenCompra = diccionarioCantidades
+                .Select(kv =>
+                {
+                    string[] partes = kv.Key.Split('-'); 
+                    string idArticuloStr = partes[0]; 
+                    int idTalle = int.Parse(partes[1]); 
+
+                    Articulo articulo = listaArticulo.FirstOrDefault(a => a.Id_Articulo.ToString() == idArticuloStr);
+
+                    if (articulo != null)
+                    {
+                        return new
+                        {
+                            articulo.Nombre,
+                            Cantidad = kv.Value, 
+                            Subtotal = articulo.Precio * kv.Value
+                        };
+                    }
+                    return null;
+                })
+                .Where(item => item != null) 
+                .ToList();
+
+            rptResumenCompra.DataSource = resumenCompra;
+            rptResumenCompra.DataBind();
+
+            decimal total = resumenCompra.Sum(item => item.Subtotal);
+            lblTotal.Text = $"${total:N2}";
         }
+
 
 
         private string ValidarFormulario()

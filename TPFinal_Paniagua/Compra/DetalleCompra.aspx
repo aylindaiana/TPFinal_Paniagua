@@ -60,10 +60,10 @@
 
         .main-image {
             width: 100%;
-            max-width: 600px; /* Aumentamos el tamaño de la imagen */
+            max-width: 600px; 
             border: 2px solid #ffd700;
             border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Añadimos sombra para resaltar la imagen */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         .product-details {
@@ -86,7 +86,7 @@
             text-align: center;
             margin-bottom: 10px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #ffd700; /* Línea más gruesa debajo del precio */
+            border-bottom: 2px solid #ffd700;
         }
 
         .product-price span {
