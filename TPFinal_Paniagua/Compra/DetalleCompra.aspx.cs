@@ -64,7 +64,6 @@ namespace TPFinal_Paniagua.Compra
                     lblMensaje.Text = "Stock agotado para este talle.";
                     lblMensaje.Visible = true;
                     btnAgregarCarrito.Enabled = false; 
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('No puedes agregar más productos, stock insuficiente.');", true);
                     return;
                 }
                 ///-----
@@ -85,15 +84,17 @@ namespace TPFinal_Paniagua.Compra
 
                     Session["Carrito"] = carrito;
 
-                    foreach (var item in carrito)
-                    {
-                        Response.Write($"DEBUG: Clave={item.Key}, Cantidad={item.Value.Item1}, Total={item.Value.Item2} <br/>");
-                    }
-
                     decimal importeTotal = carrito.Sum(item => item.Value.Item2);
                     Session["ImporteTotal"] = importeTotal;
 
-                    Response.Redirect("/Compra/Carrito.aspx");
+                    foreach (var item in carrito)
+                    {
+                        Response.Write($"DEBUG: Clave={item.Key}, Cantidad={item.Value.Item1}, Total={item.Value.Item2}, Stock Disponible={stockDisponible} <br/>");
+                    }
+
+                   // Response.Flush();
+                    Response.Redirect("/Compra/Carrito.aspx", false);
+                    Context.ApplicationInstance.CompleteRequest();
                 }
                 else
                 {
@@ -120,10 +121,6 @@ namespace TPFinal_Paniagua.Compra
             var talleManager = new TalleManager();
             List<Talles> talles = talleManager.ObtenerStockPorTalle(articuloId);
 
-         //   foreach (var talle in talles)
-           // {
-             //   Response.Write($"DEBUG: Talle ID = {talle.Id_Talle}, Stock = {talle.Stock}<br/>");
-           // }
 
             repTalles.DataSource = talles;
             repTalles.DataBind();
@@ -138,7 +135,6 @@ namespace TPFinal_Paniagua.Compra
             lblNombre.Text = articulo.Nombre;
             lblDescripcion.Text = articulo.Descripcion;
             lblPrecio.Text = articulo.Precio.ToString();
-            //    imgArticulo.ImageUrl = articulo.ImagenURL;
 
             CategoriaManager categoriaManager = new CategoriaManager();
             Categoria categoria = categoriaManager.ListarTodos().Find(c => c.Id_Categoria == articulo.CategoriaId);
@@ -164,17 +160,16 @@ namespace TPFinal_Paniagua.Compra
                 int idTalle = int.Parse(hfIdTalle.Value);
                 int stockDisponible = int.Parse(hfStock.Value);
 
-                // Guardamos en sesión el talle seleccionado y su stock
                 Session["TalleSeleccionado"] = idTalle;
                 Session["StockTalleSeleccionado"] = stockDisponible;
 
                 ChequearStock();
-                lblMensaje.Text = $"Talle seleccionado: {idTalle}, Stock: {stockDisponible}";
-                lblMensaje.Visible = true;
+               // lblMensaje.Text = $"Talle seleccionado: {idTalle}, Stock: {stockDisponible}";
+               // lblMensaje.Visible = true;
             }
             if (int.TryParse(Session["ArticuloId"] as string, out int articuloId))
             {
-                CargarTalles(articuloId);  // Pasamos el int, no el string
+                CargarTalles(articuloId); 
             }
         }
 
@@ -199,8 +194,6 @@ namespace TPFinal_Paniagua.Compra
 
                         Session["StockTalleSeleccionado"] = stockTalle;
                     }
-
-                 //   Response.Write($"DEBUG: Stock disponible para Artículo {lblId.Text}, Talle {talleId} = {stockTalle}<br/>");
 
                     if (stockTalle == 0)
                     {

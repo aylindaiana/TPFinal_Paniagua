@@ -121,8 +121,7 @@ namespace TPFinal_Paniagua.Administrador
                     bool idValido = int.TryParse(hfIdTalle.Value, out idTalle);
                     bool stockValido = int.TryParse(txtStock.Text, out stock);
 
-                    // Debug para ver qué valores está obteniendo
-                    lblMensaje.Text += $"Talle ID: {idTalle} - Stock: {stock} - Validez: {idValido}/{stockValido}<br/>";
+                   // lblMensaje.Text += $"Talle ID: {idTalle} - Stock: {stock} - Validez: {idValido}/{stockValido}<br/>";
 
                     if (idValido && stockValido)
                     {
@@ -131,20 +130,31 @@ namespace TPFinal_Paniagua.Administrador
                     }
                     else
                     {
-                        lblMensaje.Text += $"ERROR - Datos inválidos para Talle ID: {hfIdTalle.Value}, Stock: {txtStock.Text}<br/>";
+                        stockTotal = 0;
+                       // lblMensaje.Text += $"ERROR - Datos inválidos para Talle ID: {hfIdTalle.Value}, Stock: {txtStock.Text}<br/>";
                     }
                 }
-                lblMensaje.Text += $"DEBUG - Stock total calculado: {stockTotal}<br/>";
-                lblMensaje.Visible = true;
+              //  lblMensaje.Text += $"DEBUG - Stock total calculado: {stockTotal}<br/>";
+              //  lblMensaje.Visible = true;
 
                 articulo.Talles = listaTalles;
                 articulo.Stock = stockTotal;
                 
+                /*
                 if (listaTalles.Count == 0)
                 {
                     lblMensaje.Text += "⚠️ ERROR - No se detectaron talles con stock válido.<br/>";
                     return; 
+                }*/
+                if (listaTalles.Count == 0)
+                {
+                    articulo.Stock = 0; // Si no hay talles, stock en 0
                 }
+                else
+                {
+                    articulo.Stock = stockTotal; // Si hay talles, usa el stock total calculado
+                }
+
                 // articulo.ImagenURL = txtImagenURL.Text;
                 if (Request.QueryString["id"] != null)
                 {
@@ -197,24 +207,29 @@ namespace TPFinal_Paniagua.Administrador
                 }
                 else
                 {
-                    manager.Agregar(articulo);
+                    // manager.Agregar(articulo);
+                    articulo.Id_Articulo = manager.Agregar(articulo);
                     lblMensaje.Text = "Su usuario se agregó exitosamente.";
                     lblMensaje.CssClass = "text-success";
                     lblMensaje.Visible = true;
 
-                    ImagenesManager imagenManager = new ImagenesManager();
-                    List<string> imagenes = (List<string>)ViewState["Imagenes"];
-                    foreach (string url in imagenes)
+                    if (articulo.Id_Articulo > 0) 
                     {
-                        imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
+                        ImagenesManager imagenManager = new ImagenesManager();
+                        List<string> imagenes = (List<string>)ViewState["Imagenes"];
+                        foreach (string url in imagenes)
+                        {
+                            imagenManager.Guardar(new Imagenes { ArticuloId = articulo.Id_Articulo, UrlImagen = url });
+                        }
 
+                        TalleManager talleManager = new TalleManager();
+                        foreach (Talles talle in listaTalles)
+                        {
+                            talleManager.AsociarStockArticuloTalle(articulo.Id_Articulo, talle.Id_Talle, talle.Stock);
+                        }
+
+                        Response.Redirect("~/Administrador/Articulos.aspx");
                     }
-                    TalleManager talleManager = new TalleManager();
-                    foreach (Talles talle in listaTalles)
-                    {
-                        talleManager.AsociarStockArticuloTalle(articulo.Id_Articulo, talle.Id_Talle, talle.Stock);
-                    }
-                    Response.Redirect("~/Administrador/Articulos.aspx");
                 }
 
 
@@ -412,10 +427,7 @@ namespace TPFinal_Paniagua.Administrador
             {
                 errores.AppendLine("El Precio solo debe contener números y debe ser válido. <br/>");
             }
-            if (!int.TryParse(txtStock.Text, out stock) || stock < 0)
-            {
-                errores.AppendLine("El Stock solo debe contener números enteros y debe ser válido. <br/>");
-            }
+
             if (string.IsNullOrEmpty(ddlCategoria.SelectedValue))
             {
                 errores.AppendLine("Debe seleccionar una categoría.<br/>");

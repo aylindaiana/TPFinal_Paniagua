@@ -90,7 +90,7 @@ namespace TPFinal_Paniagua.Compra
 
             ActualizarStock();
 
-          //  Response.Redirect("~/Confirmacion.aspx");
+            Response.Redirect("~/Confirmacion.aspx");
 
         }
 
@@ -318,30 +318,26 @@ namespace TPFinal_Paniagua.Compra
                     System.Threading.Thread.Sleep(2000);
                     Response.Redirect("~/Ingreso.aspx");
                 }
+                decimal subtotal = diccionarioCantidades
+                    .Sum(kv =>
+                    {
+                        string clave = kv.Key; // Ejemplo: "10-2"
+                        int cantidad = kv.Value;
 
-                foreach (var item in diccionarioTalles)
-                {
-                    Response.Write($"Articulo: {item.Key}, Talle: {item.Value}");
-                }
+                        int idArticulo = int.Parse(clave.Split('-')[0]); // Extraer el ID del artículo
 
+                        Articulo articulo = listaArticulo.FirstOrDefault(a => a.Id_Articulo == idArticulo);
 
-                Response.Write($"Cantidad de artículos en sesión: {listaArticulo?.Count ?? 0}<br/>");
-                Response.Write($"Cantidad de talles en diccionario: {diccionarioTalles?.Count ?? 0}<br/>");
-                Response.Write($"Cantidad de cantidades en diccionario: {diccionarioCantidades?.Count ?? 0}<br/>");
+                        return articulo != null ? articulo.Precio * cantidad : 0;
+                    });
 
-                decimal subtotal = listaArticulo
-                .Where(a => diccionarioCantidades.Keys.Any(k => k.StartsWith(a.Id_Articulo + "-")))
-                .Sum(a => diccionarioCantidades
-                    .Where(kv => kv.Key.StartsWith(a.Id_Articulo + "-"))
-                    .Sum(kv => kv.Value * a.Precio));
-
-                Response.Write($"✅ Subtotal corregido: {subtotal}<br/>");
+                //  Response.Write($"✅ Subtotal corregido: {subtotal}<br/>");
 
 
                 CarritoManager carrito = new CarritoManager();
 
                 int idCarrito = carrito.AgregarCarrito(usuario.Id_Usuario);
-              //  Response.Write($"🔍 ID del Carrito generado: {idCarrito}");
+            
                 int idUsuario = usuario.Id_Usuario;
                 DateTime fecha = DateTime.Now;
 
@@ -354,17 +350,10 @@ namespace TPFinal_Paniagua.Compra
                 detalle.Fecha_Compra = fecha;
                 detalle.EstadoCompraId = 1;
                 detalle.DireccionEntregar = usuario.Direccion;
-                Response.Write("📄 Intentando generar la factura en PDF...<br/>");
+               // Response.Write("📄 Intentando generar la factura en PDF...<br/>");
                 detalle.RutaFactura = GenerarPDF();
 
-                //----------------
-                if (string.IsNullOrEmpty(detalle.RutaFactura))
-                {
-                    Response.Write("❌ Error: No se pudo generar la factura PDF.<br/>");
-                    return;
-                }
-                Response.Write($"✅ PDF generado correctamente. Ruta: {detalle.RutaFactura}<br/>");
-                //------------------
+
                 //detalleManager.Agregar(detalle);
                 try
                 {
@@ -377,9 +366,6 @@ namespace TPFinal_Paniagua.Compra
 
                 ArticuloManager articuloManager = new ArticuloManager();
 
-
-                Response.Write($"Entrando al foreach. Cantidad de artículos en lista: {listaArticulo.Count}<br/>");
-
                 var articulosUnicos = listaArticulo
                     .GroupBy(a => a.Id_Articulo)
                     .Select(g => g.First()) 
@@ -387,7 +373,7 @@ namespace TPFinal_Paniagua.Compra
 
                 foreach (var articulo in articulosUnicos)
                 {
-                    Response.Write($"Procesando artículo ID: {articulo.Id_Articulo} - Nombre: {articulo.Nombre}<br/>");
+                   // Response.Write($"Procesando artículo ID: {articulo.Id_Articulo} - Nombre: {articulo.Nombre}<br/>");
       
                     var tallesDelArticulo = diccionarioTalles
                         .Where(kv => kv.Key.StartsWith(articulo.Id_Articulo + "-"))
@@ -401,12 +387,7 @@ namespace TPFinal_Paniagua.Compra
                         Response.Write($"❌ No se encontró talle para Artículo ID: {articulo.Id_Articulo}<br/>");
                         return;
                     }
-                    //-----------
-                    foreach (var kvp in diccionarioCantidades)
-                    {
-                        Response.Write($"Clave: {kvp.Key}, Valor: {kvp.Value}<br/>");
-                    }
-                    //------------
+
                     foreach (var kvp in tallesDelArticulo)
                     {
                         string claveArticuloTalle = kvp.Key; 
@@ -414,23 +395,21 @@ namespace TPFinal_Paniagua.Compra
 
                         if (!diccionarioCantidades.TryGetValue(claveArticuloTalle, out int cantidadVendida))
                         {
-                            Response.Write($"❌ No se encontró cantidad para Artículo ID: {articulo.Id_Articulo} - Talle: {idTalle}<br/>");
+                            Response.Write($"NO se encontró cantidad para Artículo ID: {articulo.Id_Articulo} - Talle: {idTalle}<br/>");
                             continue;
                         }
 
                         int stockDisponible = articuloManager.ObtenerStockPorTalle(articulo.Id_Articulo, idTalle);
 
-                        Response.Write($"Articulo: {articulo.Id_Articulo}, Talle: {idTalle}, Stock Disponible: {stockDisponible}, Cantidad Vendida: {cantidadVendida}<br/>");
+                      //  Response.Write($"Articulo: {articulo.Id_Articulo}, Talle: {idTalle}, Stock Disponible: {stockDisponible}, Cantidad Vendida: {cantidadVendida}<br/>");
 
                         if (stockDisponible >= cantidadVendida)
                         {
-                            Response.Write($"Ejecutando ActualizarStockTalle para Articulo: {articulo.Id_Articulo}, Talle: {idTalle}, Cantidad: {cantidadVendida}<br/>");
                             articuloManager.ActualizarStockTalle(articulo.Id_Articulo, idTalle, cantidadVendida);
-                            Response.Write("✅ Procedimiento almacenado ejecutado correctamente.<br/>");
                         }
                         else
                         {
-                            Response.Write($"❌ Error al ejecutar sp_ActualizarStockTalle<br/>");
+                            Response.Write($" ERROR al ejecutar sp_ActualizarStockTalle<br/>");
                             lblMensaje.Text = $"No hay suficiente stock para el artículo {articulo.Nombre}, Talle {idTalle}. Stock disponible: {stockDisponible}, Cantidad requerida: {cantidadVendida}.";
                             lblMensaje.CssClass = "text-danger";
                             lblMensaje.Visible = true;

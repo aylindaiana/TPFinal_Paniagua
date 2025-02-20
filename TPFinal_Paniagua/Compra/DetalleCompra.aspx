@@ -166,6 +166,39 @@
 
         button:first-of-type { left: 10px; }
         button:last-of-type { right: 10px; }
+        .product-talles {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .talle-opcion {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+        }
+
+        .radio-talle {
+            transform: scale(1.2);
+            margin-right: 5px;
+        }
+
+        .talle-label {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .stock-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff7f50;
+        }
+
+        .stock-value {
+            font-size: 16px;
+            color: #555;
+        }
 
     </style>
 
@@ -217,16 +250,20 @@
                 <h3>Disponibilidad:</h3>
                 <asp:Repeater ID="repTalles" runat="server">
                     <ItemTemplate>
-                        <asp:HiddenField ID="hfIdTalle" runat="server" Value='<%# Eval("Id_Talle") %>' />
-                        <asp:HiddenField ID="hfStock" runat="server" Value='<%# Eval("Stock") %>' />
+                        <div class="talle-opcion">
+                            <asp:HiddenField ID="hfIdTalle" runat="server" Value='<%# Eval("Id_Talle") %>' />
+                            <asp:HiddenField ID="hfStock" runat="server" Value='<%# Eval("Stock") %>' />
 
-                        <asp:RadioButton ID="rbtnTalle" runat="server"
-                            GroupName="Talles"
-                            AutoPostBack="true"
-                            OnCheckedChanged="rbtnTalle_CheckedChanged" Checked='<%# Eval("Id_Talle").ToString() == (Session["TalleSeleccionado"] != null ? Session["TalleSeleccionado"].ToString() : "") %>' />
+                            <asp:RadioButton ID="rbtnTalle" runat="server"
+                                GroupName="Talles"
+                                AutoPostBack="true"
+                                CssClass="radio-talle"
+                                OnCheckedChanged="rbtnTalle_CheckedChanged" Checked='<%# Eval("Id_Talle").ToString() == (Session["TalleSeleccionado"] != null ? Session["TalleSeleccionado"].ToString() : "") %>' />
 
-                        <asp:Label ID="lblTalle" runat="server" Text='<%# Eval("Nombre") %>'></asp:Label>
-                        <asp:Label ID="lblStock" runat="server" Text='<%# Eval("Stock") %>'></asp:Label> 
+                            <asp:Label ID="lblTalle" runat="server" Text='<%# Eval("Nombre") %>'></asp:Label>
+                            <span class="stock-label">Stock: </span>
+                            <asp:Label ID="lblStock" runat="server" Text='<%# Eval("Stock") %>'></asp:Label> 
+                        </div>
                     </ItemTemplate>
                 </asp:Repeater>
 

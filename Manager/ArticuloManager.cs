@@ -332,8 +332,9 @@ namespace Manager
         }
         */
 
-        public void Agregar(Articulo articulo)
+        public int Agregar(Articulo articulo)
         {
+            int articuloId = 0;
             AccesoDatos datos = new AccesoDatos();
             try
             {
@@ -345,7 +346,13 @@ namespace Manager
                 datos.SetearParametro("@CategoriaId", articulo.CategoriaId);
                 datos.SetearParametro("@TipoId", articulo.TipoId);
 
-                int articuloId = Convert.ToInt32(datos.ejecutarEscalar());
+                //int
+                articuloId = Convert.ToInt32(datos.ejecutarEscalar());
+
+                //----
+                articulo.Id_Articulo = articuloId;
+
+                //----
 
                 if (articulo.Imagenes != null && articulo.Imagenes.Count > 0)
                 {
@@ -366,6 +373,7 @@ namespace Manager
             {
                 datos.CerrarConeccion();
             }
+            return articuloId;
         }
 
 

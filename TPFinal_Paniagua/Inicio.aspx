@@ -169,7 +169,7 @@
                             <div class="card-body">
                                 <h5 class="card-title"><%# Eval("Nombre") %></h5>
                                 
-                                <p class="precio-anterior">8999</p>
+                       <!--        <p class="precio-anterior">8999</p>-->
                                 
                                 <p class="precio-oferta">
                                     <%# String.Format("{0:C}", Eval("Precio")) %>

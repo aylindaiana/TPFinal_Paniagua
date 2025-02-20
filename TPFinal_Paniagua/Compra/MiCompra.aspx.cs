@@ -35,26 +35,25 @@ namespace TPFinal_Paniagua.Compra
         {
             try
             {
+                Usuario usuario = (Usuario)Session["usuario"];
                 //Usuario usuario = Session["usuarioActual"] as Usuario;
-                Usuario usuario = (Usuario)Session["usuarioActual"];
+               // Usuario usuario = (Usuario)Session["usuarioActual"];
                 
                 if (usuario == null)
                 {
                     Response.Redirect("~/Ingreso.aspx");
-                    return;
+                   // return;
+                }
+                else
+                {
+                    Session["usuarioActual"] = usuario;
+
                 }
 
                 var compras = detalleManager.ObtenerUsuarioPorCompra(usuario.Id_Usuario); 
                 if (compras != null && compras.Any())
                 {
-                    //-----
-                    foreach (var compra in compras)
-                    {
-                        string rutaCompleta = Server.MapPath(compra.RutaFactura);
-                        bool existe = System.IO.File.Exists(rutaCompleta);
-                        Response.Write($"Compra: {compra.Id_DetalleCompra}, RutaFactura: {compra.RutaFactura}");
-                    }
-                    //-----
+
                     dgvMisCompras.DataSource = compras;
                     dgvMisCompras.DataBind();
                 }
@@ -74,19 +73,19 @@ namespace TPFinal_Paniagua.Compra
         }
         public void ReconocerUsuario()
         {
-            Usuario usuario = (Usuario)Session["usuarioActual"];
-
+            //  Usuario usuario = (Usuario)Session["usuarioActual"];
+              Usuario usuario = (Usuario)Session["usuario"];
             if (usuario == null)
             {
-                
                 lblMensaje.Text = "No se encontró al usuario en la sesión.";
                 lblMensaje.CssClass = "text-danger";
                 lblMensaje.Visible = true;
-                Response.Redirect("~/Ingreso.aspx");
+                Response.Redirect("~/Inicio.aspx");
             }
             else
             {
-             //   lblMensaje.Text = "Usuario encontrado en la sesión: " + usuario.Nombre;
+                Session["usuarioActual"] = usuario;
+                lblMensaje.Text = "Usuario encontrado en la sesión: " + usuario.Nombre;
                 lblMensaje.CssClass = "text-success";
                 lblMensaje.Visible = true;
             }
