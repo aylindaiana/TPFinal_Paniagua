@@ -89,7 +89,7 @@
         <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control login-input" Placeholder="Usuario"></asp:TextBox>
         <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control login-input" TextMode="Password" Placeholder="Contraseña"></asp:TextBox>
         <div class="login-links">
-            <a href="/RecuperarPassword.aspx">Olvide mi Contraseña</a>
+            <a href="/RecuperarPasswod.aspx">Olvide mi Contraseña</a>
         </div>
         <br/>
         <asp:Button ID="btnIngresar" runat="server" CssClass="login-btn" Text="Ingresar" OnClick="btnIngresar_Click" />

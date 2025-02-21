@@ -122,7 +122,7 @@ namespace Manager
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Apellido= @Apellido, Email = @Email, Contra = @Contra, Direccion = @Direccion, Telefono = @Telefono, Localidad = @Localidad, FechaNacimiento = @FechaNacimiento, Estado= @Estado WHERE Id_Usuario = @Id_Usuario AND AccesoId = @AccesoId");
+                datos.SetearConsulta("UPDATE Usuarios SET Nombre = @Nombre, Apellido= @Apellido, Email = @Email, Contra = @Contra, Direccion = @Direccion, Telefono = @Telefono, Localidad = @Localidad, FechaNacimiento = @FechaNacimiento, Estado= @Estado, AccesoId = @AccesoId WHERE Id_Usuario = @Id_Usuario");
                 datos.SetearParametro("@AccesoId", usuario.IdAcceso);
                 datos.SetearParametro("@Id_Usuario", usuario.Id_Usuario);
                 datos.SetearParametro("@Nombre", usuario.Nombre);

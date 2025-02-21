@@ -16,6 +16,8 @@ namespace TPFinal_Paniagua.Compra
         {
             if (!IsPostBack)
             {
+               // lblError.Text = "";
+               // lblError.Visible = false;
                 string idArticulo = Session["ArticuloId"] as string;
                 if (!string.IsNullOrEmpty(idArticulo))
                 {
@@ -30,6 +32,8 @@ namespace TPFinal_Paniagua.Compra
 
         protected void btnPay_Click(object sender, EventArgs e)
         {
+            lblError.Text = "";
+            lblError.Visible = false;
             List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
 
 
@@ -265,6 +269,8 @@ namespace TPFinal_Paniagua.Compra
 
         private void CalcularTotal()
         {
+           // lblError.Text = "";
+           // lblError.Visible = false;
             List<Articulo> listaArticulos = Session["ListaArticulos"] as List<Articulo>;
             Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
 
@@ -298,6 +304,8 @@ namespace TPFinal_Paniagua.Compra
 
         private void AumentarCantidad(string claveArticuloTalle)
         {
+           // lblError.Text = "";
+           // lblError.Visible = false;
             Dictionary<string, Tuple<int, decimal>> carrito = Session["Carrito"] as Dictionary<string, Tuple<int, decimal>>;
             Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
 
@@ -323,7 +331,9 @@ namespace TPFinal_Paniagua.Compra
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, GetType(), "alertStock", "alert('No puedes agregar más productos, stock insuficiente.');", true);
+                    lblError.Text = "No puedes agregar más productos, stock insuficiente.";
+                    lblError.CssClass = "text-danger"; 
+                    lblError.Visible = true;
                 }
             }
         }
@@ -331,6 +341,8 @@ namespace TPFinal_Paniagua.Compra
 
         private void DisminuirCantidad(string claveArticuloTalle)
         {
+             lblError.Text = "";
+             lblError.Visible = false;
             Dictionary<string, Tuple<int, decimal>> carrito = Session["Carrito"] as Dictionary<string, Tuple<int, decimal>>;
             Dictionary<string, int> diccionarioCantidades = Session["DiccionarioCantidades"] as Dictionary<string, int>;
 
