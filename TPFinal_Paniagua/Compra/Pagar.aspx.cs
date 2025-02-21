@@ -31,7 +31,7 @@ namespace TPFinal_Paniagua.Compra
 
         protected void Pago_CheckedChanged(object sender, EventArgs e)
         {
-           
+
             if (rbtnCredito.Checked || rbtnDebito.Checked)
             {
                 txtNumeroTarjeta.Enabled = true;
@@ -40,9 +40,14 @@ namespace TPFinal_Paniagua.Compra
                 txtCVV.Enabled = true;
                 txtDNI.Enabled = true;
 
-                divEfectivo.Visible = false; 
-            }
+                txtNumeroTarjeta.Visible = true;
+                txtNombreTitular.Visible = true;
+                txtVencimiento.Visible = true;
+                txtCVV.Visible = true;
+                txtDNI.Visible = true;
 
+                divEfectivo.Visible = false;
+            }
             else if (rbtnEfectivo.Checked)
             {
                 txtNumeroTarjeta.Enabled = false;
@@ -50,13 +55,14 @@ namespace TPFinal_Paniagua.Compra
                 txtVencimiento.Enabled = false;
                 txtCVV.Enabled = false;
                 txtDNI.Enabled = false;
+
                 txtNumeroTarjeta.Visible = false;
                 txtNombreTitular.Visible = false;
                 txtVencimiento.Visible = false;
                 txtCVV.Visible = false;
                 txtDNI.Visible = false;
 
-                divEfectivo.Visible = true; 
+                divEfectivo.Visible = true;
             }
         }
 

@@ -259,7 +259,7 @@
                                 AutoPostBack="true"
                                 CssClass="radio-talle"
                                 OnCheckedChanged="rbtnTalle_CheckedChanged" Checked='<%# Eval("Id_Talle").ToString() == (Session["TalleSeleccionado"] != null ? Session["TalleSeleccionado"].ToString() : "") %>' />
-
+                            <span class="stock-label">📄 </span>
                             <asp:Label ID="lblTalle" runat="server" Text='<%# Eval("Nombre") %>'></asp:Label>
                             <span class="stock-label">Stock: </span>
                             <asp:Label ID="lblStock" runat="server" Text='<%# Eval("Stock") %>'></asp:Label> 

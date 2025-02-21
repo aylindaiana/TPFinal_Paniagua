@@ -95,11 +95,11 @@
                                 <h4>Método de Pago</h4>
                                 <div class="radio-container">
                                     <div class="form-check">
-                                        <asp:RadioButton ID="rbtnCredito" runat="server" GroupName="Pago"  AutoPostBack="false" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
+                                        <asp:RadioButton ID="rbtnCredito" runat="server" GroupName="Pago"  AutoPostBack="true" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
                                         <label class="form-check-label">Tarjeta de Crédito</label>
                                     </div>
                                     <div class="form-check">
-                                        <asp:RadioButton ID="rbtnDebito" runat="server" GroupName="Pago"  AutoPostBack="false" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
+                                        <asp:RadioButton ID="rbtnDebito" runat="server" GroupName="Pago"  AutoPostBack="true" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
                                         <label class="form-check-label">Tarjeta de Débito</label>
                                     </div>
                                     <div class="form-check">
