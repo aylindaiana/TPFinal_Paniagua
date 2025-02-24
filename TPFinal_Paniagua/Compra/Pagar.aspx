@@ -94,14 +94,10 @@
                                
                                 <h4>Método de Pago</h4>
                                 <div class="radio-container">
-                                    <div class="form-check">
-                                        <asp:RadioButton ID="rbtnCredito" runat="server" GroupName="Pago"  AutoPostBack="true" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
-                                        <label class="form-check-label">Tarjeta de Crédito</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <asp:RadioButton ID="rbtnDebito" runat="server" GroupName="Pago"  AutoPostBack="true" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
-                                        <label class="form-check-label">Tarjeta de Débito</label>
-                                    </div>
+                                        <div class="form-check">
+                                            <asp:RadioButton ID="rbtnTransferencia" runat="server" GroupName="Pago" AutoPostBack="true" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
+                                            <label class="form-check-label">Transferencia</label>
+                                        </div>
                                     <div class="form-check">
                                         <asp:RadioButton ID="rbtnEfectivo" runat="server" GroupName="Pago" AutoPostBack="true" OnCheckedChanged="Pago_CheckedChanged" CssClass="form-check-input" />
                                         <label class="form-check-label">Efectivo</label>
@@ -112,19 +108,20 @@
                                     <img src="/Img/pagofacil.PNG" alt="Pago Fácil" class="img-fluid" width="150" />
                                     <img src="/Img/rapipago.PNG" alt="Rapipago" class="img-fluid" width="150" />
                                 </div>
-                                <asp:TextBox ID="txtNumeroTarjeta" CssClass="form-control" runat="server" placeholder="Número de tarjeta" MaxLength="16"></asp:TextBox>
-                                <asp:RegularExpressionValidator ID="revNumeroTarjeta" runat="server" ControlToValidate="txtNumeroTarjeta" ValidationExpression="\d{16}" ErrorMessage="Número inválido" CssClass="text-danger" Display="Dynamic" />
-                                
-                                <asp:TextBox ID="txtNombreTitular" CssClass="form-control" runat="server" placeholder="Nombre del titular" MaxLength="50"></asp:TextBox>
-                                
-                                <asp:TextBox ID="txtVencimiento" CssClass="form-control" runat="server" placeholder="Vencimiento (MM/AA)" MaxLength="5"></asp:TextBox>
-                                <asp:RegularExpressionValidator ID="revVencimiento" runat="server" ControlToValidate="txtVencimiento" ValidationExpression="^(0[1-9]|1[0-2])/[0-9]{2}$" ErrorMessage="Formato inválido (MM/AA)" CssClass="text-danger" Display="Dynamic" />
-                                
-                                <asp:TextBox ID="txtCVV" CssClass="form-control" runat="server" placeholder="CVV" MaxLength="3"></asp:TextBox>
-                                <asp:RegularExpressionValidator ID="revCVV" runat="server" ControlToValidate="txtCVV" ValidationExpression="\d{3}" ErrorMessage="CVV inválido" CssClass="text-danger" Display="Dynamic" />
-        
-                                <asp:TextBox ID="txtDNI" CssClass="form-control" runat="server" placeholder="Documento" MaxLength="8"></asp:TextBox>
-                                <asp:RegularExpressionValidator ID="revDNI" runat="server" ControlToValidate="txtDNI" ValidationExpression="\d{8}" ErrorMessage="Formato de DNI inválido" CssClass="text-danger" Display="Dynamic" />
+
+                                <div id="divTransferencia" runat="server" visible="false">
+                                    <asp:TextBox ID="txtAlias" CssClass="form-control" runat="server" placeholder="Alias" MaxLength="50"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RevAlias" runat="server" ControlToValidate="txtAlias" ValidationExpression="^[a-zA-Z0-9._-]{3,50}$" ErrorMessage="Alias Inválido (solo letras, números, puntos, guiones, entre 3 y 50 caracteres)" CssClass="text-danger" Display="Dynamic" />
+
+                                    <asp:TextBox ID="txtCBU" CssClass="form-control" runat="server" placeholder="CBU" MaxLength="22"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RevCBU" runat="server" ControlToValidate="txtCBU" ValidationExpression="^\d{22}$" ErrorMessage="CBU debe contener exactamente 22 dígitos" CssClass="text-danger" Display="Dynamic" />
+
+                                    <asp:TextBox ID="txtNombreCompleto" CssClass="form-control" runat="server" placeholder="Nombre Completo" MaxLength="100"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RevNombreCompleto" runat="server" ControlToValidate="txtNombreCompleto" ValidationExpression="^[a-zA-ZÀ-ÿ\s]{3,100}$" ErrorMessage="Nombre Inválido (solo letras y espacios, entre 3 y 100 caracteres)" CssClass="text-danger" Display="Dynamic" />
+
+                                    <h5>Subir Comprobante de Transferencia</h5>
+                                    <asp:FileUpload ID="fuComprobante" runat="server" CssClass="form-control" />
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <h4>Método de Envío</h4>
@@ -139,8 +136,9 @@
                                     </div>
                                 </div>
                                 <div class="form-check">
-                                    <asp:CheckBox ID="chkFacturacion" runat="server" CssClass="form-check-input" />
-                                    <label class="form-check-label">Utilizar mis datos de envío como datos de facturación</label>
+                                    
+                                    <asp:Label ID="lblEnvioDomicilio" CssClass="form-label" runat="server"
+    Text="Código Postal" Visible="false">Se utilizaran sus datos de envío como datos de facturación. En caso de querer cambiar el domicilio de entrega, cambie sus datos antes de realizar la compra.</asp:Label>
                                 </div>
                                 <div class="mb-3">
                                     <asp:Label ID="lblCodigoPostal" CssClass="form-label" runat="server"

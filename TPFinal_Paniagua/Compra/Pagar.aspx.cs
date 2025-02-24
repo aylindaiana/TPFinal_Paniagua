@@ -32,37 +32,19 @@ namespace TPFinal_Paniagua.Compra
         protected void Pago_CheckedChanged(object sender, EventArgs e)
         {
 
-            if (rbtnCredito.Checked || rbtnDebito.Checked)
+            if (rbtnTransferencia.Checked)
             {
-                txtNumeroTarjeta.Enabled = true;
-                txtNombreTitular.Enabled = true;
-                txtVencimiento.Enabled = true;
-                txtCVV.Enabled = true;
-                txtDNI.Enabled = true;
+                txtAlias.Enabled = true;
+                txtCBU.Enabled = true;
+                txtNombreCompleto.Enabled = true;
 
-                txtNumeroTarjeta.Visible = true;
-                txtNombreTitular.Visible = true;
-                txtVencimiento.Visible = true;
-                txtCVV.Visible = true;
-                txtDNI.Visible = true;
-
+                divTransferencia.Visible = true;
                 divEfectivo.Visible = false;
             }
             else if (rbtnEfectivo.Checked)
             {
-                txtNumeroTarjeta.Enabled = false;
-                txtNombreTitular.Enabled = false;
-                txtVencimiento.Enabled = false;
-                txtCVV.Enabled = false;
-                txtDNI.Enabled = false;
-
-                txtNumeroTarjeta.Visible = false;
-                txtNombreTitular.Visible = false;
-                txtVencimiento.Visible = false;
-                txtCVV.Visible = false;
-                txtDNI.Visible = false;
-
                 divEfectivo.Visible = true;
+                divTransferencia.Visible = false;
             }
         }
 
@@ -73,9 +55,11 @@ namespace TPFinal_Paniagua.Compra
 
                 lblCodigoPostal.Visible = true;
                 codigoPostal.Visible = true;
+                lblEnvioDomicilio.Visible = false ;
             }
             else if (rbtnDomicilio.Checked) 
             {
+                lblEnvioDomicilio.Visible = true;
                 lblCodigoPostal.Visible = false;
                 codigoPostal.Visible = false;
             }
@@ -92,6 +76,12 @@ namespace TPFinal_Paniagua.Compra
                 return;
             }
 
+            if (rbtnTransferencia.Checked && !fuComprobante.HasFile)
+            {
+                lblMensaje.Text = "Debes subir el comprobante de transferencia.";
+                lblMensaje.Visible = true;
+                return;
+            }
 
 
             ActualizarStock();
@@ -496,7 +486,7 @@ namespace TPFinal_Paniagua.Compra
         {
             StringBuilder errores = new StringBuilder();
 
-            if (!rbtnCredito.Checked && !rbtnDebito.Checked && !rbtnEfectivo.Checked)
+            if (!rbtnTransferencia.Checked && !rbtnEfectivo.Checked)
             {
                 errores.AppendLine("Debe seleccionar un método de pago.<br/>");
             }
@@ -504,27 +494,23 @@ namespace TPFinal_Paniagua.Compra
             {
                 errores.AppendLine("Debe seleccionar una forma de envio.<br/>");
             }
-            if (rbtnCredito.Checked || rbtnDebito.Checked)
+            if (rbtnTransferencia.Checked)
             {
-                if (string.IsNullOrWhiteSpace(txtNumeroTarjeta.Text) || txtNumeroTarjeta.Text.Length != 16)
+                if (string.IsNullOrWhiteSpace(txtCBU.Text))
                 {
                     errores.AppendLine("El numero es invalido o incorrecto. Intente Nuevamente.<br/>");
                 }
 
-                if (string.IsNullOrWhiteSpace(txtNombreTitular.Text))
+                if (string.IsNullOrWhiteSpace(txtNombreCompleto.Text))
                 {
                     errores.AppendLine("Tiene que agregar un nombre válido.<br/>");
                 }
 
-                if (string.IsNullOrWhiteSpace(txtVencimiento.Text))
+                if (string.IsNullOrWhiteSpace(txtAlias.Text))
                 {
                     errores.AppendLine("Debe rellenar este campo.<br/>");
                 }
 
-                if (string.IsNullOrWhiteSpace(txtCVV.Text) || txtCVV.Text.Length != 3)
-                {
-                    errores.AppendLine("Ingrese un formato valido y complete todo los campo.<br/>");
-                }
             }
             return errores.ToString();
         }

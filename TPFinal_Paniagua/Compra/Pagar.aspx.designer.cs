@@ -24,22 +24,13 @@ namespace TPFinal_Paniagua.Compra
         protected global::System.Web.UI.WebControls.Label lblMensaje;
 
         /// <summary>
-        /// Control rbtnCredito.
+        /// Control rbtnTransferencia.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbtnCredito;
-
-        /// <summary>
-        /// Control rbtnDebito.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rbtnDebito;
+        protected global::System.Web.UI.WebControls.RadioButton rbtnTransferencia;
 
         /// <summary>
         /// Control rbtnEfectivo.
@@ -60,85 +51,76 @@ namespace TPFinal_Paniagua.Compra
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEfectivo;
 
         /// <summary>
-        /// Control txtNumeroTarjeta.
+        /// Control divTransferencia.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNumeroTarjeta;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTransferencia;
 
         /// <summary>
-        /// Control revNumeroTarjeta.
+        /// Control txtAlias.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revNumeroTarjeta;
+        protected global::System.Web.UI.WebControls.TextBox txtAlias;
 
         /// <summary>
-        /// Control txtNombreTitular.
+        /// Control RevAlias.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNombreTitular;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RevAlias;
 
         /// <summary>
-        /// Control txtVencimiento.
+        /// Control txtCBU.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtVencimiento;
+        protected global::System.Web.UI.WebControls.TextBox txtCBU;
 
         /// <summary>
-        /// Control revVencimiento.
+        /// Control RevCBU.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revVencimiento;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RevCBU;
 
         /// <summary>
-        /// Control txtCVV.
+        /// Control txtNombreCompleto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCVV;
+        protected global::System.Web.UI.WebControls.TextBox txtNombreCompleto;
 
         /// <summary>
-        /// Control revCVV.
+        /// Control RevNombreCompleto.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revCVV;
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RevNombreCompleto;
 
         /// <summary>
-        /// Control txtDNI.
+        /// Control fuComprobante.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDNI;
-
-        /// <summary>
-        /// Control revDNI.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revDNI;
+        protected global::System.Web.UI.WebControls.FileUpload fuComprobante;
 
         /// <summary>
         /// Control rbtnDomicilio.
@@ -159,13 +141,13 @@ namespace TPFinal_Paniagua.Compra
         protected global::System.Web.UI.WebControls.RadioButton rbtnAcordar;
 
         /// <summary>
-        /// Control chkFacturacion.
+        /// Control lblEnvioDomicilio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkFacturacion;
+        protected global::System.Web.UI.WebControls.Label lblEnvioDomicilio;
 
         /// <summary>
         /// Control lblCodigoPostal.
