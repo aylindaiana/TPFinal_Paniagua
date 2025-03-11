@@ -35,28 +35,29 @@ namespace TPFinal_Paniagua
                 usuario.Pass = txtPassword.Text;
                 if (manager.Login(usuario))
                 {
-                    if(!usuario.Estado)
+                    if (!usuario.Estado)
                     {
                         lblError.Text = "Su usuario se encuentra inactivo.";
                     }
                     if (usuario != null && usuario.IdAcceso > 0)
                     {
-                            Session["usuario"] = usuario;
-                            Session["AccesoId"] = usuario.IdAcceso;
-                            
+                        Session["usuario"] = usuario;
+                        Session["AccesoId"] = usuario.IdAcceso;
 
-                            lblError.Visible = false;
-                            lblSuccess.Visible = true;
-                            lblSuccess.Text = "Iniciaste session correctamente!";
-                     //   carritoManager.AgregarCarrito(usuario.Id_Usuario);
+
+                        lblError.Visible = false;
+                        lblSuccess.Visible = true;
+                        lblSuccess.Text = "Iniciaste session correctamente!";
+                        //   carritoManager.AgregarCarrito(usuario.Id_Usuario);
                         Response.Redirect("Inicio.aspx", false);
                     }
                     else
                     {
-                         lblError.Text = "Error al iniciar sesión. Usuario no válido.";
+                        lblError.Text = "Error al iniciar sesión. Usuario no válido.";
                     }
-                } 
-                else {
+                }
+                else
+                {
                     lblSuccess.Visible = false;
                     lblError.Visible = true;
                     lblError.Text = "Usuario o Contraseña invalidos. Porfavor, Intente nuevamente.";
@@ -74,5 +75,6 @@ namespace TPFinal_Paniagua
             <a href="/RecuperarPass.aspx">¿Olvidaste la contraseña?</a> 
         </div> <br />
          */
+        
     }
 }

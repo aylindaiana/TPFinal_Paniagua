@@ -143,6 +143,27 @@
         }
 
     </style>
+        <div id="carouselInicio" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="img/Banner1.PNG" class="d-block w-100" alt="Banner 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="img/Banner2.PNG" class="d-block w-100" alt="Banner 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="img/Banner3.PNG" class="d-block w-100" alt="Banner 3">
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselInicio" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselInicio" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+
 
     <div class="ofertas-container">
         <h2>Ofertas Especiales</h2>
@@ -184,6 +205,7 @@
         </div>
     </div>
         <div class="info-container">
+
         <div class="row">
             <div class="col-md-3 info-item">
                 <i class="fa-solid fa-truck fa-2x"></i>
