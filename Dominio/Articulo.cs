@@ -25,10 +25,11 @@ namespace Dominio
         public decimal Precio { get; set; }
         public int CategoriaId { get; set; }
         public int TipoId { get; set; }
-     //   public int TalleId { get; set; }
         public List<Talles> Talles { get; set; } = new List<Talles>();
         public bool Estado { get; set; }
 
+        //en caso de sumarse, tomar como una lista de listas a las Marcas-
+        //tener en cuenta que una buena práctica es sumar el precio anterior
 
     }
 }
