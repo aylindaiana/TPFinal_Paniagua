@@ -22,5 +22,5 @@ Funcion Administrador: Tendrá las mismas funciones que el Empleado agregando qu
 ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ## Desarrollador
 
-| [<img src="[https://avatars.githubusercontent.com/u/99457869?v=4](https://img.freepik.com/vector-gratis/linda-chica-hacker-operando-laptop-dibujos-animados-vector-icono-ilustracion-personas-tecnologia-aislada-plana_138676-9487.jpg?t=st=1743638352~exp=1743641952~hmac=581a9ab1645983e93b570953b773865467f948a37a26d283981ce44d3e9414be&w=740)" width=115]><br><sub>Aylin Paniagua</sub>](https://github.com/aylindaiana) |
+| [<img src="https://avatars.githubusercontent.com/u/80922222?s=400&u=50f1d5ee252321889f3f5133baed02ee7143f103&v=4" width=115><br><sub>Aylin Paniagua</sub>](https://github.com/aylindaiana) |
 | :---: |
