@@ -3,7 +3,6 @@
 ## Índice
 - [Descripción del Proyecto](#descripción-del-proyecto)
 - [Características de la Aplicación](#características-de-la-aplicación)
-- [Acceso al Proyecto](#acceso-al-proyecto)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Desarrollador](#desarrollador)
 
