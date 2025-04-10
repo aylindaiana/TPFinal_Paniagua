@@ -5,7 +5,8 @@
 - [Características de la Aplicación](#características-de-la-aplicación)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Desarrollador](#desarrollador)
-
+  
+![Image](https://github.com/user-attachments/assets/95424ee3-7539-4bda-acb0-c31b043097c9)
 ## Descripción del Proyecto
 Venta de indumentaria y accesorios, permite ver todo tipo de ropa junto con accesorios, permitiendo elegir cuan cantidades esten disponibles segun su talle para agregar en un carrito de compras. Para avanzar con el pago se requiere hacer un registro para tener el usuario. 
 El sistema tendrá un ingreso de autenticación para el comprador (cliente), el vendedor (Empleado) que maneje el estado de las prendas y Jefe quien tendrá el acceso a todo (Administrador).
