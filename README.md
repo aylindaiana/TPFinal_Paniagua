@@ -38,7 +38,8 @@ Tendrá las mismas funciones que el Empleado, agregando que podrá visualizar y 
 3. Abre el proyecto en Visual Studio.
 4. Configura la cadena de conexión en `web.config` con tu servidor SQL.
 5. Ejecuta el proyecto: `F5` o `dotnet run`.
-**Requisitos:** Visual Studio, SQL Server, .NET Framework.
+ ---------------------------------------
+**Requisitos:** Visual Studio, SQL Server, .NET Framework, ASP.NET
 
 ## Desarrollador
 
