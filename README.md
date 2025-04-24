@@ -47,4 +47,4 @@ Tendrá las mismas funciones que el Empleado, agregando que podrá visualizar y 
 | :---: |
 
 ## Demostración en Youtube
-[![Demostración del proyecto](https://img.youtube.com/vi/fU_DuxQ8WNY/0.jpg)](https://www.youtube.com/watch?v=fU_DuxQ8WNY)  
+[![Demostración del proyecto](https://img.youtube.com/vi/fU_DuxQ8WNY/0.jpg)](https://youtu.be/mUp8vCNdPX0)  
